@@ -112,7 +112,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/Android开发/" style="font-size: 13.33px;">Android开发</a> <a href="/tags/hexo探索/" style="font-size: 10px;">hexo探索</a> <a href="/tags/ios开发/" style="font-size: 20px;">ios开发</a> <a href="/tags/python开发/" style="font-size: 10px;">python开发</a> <a href="/tags/命令行端探索/" style="font-size: 10px;">命令行端探索</a> <a href="/tags/技术探索/" style="font-size: 16.67px;">技术探索</a> <a href="/tags/音乐篇/" style="font-size: 10px;">音乐篇</a>
+						<a href="/tags/Android开发/" style="font-size: 13.33px;">Android开发</a> <a href="/tags/hexo探索/" style="font-size: 10px;">hexo探索</a> <a href="/tags/iOS/" style="font-size: 10px;">iOS</a> <a href="/tags/ios开发/" style="font-size: 20px;">ios开发</a> <a href="/tags/python开发/" style="font-size: 10px;">python开发</a> <a href="/tags/命令行端探索/" style="font-size: 10px;">命令行端探索</a> <a href="/tags/技术探索/" style="font-size: 16.67px;">技术探索</a> <a href="/tags/音乐篇/" style="font-size: 10px;">音乐篇</a>
 					</div>
 				</section>
 				
@@ -169,6 +169,73 @@
 	</div>
 </nav>
       <div class="body-wrap">
+  
+    <article id="post-IOS面试题以及部分解答" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/01/05/IOS面试题以及部分解答/" class="article-date">
+  	<time datetime="2018-01-05T07:13:41.000Z" itemprop="datePublished">2018-01-05</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/05/IOS面试题以及部分解答/">
+        iOS面试题以及部分解答
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="class-copyIvarList-amp-class-copyPropertyList区别"><a href="#class-copyIvarList-amp-class-copyPropertyList区别" class="headerlink" title="class_copyIvarList &amp; class_copyPropertyList区别"></a>class_copyIvarList &amp; class_copyPropertyList区别</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1.class_copyIvarList:能够获取.h和.m中的所有属性以及大括号中声明的变量,获取的属性名称有下划线(大括号中的除外)。</span><br><span class="line">2.class_copyPropertyList:只能获取由property声明的属性,包括.m中的,获取的属性名称不带下划线。</span><br><span class="line">3.OC中没有真正的私有属性。</span><br></pre></td></tr></table></figure>
+<h2 id="class-rw-t-和-class-ro-t-的区别"><a href="#class-rw-t-和-class-ro-t-的区别" class="headerlink" title="class_rw_t 和 class_ro_t 的区别"></a>class_rw_t 和 class_ro_t 的区别</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">细看两个结构体的成员变量会发现很多相同的地方,他们都存放着当前类的属性、实例变量、方法、协议等等。区别在于:</span><br><span class="line">class_ro_t: class_ro_t存放的是编译期间就确定的;</span><br><span class="line">class_rw_t: 而class_rw_t是在runtime时才确定,它会先将class_ro_t的内容拷贝过去,然后再将当前类的分类的这些属性、方法等...”</span><br></pre></td></tr></table></figure>
+<h2 id="category如何被加载的-两个category的load方法的加载顺序，两个category的同名方法的加载顺序"><a href="#category如何被加载的-两个category的load方法的加载顺序，两个category的同名方法的加载顺序" class="headerlink" title="category如何被加载的,两个category的load方法的加载顺序，两个category的同名方法的加载顺序"></a>category如何被加载的,两个category的load方法的加载顺序，两个category的同名方法的加载顺序</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1.category是在运行期间加载的(添加到类的),他的方法会放到mateclass列表里面;</span><br><span class="line">2.mateclass在方法列表搜索方法名时候只要找到想找的就会ruturn,不会往下走了,</span><br><span class="line">3.所以先加载类的load方法 在加载category的 所以后一个category的load会覆盖前一个.</span><br></pre></td></tr></table></figure>
+<h2 id="category-amp-extension区别，能给NSObject添加Extension吗，结果如何"><a href="#category-amp-extension区别，能给NSObject添加Extension吗，结果如何" class="headerlink" title="category &amp; extension区别，能给NSObject添加Extension吗，结果如何"></a>category &amp; extension区别，能给NSObject添加Extension吗，结果如何</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1.category是添加原先类的所没有的方法,原则上只能添加方法不能添加属性因为添加了也不会有get set方法(分类的结构体中没有属性列表,可手动实现get/set方法),在运行期开始加载  </span><br><span class="line">2.extension是对原来类的私有方法和属性的重新实现(必须要实现),不能添加声明,在编译器开始加载</span><br></pre></td></tr></table></figure>
+<h2 id="消息转发机制，消息转发机制和其他语言的消息机制优劣对比"><a href="#消息转发机制，消息转发机制和其他语言的消息机制优劣对比" class="headerlink" title="消息转发机制，消息转发机制和其他语言的消息机制优劣对比"></a>消息转发机制，消息转发机制和其他语言的消息机制优劣对比</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">objc_msgSend 方法先在本类方法列表找-&gt;父类-&gt;实现代码</span><br><span class="line">都找不到的话就采用消息转发</span><br><span class="line">1.动态方法解析: resolveInstanceMethod 在本类实现动态实现类方法或者对象方法的添加</span><br><span class="line">2.备援接受者: forwardingTargetForSelector 在其他类里找能响应的动态添加方法实现</span><br><span class="line">3.消息转发: methodSignatureForSelector 获取方法签名 methodSignatureForSelector签名包装成Invocation传入看是否能响应</span><br><span class="line">4.崩溃</span><br></pre></td></tr></table></figure>
+<h2 id="在方法调用的时候，方法查询-gt-动态解析-gt-消息转发-之前做了什么"><a href="#在方法调用的时候，方法查询-gt-动态解析-gt-消息转发-之前做了什么" class="headerlink" title="在方法调用的时候，方法查询-&gt; 动态解析-&gt; 消息转发 之前做了什么"></a>在方法调用的时候，方法查询-&gt; 动态解析-&gt; 消息转发 之前做了什么</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">暂时未找到答案,但是估计应该是首先需要通过msgsend方法遍历当前类父类的方法列表</span><br></pre></td></tr></table></figure>
+<h2 id="IMP、SEL、Method的区别和使用场景"><a href="#IMP、SEL、Method的区别和使用场景" class="headerlink" title="IMP、SEL、Method的区别和使用场景"></a>IMP、SEL、Method的区别和使用场景</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1.SEL:是selector”的一个类型，表示一个方法的名字,类成员方法的指针，但和C的函数指针还不一样，函数指针直接保存了方法的地址，但是SEL只是方法编号。</span><br><span class="line">2.IMP:函数指针，保存了方法地址。</span><br><span class="line">3.method是一种类型,这种类型与selector和实现(implementation)相关</span><br><span class="line">4.isa：isa是一个Class 类型的指针. 每个实例对象有个isa的指针,他指向对象的类，而Class里也有个isa的指针, 指向meteClass(元类)。所以我们可以把类方法看做是其isa指向的元类的实例方法</span><br><span class="line"></span><br><span class="line"> 一个类（Class）持有一个分发表，在运行期分发消息，表中的每一个实体代表一个方法（Method），它的名字叫做选择子（SEL），对应着一种方法实现（IMP）。</span><br></pre></td></tr></table></figure>
+<h2 id="说说消息转发机制的优劣"><a href="#说说消息转发机制的优劣" class="headerlink" title="说说消息转发机制的优劣"></a>说说消息转发机制的优劣</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">优点: 就是安全性高,逐一进行查找,并且可以动态进行添加</span><br><span class="line">缺点: 就是耗时,如果需要在最后一级转发层的话需要每一次操作都递归方法列表</span><br></pre></td></tr></table></figure>
+<h2 id="load、initialize方法的区别什么？在继承关系中他们有什么区别"><a href="#load、initialize方法的区别什么？在继承关系中他们有什么区别" class="headerlink" title="load、initialize方法的区别什么？在继承关系中他们有什么区别"></a>load、initialize方法的区别什么？在继承关系中他们有什么区别</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">调用时序: superload-&gt;subload-&gt;main-&gt;superinit-&gt;subinit</span><br><span class="line">load的调用顺序为：父类load ---&gt; 子类load ---&gt; Category的load；而Category的initialize直接就覆盖了父类的initialize</span><br><span class="line">load方法会在加载类的时候就被调用，也就是 ios 应用启动的时候，就会加载所有的类，就会调用每个类的 + load 方法。</span><br><span class="line">initialize在这个类第一次被调用的时候比如[[class alloc]init]会调用一次initialize方法,一般用于初始化全局变量或静态变量</span><br><span class="line">init而方法是只要这个类被调用,就会调用这个init方法</span><br><span class="line">继承的区别</span><br><span class="line">load和initialize方法都不用显示的调用父类的方法而是自动调用，</span><br><span class="line">initialize :即使子类没有initialize方法也会调用父类的方法，走两遍superinit</span><br><span class="line">load:而load方法则不会调用父类;只走一遍superload</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
   
     <article id="post-rsa加密解密" class="article article-type-post" itemscope itemprop="blogPost">
   
