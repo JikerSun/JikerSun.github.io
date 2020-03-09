@@ -17,7 +17,7 @@
 <meta property="og:site_name" content="JikerSun_厕所蹲个驴">
 <meta property="og:description" content="runtime篇章—class_copyIvarList &amp;amp; class_copyPropertyList区别1231.class_copyIvarList:能够获取.h和.m中的所有属性以及大括号中声明的变量,获取的属性名称有下划线(大括号中的除外)。2.class_copyPropertyList:只能获取由property声明的属性,包括.m中的,获取的属性名称不带下划线。3.OC中">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-03-09T16:31:55.066Z">
+<meta property="og:updated_time" content="2020-03-09T16:42:04.334Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS面试题以及部分解答">
 <meta name="twitter:description" content="runtime篇章—class_copyIvarList &amp;amp; class_copyPropertyList区别1231.class_copyIvarList:能够获取.h和.m中的所有属性以及大括号中声明的变量,获取的属性名称有下划线(大括号中的除外)。2.class_copyPropertyList:只能获取由property声明的属性,包括.m中的,获取的属性名称不带下划线。3.OC中">
@@ -274,53 +274,59 @@
 <h3 id="什么情况下会死锁"><a href="#什么情况下会死锁" class="headerlink" title="什么情况下会死锁"></a>什么情况下会死锁</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">在主线程中执行一个串行,并行同步的队列</span><br></pre></td></tr></table></figure>
 <h3 id="有哪些类型的线程锁，分别介绍下作用和使用场景"><a href="#有哪些类型的线程锁，分别介绍下作用和使用场景" class="headerlink" title="有哪些类型的线程锁，分别介绍下作用和使用场景"></a>有哪些类型的线程锁，分别介绍下作用和使用场景</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">锁是一种保证多线程并发执行安全的方式，避免 同一时间，多个线程同时读取并修改一个值而产 生混乱。</span><br><span class="line">1.自旋锁(OSSpinLock): 可以避免多线程访问同一个值发生混乱，如果共享数据已经有其他线程加锁了，线程会以死循环的方式等待锁，一旦被访问的资源被解锁， 则等待资源的线程会立即执行</span><br><span class="line">    1.1.自旋锁的性能高于互斥锁，因为响应速度快</span><br><span class="line">    1.2.自旋锁虽然会一直自旋等待获取锁，但不会一直占用CPU，超过了操作系统分配的时间片会被强制挂起</span><br><span class="line">    1.3.自旋锁如果不能保证所有线程都是同一优先级，则可能造成死锁</span><br><span class="line">2.信号量(dispatch_semaphore): 信号量如果是1的话 可以当作锁来用, 没有等待的时候而且性能很高,但是一旦出现等待性能会下降很多 但是不会消耗cpu资源</span><br><span class="line">3.互斥锁(pthread_mutex): 都可以避免多线程访问同一个值发生混乱，如果共享数据已经有其他线程加锁了，线程会进入休眠状态等待锁。一旦被访问的资源被解锁， 则等待资源的线程会被唤醒</span><br><span class="line">4.NSLock(NSLock、NSCondition、NSConditionLock、NSRecursiveLock): 都是对pthread_mutex的面向对象的封装, 遵循协议, 而且基本都是加锁解锁的直观操作</span><br><span class="line">5.@synchronized: 使用方便性能不高, 通过传入的object当做key ,通过hash表对应一个系统的递归锁,但是当用作key的对象修改了 那就没用了, 所以尽量用属性做key</span><br><span class="line">6.其他: 没涉及过 不知道 反正就这水平爱要不要</span><br></pre></td></tr></table></figure>
 <h3 id="NSOperationQueue中的maxConcurrentOperationCount默认值"><a href="#NSOperationQueue中的maxConcurrentOperationCount默认值" class="headerlink" title="NSOperationQueue中的maxConcurrentOperationCount默认值"></a>NSOperationQueue中的maxConcurrentOperationCount默认值</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">maxConcurrentOperationCount:默认情况下为-1，表示不进行限制，可进行并发执行</span><br><span class="line">NSOperation 单独使用时系统同步执行操作，配合 NSOperationQueue 我们能更好的实现异步执行</span><br></pre></td></tr></table></figure>
-<h3 id="NSTimer、CADisplayLink、dispatch-source-t-的优劣"><a href="#NSTimer、CADisplayLink、dispatch-source-t-的优劣" class="headerlink" title="NSTimer、CADisplayLink、dispatch_source_t 的优劣"></a>NSTimer、CADisplayLink、dispatch_source_t 的优劣</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">1. NSTimer:</span><br><span class="line">    缺点:因为取决于runloop的mode 所以计时不精确</span><br><span class="line">2.CADisplayLink</span><br><span class="line">    优点:根据设备屏幕刷新频率进行计算的,比较准确</span><br><span class="line">    缺点:1. 依托于屏幕刷新,如果cpu负担重屏幕刷新不及时事件响应就会受影响</span><br><span class="line">        2. 事件触发只能是屏幕刷新频率的倍数</span><br><span class="line">        3. 如果事件触发大于屏幕刷新频率就会出现掉帧现象(我是没看明白这句可以不说)</span><br><span class="line">3. GCD-dispatch_source_t</span><br><span class="line">    优点: 不受runloop影响</span><br><span class="line">    缺点: 1.dispatch_source_t 一定要被设置为成员变量，否则将会立即被释放</span><br><span class="line">        2. 计时依然不是特别准确</span><br><span class="line">```        </span><br><span class="line"></span><br><span class="line">---</span><br><span class="line">---</span><br><span class="line"></span><br><span class="line"># 视图&amp;图像相关</span><br><span class="line">### AutoLayout的原理，性能如何</span><br></pre></td></tr></table></figure>
-<p>Auto Layout ，是苹果公司提供的一个基于约束布局，动态计算视图大小和位置的库<br>原理:</p>
+<h3 id="NSTimer、CADisplayLink、dispatch-source-t-的优劣"><a href="#NSTimer、CADisplayLink、dispatch-source-t-的优劣" class="headerlink" title="NSTimer、CADisplayLink、dispatch_source_t 的优劣"></a>NSTimer、CADisplayLink、dispatch_source_t 的优劣</h3><pre><code>1. NSTimer:
+    缺点:因为取决于runloop的mode 所以计时不精确
+2.CADisplayLink
+    优点:根据设备屏幕刷新频率进行计算的,比较准确
+    缺点:1. 依托于屏幕刷新,如果cpu负担重屏幕刷新不及时事件响应就会受影响
+        2. 事件触发只能是屏幕刷新频率的倍数
+        3. 如果事件触发大于屏幕刷新频率就会出现掉帧现象(我是没看明白这句可以不说)
+3. GCD-dispatch_source_t
+    优点: 不受runloop影响
+    缺点: 1.dispatch_source_t 一定要被设置为成员变量，否则将会立即被释放
+        2. 计时依然不是特别准确
+</code></pre><h2 id="—-6"><a href="#—-6" class="headerlink" title="—"></a>—</h2><h1 id="视图-amp-图像相关"><a href="#视图-amp-图像相关" class="headerlink" title="视图&amp;图像相关"></a>视图&amp;图像相关</h1><h3 id="AutoLayout的原理，性能如何"><a href="#AutoLayout的原理，性能如何" class="headerlink" title="AutoLayout的原理，性能如何"></a>AutoLayout的原理，性能如何</h3><p>Auto Layout ，是苹果公司提供的一个基于约束布局，动态计算视图大小和位置的库<br>原理:</p>
 <ol>
 <li>autolayout是在一个一秒刷新120次的layoutloop下完成的</li>
 <li>新布局产生会从下而上的一层一层的上报给上一个视图一直到window</li>
 <li>每一个接受的到视图开始运行layoutsubviews和更新约束从相反的方向开始</li>
-<li><p>每一个渲染的view 从父view向下开始渲染<br>从ios12之后autolayout的性能得到的大幅度的提升基本与手动添加约束性能差不多</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">### UIView &amp;; CALayer的区别</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>uiview是所有界面展示的基础 所有的界面都是继承于他, uiview真正的绘图部分是calalyer来实现的, uiview更想是一个calayer的管理类,</p>
-</li>
+<li>每一个渲染的view 从父view向下开始渲染<br>从ios12之后autolayout的性能得到的大幅度的提升基本与手动添加约束性能差不多</li>
+</ol>
+<h3 id="UIView-amp-CALayer的区别"><a href="#UIView-amp-CALayer的区别" class="headerlink" title="UIView &amp;; CALayer的区别"></a>UIView &amp;; CALayer的区别</h3><ol>
+<li>uiview是所有界面展示的基础 所有的界面都是继承于他, uiview真正的绘图部分是calalyer来实现的, uiview更想是一个calayer的管理类,</li>
 <li>calayer是为了内容展示和动画操作实现的类 但是calayer并不能响应事件, 所以所有的响应事件的操作是uiview来实现的</li>
 <li>uiview的layer和view一样也有树状层次结构 分为三种被系统维护着<br> 逻辑树: 用于代码操作来更改layer属性的<br> 动画树: 系统用来渲染到屏幕上的内容<br> 显示树: 正在屏幕上显示的内容</li>
 <li>uiview的主layer外 还可以对sublayer进行属性更改, 系统将自动进行动画处理</li>
-<li>calayer比uiview在frame上多了一个anchorpoint的属性(CGPoint结构)但是是在0到1之间按照比例设置,这个点是各种图形变换的坐标原点，同时会更改layer的position的位置 是在中间的远点<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">### drawrect  layoutsubviews调用时机</span><br></pre></td></tr></table></figure>
-</li>
+<li>calayer比uiview在frame上多了一个anchorpoint的属性(CGPoint结构)但是是在0到1之间按照比例设置,这个点是各种图形变换的坐标原点，同时会更改layer的position的位置 是在中间的远点</li>
 </ol>
-<p>layoutsubviews触发时机:<br>1.init不会出发<br>2.addsubview时触发<br>3.当一个uiview的frame发生改变时候触发</p>
+<h3 id="drawrect-layoutsubviews调用时机"><a href="#drawrect-layoutsubviews调用时机" class="headerlink" title="drawrect  layoutsubviews调用时机"></a>drawrect  layoutsubviews调用时机</h3><p>layoutsubviews触发时机:<br>1.init不会出发<br>2.addsubview时触发<br>3.当一个uiview的frame发生改变时候触发</p>
 <ol>
 <li>滚动scrollerview导致uiview重新布局之后触发<br>5.旋转屏幕导致父view上的layer触发<br>6.主动调用setneedlayout 或者 layoutifneeded触发</li>
 </ol>
-<p>drawrect触发时机:<br>1.view init时如果不主动设置rect大小的时候不触发<br>2.controller 调用完loadview 和 viewdidload之后触发<br>3.在调用sizetofit之后触发<br>4.通过设置contentmode属性的UIViewContentModeRedraw 将会在每次设置或者更改frame时候触发<br>5.主动调用setneedsdisplay 和 setneedsdisplayinrect rect又不为0的前提下触发<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">### UI的刷新原理</span><br></pre></td></tr></table></figure></p>
-<ol>
+<p>drawrect触发时机:<br>1.view init时如果不主动设置rect大小的时候不触发<br>2.controller 调用完loadview 和 viewdidload之后触发<br>3.在调用sizetofit之后触发<br>4.通过设置contentmode属性的UIViewContentModeRedraw 将会在每次设置或者更改frame时候触发<br>5.主动调用setneedsdisplay 和 setneedsdisplayinrect rect又不为0的前提下触发</p>
+<h3 id="UI的刷新原理"><a href="#UI的刷新原理" class="headerlink" title="UI的刷新原理"></a>UI的刷新原理</h3><ol>
 <li>当一个ui需要更新时系统会自动的去请求drawrect方法</li>
 <li>系统通过原生api 绘制你需要展示的部分</li>
 <li>在第一次绘图时候系统会通过正方形区域来表示你需要绘制的区域</li>
-<li>刷新的时候重绘受影响的部分区域<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">### 隐式动画 &amp; 显示动画区别</span><br></pre></td></tr></table></figure>
-</li>
+<li>刷新的时候重绘受影响的部分区域</li>
 </ol>
-<p>1.隐式动画是一直存在的 如需关闭需设置；显式动画是不存在的，如需显式 要自行创建</p>
+<h3 id="隐式动画-amp-显示动画区别"><a href="#隐式动画-amp-显示动画区别" class="headerlink" title="隐式动画 &amp; 显示动画区别"></a>隐式动画 &amp; 显示动画区别</h3><p>1.隐式动画是一直存在的 如需关闭需设置；显式动画是不存在的，如需显式 要自行创建</p>
 <ol>
 <li>隐式动画调用UIView的animateWithDuration:animations:实现动画<br>显示动画调用beginAnimations:context:和commitAnimations创建的动画</li>
 <li>隐式动画是系统自动创建的core animation 会在每一个runloop周期中开始一次新的事务, 任何一次runloop中的属性修改都会被集中起来做一个0.25秒的动画</li>
-<li>显式动画既可以对退增属性做动画也可以覆盖默认的图层行为,并且显示动画的caanimation类型都可以直接加到calayer上<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">### 什么是离屏渲染</span><br></pre></td></tr></table></figure>
-</li>
+<li>显式动画既可以对退增属性做动画也可以覆盖默认的图层行为,并且显示动画的caanimation类型都可以直接加到calayer上</li>
 </ol>
-<p>On-Screen Rendering意为当前屏幕渲染，指的是GPU的渲染操作是在当前用于显示的屏幕缓冲区中进行。<br>Off-Screen Rendering意为离屏渲染，指的是GPU在当前屏幕缓冲区以外新开辟一个缓冲区进行渲染操作。<br>特殊的离屏渲染: cpu渲染 如果我们重写drawrect方法并且使用任何core  Graphics的技术进行了绘制操作，就涉及到了CPU渲染。整个渲染过程由CPU在App内 同步地完成，渲染得到的bitmap最后再交由GPU用于显示。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 图片渲染怎么优化</span><br><span class="line">https://www.jianshu.com/p/748f9abafff8</span><br></pre></td></tr></table></figure></p>
+<h3 id="什么是离屏渲染"><a href="#什么是离屏渲染" class="headerlink" title="什么是离屏渲染"></a>什么是离屏渲染</h3><p>On-Screen Rendering意为当前屏幕渲染，指的是GPU的渲染操作是在当前用于显示的屏幕缓冲区中进行。<br>Off-Screen Rendering意为离屏渲染，指的是GPU在当前屏幕缓冲区以外新开辟一个缓冲区进行渲染操作。<br>特殊的离屏渲染: cpu渲染 如果我们重写drawrect方法并且使用任何core  Graphics的技术进行了绘制操作，就涉及到了CPU渲染。整个渲染过程由CPU在App内 同步地完成，渲染得到的bitmap最后再交由GPU用于显示。</p>
+<h3 id="图片渲染怎么优化"><a href="#图片渲染怎么优化" class="headerlink" title="图片渲染怎么优化"></a>图片渲染怎么优化</h3><p><a href="https://www.jianshu.com/p/748f9abafff8" target="_blank" rel="noopener">https://www.jianshu.com/p/748f9abafff8</a></p>
 <ol>
-<li>更好的利用cpu和gpu资源<br>2.尽量的少重写drarec土方法 会造成离屏渲染<br>3.尽量的减少圆角,阴影等离屏渲染的方法<br>4.尽量少的使用奇怪的图片格式和大小<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">---</span><br><span class="line"># 性能优化</span><br><span class="line">### 如何做启动优化，如何监控</span><br><span class="line">https://www.jianshu.com/p/2a930b3a14d3</span><br></pre></td></tr></table></figure>
-</li>
+<li>更好的利用cpu和gpu资源<br>2.尽量的少重写drarec土方法 会造成离屏渲染<br>3.尽量的减少圆角,阴影等离屏渲染的方法<br>4.尽量少的使用奇怪的图片格式和大小</li>
 </ol>
+<h2 id="—-7"><a href="#—-7" class="headerlink" title="—"></a>—</h2><h1 id="性能优化"><a href="#性能优化" class="headerlink" title="性能优化"></a>性能优化</h1><h3 id="如何做启动优化，如何监控"><a href="#如何做启动优化，如何监控" class="headerlink" title="如何做启动优化，如何监控"></a>如何做启动优化，如何监控</h3><p><a href="https://www.jianshu.com/p/2a930b3a14d3" target="_blank" rel="noopener">https://www.jianshu.com/p/2a930b3a14d3</a></p>
 <p>1.main() 函数执行前:<br>    1.减少动态库加载；<br>    2.减少加载启动后不会去使用的类或方法；<br>    3.+load() 方法里的内容可以放到首屏渲染完成后再执行，或使用+initialize() 方法替换掉。<br>    4.控制 C++ 全局变量的数量。<br>2.main() 函数执行后；<br>3.首屏渲染完成后。</p>
 <pre><code>1. didFinishLaunchingWithOptions在这个方法之后开始加载与首屏渲染无关是事物
 2. 第三方初始化放入到首页vc
 3. 尽量在功能需要的时候再初始化该功能实例
-</code></pre><h2 id><a href="#" class="headerlink" title="```"></a>```</h2><hr>
-
+</code></pre><h2 id="—-8"><a href="#—-8" class="headerlink" title="—"></a>—</h2>
       
     </div>
     
