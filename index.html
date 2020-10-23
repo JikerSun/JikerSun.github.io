@@ -112,7 +112,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/Android开发/" style="font-size: 13.33px;">Android开发</a> <a href="/tags/hexo探索/" style="font-size: 10px;">hexo探索</a> <a href="/tags/iOS/" style="font-size: 10px;">iOS</a> <a href="/tags/ios开发/" style="font-size: 20px;">ios开发</a> <a href="/tags/python开发/" style="font-size: 10px;">python开发</a> <a href="/tags/命令行端探索/" style="font-size: 10px;">命令行端探索</a> <a href="/tags/技术探索/" style="font-size: 16.67px;">技术探索</a> <a href="/tags/音乐篇/" style="font-size: 10px;">音乐篇</a>
+						<a href="/tags/Android开发/" style="font-size: 13.33px;">Android开发</a> <a href="/tags/hexo探索/" style="font-size: 10px;">hexo探索</a> <a href="/tags/iOS/" style="font-size: 10px;">iOS</a> <a href="/tags/ios开发/" style="font-size: 20px;">ios开发</a> <a href="/tags/python开发/" style="font-size: 10px;">python开发</a> <a href="/tags/命令行端探索/" style="font-size: 10px;">命令行端探索</a> <a href="/tags/技术探索/" style="font-size: 16.67px;">技术探索</a> <a href="/tags/自动化打包/" style="font-size: 10px;">自动化打包</a> <a href="/tags/音乐篇/" style="font-size: 10px;">音乐篇</a>
 					</div>
 				</section>
 				
@@ -169,6 +169,233 @@
 	</div>
 </nav>
       <div class="body-wrap">
+  
+    <article id="post-自动打包笔记" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2020/10/23/自动打包笔记/" class="article-date">
+  	<time datetime="2020-10-23T03:42:33.000Z" itemprop="datePublished">2020-10-23</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/10/23/自动打包笔记/">
+        Python探索
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="自动打包"><a href="#自动打包" class="headerlink" title="自动打包"></a>自动打包</h1><p><a href="https://www.jenkins.io" target="_blank" rel="noopener">Jenkins官网</a></p>
+<p><a href="https://fastlane.tools" target="_blank" rel="noopener">fastlane</a></p>
+<p>fastlane 用于自动打包</p>
+<p>jenkins 用于管理git上传代码 (内部跑fastlane的shell 脚本)</p>
+<hr>
+<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><p><a href="https://www.jianshu.com/p/0a113f754c09" target="_blank" rel="noopener">Jenkins + Fastlane + GitLab + 蒲公英</a></p>
+<p><a href="https://www.jianshu.com/p/be2d3b919633" target="_blank" rel="noopener">https://www.jianshu.com/p/be2d3b919633</a></p>
+<p><a href="https://www.cnblogs.com/zhujin/p/9064820.html" target="_blank" rel="noopener">https://www.cnblogs.com/zhujin/p/9064820.html</a></p>
+<p><a href="https://www.jianshu.com/p/c4abfbf1c9d7" target="_blank" rel="noopener">Jenkins + Fastlane + GitLab + fir</a></p>
+<p><a href="https://www.jianshu.com/p/44bbe1a31b52" target="_blank" rel="noopener">fastlane 实现自定义Action</a></p>
+<hr>
+<h3 id="Fastlane环境搭建"><a href="#Fastlane环境搭建" class="headerlink" title="Fastlane环境搭建"></a>Fastlane环境搭建</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">现在对Appfile，Fastfile，Gemfile，Deliverfile文件说明如下：</span><br><span class="line"></span><br><span class="line">Appfile: 存储有关开发者账号相关信息</span><br><span class="line">Fastfile: 核心文件，用于命令行调用和处理具体的流程，lane相对于一个action方法或函数 </span><br><span class="line">Gemfile 类似于cocopods 的Podfile文件</span><br><span class="line">.env 配置环境变量（在fastlane init进行初始化后并不会自动生成，如果需要可以自己创建</span><br><span class="line">Deliverfile: deliver工具的配置文件，上传截图苹果和后台一些app信息  (默认不生成，需要sudo gem install deliver安装)然后在fastlane 目录下执行deliver init 即可）</span><br><span class="line">要注意的点：</span><br><span class="line">build_app命令等同于gym(别名)</span><br><span class="line">deliver 命令相当于upload_to_app_store(别名)</span><br></pre></td></tr></table></figure>
+<p>1.检查Ruby版本，需要2.0及以上版本。在终端输入以下命令确认：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ruby -v</span><br></pre></td></tr></table></figure>
+<p>需要注意的是需要将gem的source改为<a href="https://link.jianshu.com/?t=https://gems.ruby-china.org/" target="_blank" rel="noopener">https://gems.ruby-china.org/</a>。<br>如何检查?在终端输入以下命令:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gem sources</span><br></pre></td></tr></table></figure>
+<p>结果应为：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">*** CURRENT SOURCES ***</span><br><span class="line"></span><br><span class="line">https:<span class="comment">//gems.ruby-china.org/</span></span><br></pre></td></tr></table></figure>
+<p>2.检查Xcode命令行工具是否安装。在终端输入以下命令：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xcode-<span class="keyword">select</span> --install</span><br></pre></td></tr></table></figure>
+<p>如果没有安装会进行安装。如果已经安装了则会提示：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xcode-select: error: <span class="built_in">command</span> line tools are already installed, use <span class="string">"Software Update"</span> to install updates</span><br></pre></td></tr></table></figure>
+<p>3.安装Fastlane</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo gem install fastlane --verbose</span><br></pre></td></tr></table></figure>
+<p>如果出现以下错误：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ERROR:  <span class="keyword">While</span> executing gem ... (Errno::EPERM)</span><br><span class="line">    Operation not permitted - /usr/bin/rougify</span><br></pre></td></tr></table></figure>
+<p>则输入以下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo gem install -n /usr/<span class="built_in">local</span>/bin fastlane</span><br></pre></td></tr></table></figure>
+<p>4.检查Fastlane是否正确安装。输入以下命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fastlane --version</span><br></pre></td></tr></table></figure>
+<p>可以看到Fastlane版本信息，我的是2.46.1。</p>
+<p>5.进入项目根目录创建faslane</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fastlane init</span><br></pre></td></tr></table></figure>
+<p>中间会让你输入苹果开发者账号的账号和密码，之后会在你项目工程的目录下生成一个fastlane文件夹，里面有Fastlane的配置文件，一个是Appfile文件，一个是Fastfile文件(如果要上传AppStore的话还有Deliverfile文件)。Appfile保存苹果开发者的相关信息、项目的相关信息等。Fastfile是运行脚本。</p>
+<p>信息选择如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[15:08:29]: What would you like to use fastlane for?</span><br><span class="line">1. 📸  Automate screenshots</span><br><span class="line">2. 👩‍✈️  Automate beta distribution to TestFlight</span><br><span class="line">3. 🚀  Automate App Store distribution</span><br><span class="line">4. 🛠  Manual setup - manually setup your project to automate your tasks</span><br><span class="line">?  </span><br><span class="line"></span><br><span class="line">翻译：</span><br><span class="line">1. 自动截屏。这个功能能帮我们自动截取APP中的截图，并添加手机边框（如果需要的话），我们这里不选择这个选项，因为我们的项目已经有图片了，不需要这里截屏。</span><br><span class="line">2. 自动发布beta版本用于TestFlight，如果大家有对TestFlight不了解的，可以参考王巍写的这篇文章</span><br><span class="line">3. 自动的App Store发布包。我们的目标是要提交审核到APP Store，按道理应该选这个，但这里我们先不选，因为选择了以后会需要输入用户名密码，以及下载meta信息，需要花费一定时间，这些数据我们可以后期进行配置。</span><br><span class="line">4. 手动设置。</span><br></pre></td></tr></table></figure>
+<p>6.如果是蒲公英的话</p>
+<p>打开终端，进入你的项目工程的根目录，输入以下命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fastlane add_plugin pgyer</span><br></pre></td></tr></table></figure>
+<p>出现</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Plugin <span class="string">'fastlane-plugin-pgyer'</span> was added to <span class="string">'./fastlane/Pluginfile'</span></span><br><span class="line">It looks like fastlane plugins are not yet <span class="keyword">set</span> up <span class="keyword">for</span> <span class="keyword">this</span> project.</span><br><span class="line">fastlane will create a <span class="keyword">new</span> Gemfile at path <span class="string">'Gemfile'</span></span><br><span class="line">This change <span class="keyword">is</span> necessary <span class="keyword">for</span> fastlane plugins to work</span><br><span class="line">Should fastlane modify the Gemfile at path <span class="string">'Gemfile'</span> <span class="keyword">for</span> you?</span><br><span class="line">(y/n)</span><br></pre></td></tr></table></figure>
+<p>输入y按回车，出现</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Installing plugin dependencies...</span><br><span class="line">Successfully installed plugins</span><br></pre></td></tr></table></figure>
+<p>便是安装成功了。</p>
+<p>如果是fir的话</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fastlane add_plugin fir</span><br></pre></td></tr></table></figure>
+<p>Fastfile文件内容(Fastfile内容不要用textEit去编辑, 用终端或者textsublime)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"># This file contains the fastlane.tools configuration</span><br><span class="line"># You can find the documentation at https://docs.fastlane.tools</span><br><span class="line">#</span><br><span class="line"># For a list of all available actions, check out</span><br><span class="line">#</span><br><span class="line">#     https://docs.fastlane.tools/actions</span><br><span class="line">#</span><br><span class="line"># For a list of all available plugins, check out</span><br><span class="line">#</span><br><span class="line">#     https://docs.fastlane.tools/plugins/available-plugins</span><br><span class="line">#</span><br><span class="line"></span><br><span class="line"># Uncomment the line if you want fastlane to automatically update itself</span><br><span class="line"># update_fastlane</span><br><span class="line"></span><br><span class="line">default_platform(:ios)</span><br><span class="line"># 自动更定bulid号 但是因为Jenkins也可以设置所以可用可不用</span><br><span class="line">def updateProjectBuildNumber</span><br><span class="line">    currentTime = Time.new.strftime(&quot;%Y%m%d&quot;)</span><br><span class="line">    build = get_build_number()</span><br><span class="line">    if build.include?&quot;#&#123;currentTime&#125;.&quot;</span><br><span class="line">    # =&gt; 为当天版本 计算迭代版本号</span><br><span class="line">    lastStr = build[build.length-2..build.length-1]</span><br><span class="line">    lastNum = lastStr.to_i</span><br><span class="line">    lastNum = lastNum + 1</span><br><span class="line">    lastStr = lastNum.to_s</span><br><span class="line">    if lastNum &lt; 10</span><br><span class="line">    lastStr = lastStr.insert(0,&quot;0&quot;)</span><br><span class="line">    end</span><br><span class="line">    build = &quot;#&#123;currentTime&#125;.#&#123;lastStr&#125;&quot;</span><br><span class="line">    else</span><br><span class="line">    # =&gt; 非当天版本 build 号重置</span><br><span class="line">    build = &quot;#&#123;currentTime&#125;.01&quot;</span><br><span class="line">    end</span><br><span class="line">    puts(&quot;*************| 更新build #&#123;build&#125; |*************&quot;)</span><br><span class="line">    # =&gt; 更改项目 build 号</span><br><span class="line">    increment_build_number(</span><br><span class="line">    build_number: &quot;#&#123;build&#125;&quot;</span><br><span class="line">    )</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">#指定项目的scheme名称</span><br><span class="line">scheme=“BirdieCameraDemo”</span><br><span class="line"></span><br><span class="line">platform :ios do</span><br><span class="line">  lane :development_build do|options|</span><br><span class="line">  branch = options[:branch]</span><br><span class="line"></span><br><span class="line">  puts “开始打development ipa”</span><br><span class="line"></span><br><span class="line">  updateProjectBuildNumber #更改项目build号</span><br><span class="line"></span><br><span class="line">  # 开始打包</span><br><span class="line">  #gym 括号里面的就是Fastlane的动作</span><br><span class="line">  gym(</span><br><span class="line">  #输出的ipa名称</span><br><span class="line">  output_name:”#&#123;scheme&#125;_#&#123;get_build_number()&#125;”,</span><br><span class="line">  # 是否清空以前的编译信息 true：是</span><br><span class="line">  clean:true,</span><br><span class="line">  # 指定打包方式，Release 或者 Debug</span><br><span class="line">  configuration:&quot;Release&quot;,</span><br><span class="line">  # 指定打包所使用的输出方式，目前支持app-store, package, ad-hoc, enterprise, development</span><br><span class="line">  export_method:&quot;development&quot;,</span><br><span class="line">  # 指定输出文件夹</span><br><span class="line">  output_directory:&quot;./fastlane/build&quot;,</span><br><span class="line">  )</span><br><span class="line"></span><br><span class="line">  puts &quot;开始上传fir&quot;</span><br><span class="line">  # 开始上传fir</span><br><span class="line">  firim(firim_api_token: &quot;b86d85e22b89841941eda59b0385fc89&quot;) # token 在fir 上查看。</span><br><span class="line">  end</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="Jenkins环境搭建"><a href="#Jenkins环境搭建" class="headerlink" title="Jenkins环境搭建"></a>Jenkins环境搭建</h3><h6 id="本地jenkins环境搭建"><a href="#本地jenkins环境搭建" class="headerlink" title="本地jenkins环境搭建"></a>本地jenkins环境搭建</h6><p>Jenkins 是一个开源项目，提供了一种易于使用的持续集成系统，使开发者从繁杂的集成中解脱出来，专注于更为重要的业务逻辑实现上。同时 Jenkins 能实施监控集成中存在的错误，提供详细的日志文件和提醒功能，还能用图表的形式形象地展示项目构建的趋势和稳定性。</p>
+<p>1.点击 <a href="https://link.jianshu.com/?t=http://mirrors.jenkins.io/war-stable/latest/jenkins.war" target="_blank" rel="noopener">http://mirrors.jenkins.io/war-stable/latest/jenkins.war</a> 下载最新的Jenkins.war</p>
+<p>2.打开终端，进入war包所在目录，执行以下命令：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">java</span> <span class="selector-tag">-jar</span> <span class="selector-tag">jenkins</span><span class="selector-class">.war</span></span><br></pre></td></tr></table></figure>
+<p>注意：Jenkins依赖于Java运行环境，因此需要首先安装JDK,下载地址：<a href="https://link.jianshu.com/?t=http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank" rel="noopener">http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html</a></p>
+<p>3.执行完成之后打开浏览器输入<a href="https://link.jianshu.com/?t=http://localhost:8080/" target="_blank" rel="noopener">http://localhost:8080/</a></p>
+<p>4.弹出Jenkins安装界面，会让你输入安全密码,输入完成之后选择默认安装。</p>
+<p>5.新建管理员账号密码</p>
+<p>对以上过程有疑问的话可以参考<a href="https://www.jianshu.com/p/41ecb06ae95f" target="_blank" rel="noopener">手把手教你利用Jenkins持续集成iOS项目</a></p>
+<h4 id="安装插件"><a href="#安装插件" class="headerlink" title="安装插件"></a>安装插件</h4><p>还是登录<a href="https://link.jianshu.com/?t=http://localhost:8080/" target="_blank" rel="noopener">http://localhost:8080/</a> ，选择系统管理 - 管理插件。</p>
+<p>安装GitLab插件<br>在可选插件中选择GitLab Plugin和Gitlab Hook Plugin进行安装。</p>
+<p>安装Xcode插件<br>在可选插件中选择Xcode integration进行安装。</p>
+<p>安装完成之后，我们就可以配置构建项目了。</p>
+<h4 id="构建任务"><a href="#构建任务" class="headerlink" title="构建任务"></a>构建任务</h4><p>1.点击新建，输入名称，构建一个自由风格的软件项目</p>
+<p><img src="/images/autoRelease1.png" alt="&quot;image&quot;"></p>
+<p>2.配置Git</p>
+<p><img src="/images/autoRelease2.png" alt="&quot;image&quot;"></p>
+<p>添加Git仓库地址，可以是HTTP也可以是SSH。点击Add</p>
+<p>如果是HTTP</p>
+<p><img src="/images/autoRelease3.png" alt="&quot;image&quot;"></p>
+<p>如果是SSH</p>
+<p><img src="/images/autoRelease4.png" alt="&quot;image&quot;"></p>
+<p>3.配置脚本</p>
+<p><img src="/images/autoRelease5.png" alt="&quot;image&quot;"></p>
+<p>所以在执行fastlane development_build之前需要进入TestCI(项目/iOS)目录，即fastlane文件夹所在目录。</p>
+<p>4.添加完成之后点击立即构建</p>
+<p><img src="/images/autoRelease6.png" alt="&quot;image&quot;"></p>
+<p>5.执行成功显示如下</p>
+<p><img src="/images/autoRelease7.png" alt="&quot;image&quot;"></p>
+<hr>
+<p>自己项目里面的jenkins截图</p>
+<p><img src="/images/autoRelease8.png" alt="&quot;image&quot;"></p>
+<p><img src="/images/autoRelease9.png" alt="&quot;image&quot;"></p>
+<p><img src="/images/autoRelease10.png" alt="&quot;image&quot;"></p>
+<p><img src="/images/autoRelease11.png" alt="&quot;image&quot;"></p>
+<p><img src="/images/autoRelease12.png" alt="&quot;image&quot;"></p>
+<h5 id="jenkins-内部shell-自动打包脚本"><a href="#jenkins-内部shell-自动打包脚本" class="headerlink" title="jenkins 内部shell 自动打包脚本"></a>jenkins 内部shell 自动打包脚本</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"># git相关操作重置 / 清理</span><br><span class="line">git reset --hard</span><br><span class="line">git clean -f</span><br><span class="line"></span><br><span class="line"># 因为是rn项目 删除reactnative 相关文件夹 </span><br><span class="line"># 删除pod相关文件夹</span><br><span class="line">rm -rf node_modules &amp; rm -rf yarn.lock</span><br><span class="line">rm -rf pods &amp; rm -rf Podfile.lock</span><br><span class="line">#重新更新reactnavite 内容</span><br><span class="line">yarn install  #cd--verbose</span><br><span class="line">cd ios #进入ios项目文件夹</span><br><span class="line">#pod 项目</span><br><span class="line">pod install --verbose --no-repo-update</span><br><span class="line"># bundle用于运行fastlane中的Gemfile文件内容</span><br><span class="line">#fastlane 用于跑fastlane/Fastfile中的代码(同上已写) </span><br><span class="line">#development_build 方法是Fastfile中放出来的shell 方法名</span><br><span class="line">bundle install &amp;&amp; bundle exec fastlane development_build</span><br></pre></td></tr></table></figure>
+<hr>
+<h4 id="podfile有一句代码需要备注"><a href="#podfile有一句代码需要备注" class="headerlink" title="podfile有一句代码需要备注"></a>podfile有一句代码需要备注</h4><p><a href="https://www.jianshu.com/p/b8b889610b7e" target="_blank" rel="noopener">Podfile文件用法详解</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#便利修改pods文件中各个库的setting设置</span><br><span class="line">#post_install 安装前的设置操作</span><br><span class="line"> post_install do |installer|</span><br><span class="line">    installer.pods_project.targets.each do |target|</span><br><span class="line">      target.build_configurations.each do |config|</span><br><span class="line">          config.build_settings[&apos;CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER&apos;] = &apos;NO&apos;</span><br><span class="line">        end</span><br><span class="line">      end</span><br><span class="line">  end</span><br></pre></td></tr></table></figure>
+<hr>
+<hr>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/自动化打包/">自动化打包</a></li></ul>
+	</div>
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-怎么发布博客文章:图片视频添加" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2020/02/26/怎么发布博客文章:图片视频添加/" class="article-date">
+  	<time datetime="2020-02-26T07:21:04.000Z" itemprop="datePublished">2020-02-26</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/02/26/怎么发布博客文章:图片视频添加/">
+        怎么发布博客文章/图片视频添加
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="hexo环境搭建参考链接"><a href="#hexo环境搭建参考链接" class="headerlink" title="hexo环境搭建参考链接"></a>hexo环境搭建参考链接</h3><p><a href="https://blog.csdn.net/sinat_37781304/article/details/82729029" target="_blank" rel="noopener">点击这里哈,谢谢人家</a></p>
+<h3 id="cd-到-blog-source-目录"><a href="#cd-到-blog-source-目录" class="headerlink" title="cd 到 ../blog/source 目录"></a>cd 到 ../blog/source 目录</h3><h3 id="建一个新项目"><a href="#建一个新项目" class="headerlink" title="建一个新项目"></a>建一个新项目</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
+<h3 id="跑本地服务"><a href="#跑本地服务" class="headerlink" title="跑本地服务"></a>跑本地服务</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
+<h3 id="发布之前一定要先clean"><a href="#发布之前一定要先clean" class="headerlink" title="发布之前一定要先clean"></a>发布之前一定要先clean</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo clean</span><br></pre></td></tr></table></figure>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
+<h3 id="发布"><a href="#发布" class="headerlink" title="发布"></a>发布</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+<hr>
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a href="https://www.jianshu.com/p/1fb65c61fa4a" target="_blank" rel="noopener">hexo常用命令笔记</a></p>
+<p><a href="http://blog.csdn.net/qq_26891045/article/details/51693571" target="_blank" rel="noopener">hexo博客添加图片，音乐，视频</a></p>
+<h3 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h3><h4 id="插入外部链接图片"><a href="#插入外部链接图片" class="headerlink" title="插入外部链接图片"></a>插入外部链接图片</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[cpp] view plain copy</span><br><span class="line">![“图片描述”](“图片地址”)</span><br></pre></td></tr></table></figure>
+<h4 id="添加本地图片"><a href="#添加本地图片" class="headerlink" title="添加本地图片"></a>添加本地图片</h4><p>在\hexo\source目录下新建文件夹，命名为images或者其他你喜欢的名字，然后编辑你的md博文，插入下面的代码样式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[cpp] view plain copy</span><br><span class="line">![“图片描述”](/images/你的图片名字.JPG)</span><br></pre></td></tr></table></figure>
+<h4 id="插入音乐"><a href="#插入音乐" class="headerlink" title="插入音乐"></a>插入音乐</h4><p>比如网易云音乐，找到喜欢的歌曲，点击分享按钮，把里面的代码复制下来，直接粘贴到博文中即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[cpp] view plain copy</span><br><span class="line">&lt;iframe frameborder=&quot;no&quot; border=&quot;0&quot; marginwidth=&quot;0&quot; marginheight=&quot;0&quot; width=330 height=86</span><br><span class="line">src=&quot;http://music.163.com/outchain/player?type=2&amp;id=25706282&amp;auto=0&amp;height=66&quot;&gt;</span><br><span class="line">&lt;/iframe&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="插入视频"><a href="#插入视频" class="headerlink" title="插入视频"></a>插入视频</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[cpp] view plain copy</span><br><span class="line">Idina Menze和Caleb Hyles激情对唱Let It Go：</span><br><span class="line">&lt;iframe</span><br><span class="line">height=498 width=510</span><br><span class="line">src=&quot;http://player.youku.com/embed/XNjcyMDU4Njg0&quot;</span><br><span class="line">frameborder=0 allowfullscreen&gt;</span><br><span class="line">&lt;/iframe&gt;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo探索/">hexo探索</a></li></ul>
+	</div>
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
   
     <article id="post-Python探索" class="article article-type-post" itemscope itemprop="blogPost">
   
@@ -480,6 +707,68 @@
 
 
   
+    <article id="post-iPhoeni桌面图标自定义排布" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/01/08/iPhoeni桌面图标自定义排布/" class="article-date">
+  	<time datetime="2018-01-08T06:58:18.000Z" itemprop="datePublished">2018-01-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/08/iPhoeni桌面图标自定义排布/">
+        IPhone桌面图标自定义排布
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>该项目是根据是通过调用cocoaHTTPSever第三方开源库,将本地的html文件通过<a href="http://127.0.0.1" target="_blank" rel="noopener">http://127.0.0.1</a>…… 来实现app调起safari 的逻辑!</p>
+<p>上代码 ——&gt;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br></pre></td><td class="code"><pre><span class="line">#import &quot;ChooseIconVC.h&quot;</span><br><span class="line">#import &quot;ViewController.h&quot;</span><br><span class="line">#import &quot;ChooseIconTool.h&quot;</span><br><span class="line">#import &quot;HTTPServer.h&quot;</span><br><span class="line">#import &quot;DDLog.h&quot;</span><br><span class="line">#import &quot;DDTTYLogger.h&quot;</span><br><span class="line">#import &quot;YYKit.h&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#define ScreenHeight ([[UIScreen mainScreen]bounds].size.height)</span><br><span class="line">#define Device_Is_iPhoneX ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1125, 2436), [[UIScreen mainScreen] currentMode].size) : NO)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@interface ChooseIconVC ()</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation ChooseIconVC &#123;</span><br><span class="line">    CGRect iconFrame;</span><br><span class="line">    UIButton *chooseButton;</span><br><span class="line">    int  scale;</span><br><span class="line">    HTTPServer *httpServer;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line">    // Do any additional setup after loading the view.</span><br><span class="line">    [self creatBackImage];</span><br><span class="line">    [self creatDissmissBtn];</span><br><span class="line">    [self creatAppLocalBtn];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)didReceiveMemoryWarning &#123;</span><br><span class="line">    [super didReceiveMemoryWarning];</span><br><span class="line">    // Dispose of any resources that can be recreated.</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)creatBackImage &#123;</span><br><span class="line"></span><br><span class="line">    UIImageView  * backImageView = [[UIImageView alloc]initWithImage:[ChooseIconTool getInstance].iconImageOri];</span><br><span class="line">    [backImageView setFrame:self.view.frame];</span><br><span class="line">    [self.view addSubview:backImageView];</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">-(void) creatDissmissBtn &#123;</span><br><span class="line">    chooseButton = [UIButton buttonWithType:UIButtonTypeSystem];</span><br><span class="line">    [chooseButton setFrame:CGRectMake(20, self.view.bounds.size.height - 60, 60, 60)];</span><br><span class="line">    [chooseButton setTitle:@&quot;back&quot; forState:UIControlStateNormal];</span><br><span class="line">    [chooseButton addTarget:self action:@selector(dissmissVC) forControlEvents:UIControlEventTouchDown];</span><br><span class="line">    [self.view addSubview:chooseButton];</span><br><span class="line">    [self.view bringSubviewToFront:chooseButton];</span><br><span class="line">    [chooseButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];</span><br><span class="line">    [chooseButton setBackgroundColor:[UIColor redColor]];</span><br><span class="line">&#125;</span><br><span class="line">- (void) dissmissVC &#123;</span><br><span class="line">[self dismissViewControllerAnimate  d:YES completion:nil];</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">-(void) creatAppLocalBtn &#123;</span><br><span class="line"></span><br><span class="line">    //iphone X = 27+45; 72</span><br><span class="line">    //other iphone = 27   /   28    /  38;</span><br><span class="line">    //PW: (screen.width - 60*4)/5</span><br><span class="line">    //pH: (screen.height - 91 - 27)/5  / 6: (screen.height - 91 - 28)/5  /    6p : (screen.height - 91 - 38)/6   iphoneX : (screen.height - 91 - 72)/6</span><br><span class="line"></span><br><span class="line">    int appnum = 6;//竖排的app数目</span><br><span class="line">    float heightTotop = 28; //第一排的app到手机透顶的距离</span><br><span class="line">    float heihtToBottom = 111;</span><br><span class="line">    if (ScreenHeight == 568) &#123;</span><br><span class="line">        //iphone 5</span><br><span class="line">        appnum = 5;</span><br><span class="line">        heightTotop = 27;</span><br><span class="line">        heihtToBottom = 101.2;</span><br><span class="line">        scale = 2;</span><br><span class="line">        NSLog(@&quot;iphone 5&quot;);</span><br><span class="line"></span><br><span class="line">    &#125; else if (ScreenHeight == 667)&#123;</span><br><span class="line">        //iphone 6</span><br><span class="line">        appnum = 6;</span><br><span class="line">        heightTotop = 28;</span><br><span class="line">        heihtToBottom = 111;</span><br><span class="line">        scale = 2;</span><br><span class="line"></span><br><span class="line">        NSLog(@&quot;iphone 6&quot;);</span><br><span class="line"></span><br><span class="line">    &#125; else if (ScreenHeight == 736) &#123;</span><br><span class="line">        //iphone 6p</span><br><span class="line">        appnum = 6;</span><br><span class="line">        heightTotop = 38;</span><br><span class="line">        heihtToBottom = 98;</span><br><span class="line">        scale = 3;</span><br><span class="line"></span><br><span class="line">        NSLog(@&quot;iphone 6p&quot;);</span><br><span class="line"></span><br><span class="line">        &#125; else if (Device_Is_iPhoneX) &#123;</span><br><span class="line">        //iphone X</span><br><span class="line">        appnum = 6;</span><br><span class="line">        heightTotop = 72;</span><br><span class="line">        heihtToBottom = 127.7;</span><br><span class="line">        scale = 3;</span><br><span class="line"></span><br><span class="line">        NSLog(@&quot;iphone X&quot;);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    float wid = (self.view.bounds.size.width -60*4)/5;</span><br><span class="line">    float heig = (ScreenHeight - heihtToBottom - heightTotop)/appnum;</span><br><span class="line">    NSLog(@&quot;wid : %f   Hei : %f&quot;,wid, heig);</span><br><span class="line">        for (int i = 0; i &lt; appnum; i++) &#123;</span><br><span class="line">            for (int j = 0 ; j &lt; 4; j++) &#123;</span><br><span class="line">            UIButton *chooseIcon = [UIButton buttonWithType:UIButtonTypeSystem];</span><br><span class="line">            [chooseIcon setFrame:CGRectMake(wid+(wid + 60)*j, heightTotop + heig * i, 60, 60)];</span><br><span class="line">            chooseIcon.tag = (4 * i) + j + 200;</span><br><span class="line">            [self.view addSubview:chooseIcon];</span><br><span class="line">            [chooseIcon setBackgroundColor:[UIColor redColor]];</span><br><span class="line">            chooseIcon.alpha = 0.5;</span><br><span class="line">            [chooseIcon addTarget:self action:@selector(chooseIconBtnClick:) forControlEvents:UIControlEventTouchUpInside];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">-(void)chooseIconBtnClick:(UIButton *)sender&#123;</span><br><span class="line">    [self clipImage:sender.frame];</span><br><span class="line">    [self saveImageTolocal:[ChooseIconTool getInstance].iconImageClip];</span><br><span class="line"></span><br><span class="line">    //    NSString * localImagePath = nil;</span><br><span class="line">    //    if ([ChooseIconTool getInstance].iconImageClip) &#123;</span><br><span class="line">    //      localImagePath = [self saveImageTolocal:[ChooseIconTool getInstance].iconImageClip];</span><br><span class="line">    ////      localImagePath = [self saveImageTolocalByBase64:[ChooseIconTool getInstance].iconImageClip];</span><br><span class="line">    ////        NSLog(@&quot;图片64位 : %@&quot;,localImagePath);</span><br><span class="line">    //        if (localImagePath &amp;&amp; localImagePath.length &gt; 0) &#123;</span><br><span class="line">    //            [self shareLocalClick:localImagePath];</span><br><span class="line">    //            NSLog(@&quot;长度:%lu&quot;,(unsigned long)localImagePath.length);</span><br><span class="line">    //        &#125;</span><br><span class="line">    //    &#125; else &#123;</span><br><span class="line">    //        NSLog(@&quot;没图片&quot;);</span><br><span class="line">    //    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">-(void) clipImage:(CGRect)frame &#123;</span><br><span class="line">    CGRect lastFrame = CGRectMake(frame.origin.x * scale, frame.origin.y * scale, frame.size.width * scale, frame.size.height * scale);</span><br><span class="line">    //    UIBezierPath * bezierP = [UIBezierPath bezierPathWithRect:lastFrame];</span><br><span class="line">    //  [ChooseIconTool getInstance].iconImageClip = [self clipWithPath:bezierP InRect:lastFrame];</span><br><span class="line">    [ChooseIconTool getInstance].iconImageClip = [self clipImageWithRect:lastFrame];</span><br><span class="line"></span><br><span class="line">    [chooseButton setBackgroundImage:[ChooseIconTool getInstance].iconImageClip forState:UIControlStateNormal];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// 根据path在rect范围内切割图片</span><br><span class="line">//https://www.jianshu.com/p/6130b51a0b71</span><br><span class="line">-(UIImage*)clipWithPath:(UIBezierPath*)path InRect:(CGRect)rect&#123;</span><br><span class="line">    UIImage * image = [ChooseIconTool getInstance].iconImageOri;</span><br><span class="line"></span><br><span class="line">    //开始绘制图片</span><br><span class="line">    UIGraphicsBeginImageContext(image.size);</span><br><span class="line">    //UIGraphicsBeginImageContextWithOptions(image.size, NO, image.scale);</span><br><span class="line"></span><br><span class="line">    CGContextRef contextRef = UIGraphicsGetCurrentContext();</span><br><span class="line">    ////绘制Clip区域</span><br><span class="line">    CGRect myRect = rect;</span><br><span class="line"></span><br><span class="line">    UIBezierPath * clipPath = path;</span><br><span class="line">    CGContextAddPath(contextRef, clipPath.CGPath);</span><br><span class="line">    CGContextClosePath(contextRef);</span><br><span class="line">    CGContextClip(contextRef);</span><br><span class="line">    //坐标系转换</span><br><span class="line">    //因为CGContextDrawImage会使用Quartz内的以左下角为(0,0)的坐标系</span><br><span class="line">    //沿着y轴移动</span><br><span class="line">    CGContextTranslateCTM(contextRef, 0, image.size.height);</span><br><span class="line"></span><br><span class="line">    //缩放</span><br><span class="line">    CGContextScaleCTM(contextRef, image.scale, -image.scale);</span><br><span class="line">    CGRect drawRect = CGRectMake(0, 0, image.size.width, image.size.height);</span><br><span class="line">    CGContextDrawImage(contextRef, drawRect, [image CGImage]);</span><br><span class="line">    //结束绘画</span><br><span class="line">    UIImage *destImg = UIGraphicsGetImageFromCurrentImageContext();</span><br><span class="line">    UIGraphicsEndImageContext();</span><br><span class="line"></span><br><span class="line">    destImg = [self clipImageWithRect:myRect];</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    //return destImg;</span><br><span class="line">    return destImg;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/* 根据rect裁剪图片 */</span><br><span class="line">-(UIImage *)clipImageWithRect:(CGRect)rect&#123;</span><br><span class="line">    UIImage * image  = [ChooseIconTool getInstance].iconImageOri;</span><br><span class="line">    CGRect myRect = rect;</span><br><span class="line">    CGImageRef  imageRef = CGImageCreateWithImageInRect(image.CGImage, myRect);</span><br><span class="line">    UIGraphicsBeginImageContext(myRect.size);</span><br><span class="line">    CGContextRef context = UIGraphicsGetCurrentContext();</span><br><span class="line">    CGContextDrawImage(context, myRect, imageRef);</span><br><span class="line">    UIImage * clipImage = [UIImage imageWithCGImage:imageRef];</span><br><span class="line">    UIGraphicsEndImageContext();</span><br><span class="line"></span><br><span class="line">    //转成png格式 会保留透明</span><br><span class="line">    NSData * data = UIImagePNGRepresentation(clipImage);</span><br><span class="line">    UIImage * dImage = [UIImage imageWithData:data];</span><br><span class="line"></span><br><span class="line">    return dImage;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)shareLocalClick:(NSString *)localImagePath</span><br><span class="line">&#123;</span><br><span class="line">    //ddlog打印初始化</span><br><span class="line">    [DDLog addLogger:[DDTTYLogger sharedInstance]];</span><br><span class="line"></span><br><span class="line">    httpServer = [[HTTPServer alloc] init];</span><br><span class="line"></span><br><span class="line">    [httpServer setType:@&quot;_http._tcp.&quot;];</span><br><span class="line"></span><br><span class="line">    [httpServer setPort:12345];</span><br><span class="line"></span><br><span class="line">    // Serve files from our embedded Web folder</span><br><span class="line">    //文件夹一定要以folder方式导入到项目中文件名一定要一一致</span><br><span class="line">    NSString *webPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@&quot;HTML&quot;];</span><br><span class="line">    NSLog(@&quot;Setting document root: %@&quot;, webPath);</span><br><span class="line"></span><br><span class="line">    [httpServer setDocumentRoot:webPath];</span><br><span class="line"></span><br><span class="line">    [self startServer];</span><br><span class="line">    NSString * localImagePathURLStr = [NSString stringWithFormat:@&quot;http://127.0.0.1:12345/context.html?image=%@&quot;,localImagePath];</span><br><span class="line">    NSLog(@&quot;网址打印 : %@&quot;,localImagePathURLStr);</span><br><span class="line">    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:localImagePathURLStr]];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">- (void)startServer</span><br><span class="line">&#123;</span><br><span class="line">    NSError *error;</span><br><span class="line">    if([httpServer start:&amp;error])</span><br><span class="line">    &#123;</span><br><span class="line">        NSLog(@&quot;Started HTTP Server on port %hu&quot;, [httpServer listeningPort]);</span><br><span class="line">    &#125;</span><br><span class="line">    else</span><br><span class="line">    &#123;</span><br><span class="line">        NSLog(@&quot;Error starting HTTP Server: %@&quot;, error);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void )saveImageTolocal:(UIImage *)image &#123;</span><br><span class="line">    [self loadImageFinished:image];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//保存到相册</span><br><span class="line">- (void)loadImageFinished:(UIImage *)image</span><br><span class="line">&#123;</span><br><span class="line">    UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), (__bridge void *)self);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    NSLog(@&quot;保存相册 image = %@, error = %@, contextInfo = %@&quot;, image, error, contextInfo);</span><br><span class="line">    [self shareLocalClick:@&quot;Con.png&quot;];</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意:bundle文件夹名一定要写对!!!!!!!<br>结束!!!(剩下的懒得说了基本代码里面都有了!0.o)<br>demo: <a href="https://github.com/JikerSun/screenAppHiden" target="_blank" rel="noopener">https://github.com/JikerSun/screenAppHiden</a></p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ios开发/">ios开发</a></li></ul>
+	</div>
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-一位比较资深的安卓开发工程师的架构构造-项目经验总结" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -747,197 +1036,6 @@
       
 	<div class="article-tag tagcloud">
 		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/技术探索/">技术探索</a></li></ul>
-	</div>
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-ios杂七杂八记录" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/01/05/ios杂七杂八记录/" class="article-date">
-  	<time datetime="2018-01-05T07:47:29.000Z" itemprop="datePublished">2018-01-05</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/05/ios杂七杂八记录/">
-        android替换sdk重新打包/IOS 本地保存Crash日志信息/LeakCanary 使用/cocos 工程创建和调用/android Gradle 配置说明/objc.all_load.force_load区分
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="android-替换sdk重新打包"><a href="#android-替换sdk重新打包" class="headerlink" title="android  替换sdk重新打包:"></a>android  替换sdk重新打包:</h1><ol>
-<li>apk 反编译</li>
-<li>下载Android crack tool</li>
-<li>选择 “重建apk” 选择之前反编译的目录</li>
-<li>点击签名 选择上一步的生成的apk</li>
-<li>运行新apk</li>
-</ol>
-<h1 id="IOS-本地保存Crash日志信息"><a href="#IOS-本地保存Crash日志信息" class="headerlink" title="IOS 本地保存Crash日志信息"></a>IOS 本地保存Crash日志信息</h1><p><a href="http://blog.csdn.net/cjh16102377/article/details/48315327" target="_blank" rel="noopener">http://blog.csdn.net/cjh16102377/article/details/48315327</a></p>
-<h1 id="LeakCanary-使用"><a href="#LeakCanary-使用" class="headerlink" title="LeakCanary 使用"></a>LeakCanary 使用</h1><p><a href="https://www.liaohuqiu.net/cn/posts/leak-canary-read-me/" target="_blank" rel="noopener">https://www.liaohuqiu.net/cn/posts/leak-canary-read-me/</a></p>
-<h1 id="cocos-工程创建和调用"><a href="#cocos-工程创建和调用" class="headerlink" title="cocos 工程创建和调用"></a>cocos 工程创建和调用</h1><p><a href="http://blog.csdn.net/v_xchen_v/article/details/52733928" target="_blank" rel="noopener">http://blog.csdn.net/v_xchen_v/article/details/52733928</a></p>
-<h1 id="android-Gradle-配置说明"><a href="#android-Gradle-配置说明" class="headerlink" title="android Gradle 配置说明"></a>android Gradle 配置说明</h1><p><a href="https://avatarqing.github.io/Gradle-Plugin-User-Guide-Chinese-Verision/basic_project/simple_build_files.html" target="_blank" rel="noopener">https://avatarqing.github.io/Gradle-Plugin-User-Guide-Chinese-Verision/basic_project/simple_build_files.html</a></p>
-<h1 id="ios-objc-all-load-force-load区分"><a href="#ios-objc-all-load-force-load区分" class="headerlink" title="ios objc.all_load.force_load区分"></a>ios objc.all_load.force_load区分</h1><p>－ObjC：加了这个参数后，链接器就会把静态库中所有的Objective-C类和分类都加载到最后的可执行文件中</p>
-<p>－all_load：会让链接器把所有找到的目标文件都加载到可执行文件中，但是千万不要随便使用这个参数！假如你使用了不止一个静态库文件，然后又使用了这个参数，那么你很有可能会遇到ld: duplicate symbol错误，因为不同的库文件里面可能会有相同的目标文件，所以建议在遇到-ObjC失效的情况下使用-force_load参数。</p>
-<p>-force_load：所做的事情跟-all_load其实是一样的，但是-force_load需要指定要进行全部加载的库文件的路径，这样的话，你就只是完全加载了一个库文件，不影响其余库文件的按需加载</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/技术探索/">技术探索</a></li></ul>
-	</div>
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-phassets视频转data" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/01/05/phassets视频转data/" class="article-date">
-  	<time datetime="2018-01-05T07:45:44.000Z" itemprop="datePublished">2018-01-05</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/05/phassets视频转data/">
-        phassets视频转data
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line">*phassets 视频转data</span><br><span class="line">*/</span><br><span class="line">- (void)getVideoPathOrImageDataFromPHAsset:(PHAsset *)asset Key:(NSString *)key Complete:(ResultPath)result ImaComlete:(Result)imageResult &#123;</span><br><span class="line">NSArray *assetResources = [PHAssetResource assetResourcesForAsset:asset];</span><br><span class="line">PHAssetResource *resource;</span><br><span class="line"></span><br><span class="line">for (PHAssetResource *assetRes in assetResources) &#123;</span><br><span class="line">if (assetRes.type == PHAssetResourceTypePairedVideo ||</span><br><span class="line">assetRes.type == PHAssetResourceTypeVideo) &#123;</span><br><span class="line">resource = assetRes;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">NSString *fileName = @&quot;tempAssetVideo.mov&quot;;</span><br><span class="line">if (resource.originalFilename) &#123;</span><br><span class="line">fileName = resource.originalFilename;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">if (asset.mediaType == PHAssetMediaTypeVideo || asset.mediaSubtypes == PHAssetMediaSubtypePhotoLive) &#123;</span><br><span class="line">PHVideoRequestOptions *options = [[PHVideoRequestOptions alloc] init];</span><br><span class="line">options.version = PHImageRequestOptionsVersionCurrent;</span><br><span class="line">options.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;</span><br><span class="line">PHAssetResourceRequestOptions *options1 = [PHAssetResourceRequestOptions new];</span><br><span class="line">//不支持icloud上传</span><br><span class="line">options1.networkAccessAllowed = NO;</span><br><span class="line">NSString *PATH_MOVIE_FILE = [NSTemporaryDirectory() stringByAppendingPathComponent:fileName];</span><br><span class="line">[[NSFileManager defaultManager] removeItemAtPath:PATH_MOVIE_FILE error:nil];</span><br><span class="line">[[PHAssetResourceManager defaultManager] writeDataForAssetResource:resource</span><br><span class="line">toFile:[NSURL fileURLWithPath:PATH_MOVIE_FILE]</span><br><span class="line">options:options1</span><br><span class="line">completionHandler:^(NSError * _Nullable error) &#123;</span><br><span class="line">if (error) &#123;</span><br><span class="line">result(nil, nil);</span><br><span class="line">&#125; else &#123;</span><br><span class="line">//                                                                 result(PATH_MOVIE_FILE, fileName);</span><br><span class="line"></span><br><span class="line">NSError *__autoreleasing * error;</span><br><span class="line">int64_t _fileSize;</span><br><span class="line">NSError *error2 = nil;</span><br><span class="line">NSDictionary *fileAttr = [[NSFileManager defaultManager] attributesOfItemAtPath:PATH_MOVIE_FILE error:&amp;error2];</span><br><span class="line">if (error2 != nil) &#123;</span><br><span class="line">if (error != nil) &#123;</span><br><span class="line">*error = error2;</span><br><span class="line">&#125;</span><br><span class="line">return ;</span><br><span class="line">&#125;</span><br><span class="line">_fileSize = [fileAttr fileSize];</span><br><span class="line">NSFileHandle *f = nil;</span><br><span class="line">NSData *d = nil;</span><br><span class="line">//                                                                 if (_fileSize &gt; 16 * 1024 * 1024) &#123;</span><br><span class="line">//                                                                     f = [NSFileHandle fileHandleForReadingAtPath:PATH_MOVIE_FILE];</span><br><span class="line">//                                                                     if (f == nil) &#123;</span><br><span class="line">//                                                                         if (error != nil) &#123;</span><br><span class="line">//                                                                             *error = [[NSError alloc] initWithDomain:PATH_MOVIE_FILE code:-4 userInfo:nil];</span><br><span class="line">//                                                                         &#125;</span><br><span class="line">//                                                                         return ;</span><br><span class="line">//                                                                     &#125; else &#123;</span><br><span class="line">//                                                                         if (d != nil) &#123;</span><br><span class="line">//                                                                             d= [d subdataWithRange:NSMakeRange(0, (long)_fileSize)];</span><br><span class="line">//                                                                             imageResult(d, fileName);</span><br><span class="line">//                                                                             return;</span><br><span class="line">//                                                                         &#125;</span><br><span class="line">//                                                                         [f seekToFileOffset:0];</span><br><span class="line">//                                                                         d = [f readDataOfLength:(long)_fileSize];</span><br><span class="line">//                                                                         imageResult(d, fileName);</span><br><span class="line">//                                                                         return;</span><br><span class="line">//                                                                     &#125;</span><br><span class="line">//                                                                 &#125; else &#123;</span><br><span class="line">d = [NSData dataWithContentsOfFile:PATH_MOVIE_FILE options:NSDataReadingMappedIfSafe error:&amp;error2];</span><br><span class="line">imageResult(d, fileName);</span><br><span class="line"></span><br><span class="line">if (error2 != nil) &#123;</span><br><span class="line">if (error != nil) &#123;</span><br><span class="line">*error = error2;</span><br><span class="line">&#125;</span><br><span class="line">return ;</span><br><span class="line">&#125;</span><br><span class="line">//                                                                 &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;];</span><br><span class="line">&#125; else if (asset.mediaType == PHAssetMediaTypeImage) &#123;</span><br><span class="line">[self getImageFromPHAsset:asset Complete:imageResult];</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ios开发/">ios开发</a></li></ul>
-	</div>
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-音乐篇-卡农" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/01/05/音乐篇-卡农/" class="article-date">
-  	<time datetime="2018-01-05T07:41:42.000Z" itemprop="datePublished">2018-01-05</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/05/音乐篇-卡农/">
-        音乐篇--卡农
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="卡农-–-电吉他版"><a href="#卡农-–-电吉他版" class="headerlink" title="卡农 – 电吉他版"></a>卡农 – 电吉他版</h1><p> <a href="https://bbs.guitarchina.com/thread-1931779-1-1.html" target="_blank" rel="noopener">https://bbs.guitarchina.com/thread-1931779-1-1.html</a></p>
-<p><a href="http://www.jitaba.cn/pu/minyao/9172.html" target="_blank" rel="noopener">http://www.jitaba.cn/pu/minyao/9172.html</a></p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/音乐篇/">音乐篇</a></li></ul>
 	</div>
 
       
