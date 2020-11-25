@@ -9,19 +9,19 @@
   
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="metal初认识https://www.objccn.io/issue-18-2/ Metal 和 openGL 坐标  Metal 框架支持 GPU 加速高级 3D 图像渲染，以及数据并行计算工作。Metal 提供了先进合理的 API，它不仅为图形的组织、处理和呈现，也为计算命令以及为这些命令相关的数据和资源的管理，提供了细粒度和底层的控制。Metal 的主要目的是最小化 GPU 工作时 CPU">
+  <meta name="description" content="metal初认识 https://www.objccn.io/issue-18-2/ Metal 和 openGL 坐标  Metal 框架支持 GPU 加速高级 3D 图像渲染，以及数据并行计算工作。Metal 提供了先进合理的 API，它不仅为图形的组织、处理和呈现，也为计算命令以及为这些命令相关的数据和资源的管理，提供了细粒度和底层的控制。Metal 的主要目的是最小化 GPU 工作时 CP">
 <meta name="keywords" content="ios开发">
 <meta property="og:type" content="article">
 <meta property="og:title" content="metal初认识">
 <meta property="og:url" content="http://yoursite.com/2018/01/05/metal初认识/index.html">
 <meta property="og:site_name" content="JakieSun_厕所蹲个驴">
-<meta property="og:description" content="metal初认识https://www.objccn.io/issue-18-2/ Metal 和 openGL 坐标  Metal 框架支持 GPU 加速高级 3D 图像渲染，以及数据并行计算工作。Metal 提供了先进合理的 API，它不仅为图形的组织、处理和呈现，也为计算命令以及为这些命令相关的数据和资源的管理，提供了细粒度和底层的控制。Metal 的主要目的是最小化 GPU 工作时 CPU">
+<meta property="og:description" content="metal初认识 https://www.objccn.io/issue-18-2/ Metal 和 openGL 坐标  Metal 框架支持 GPU 加速高级 3D 图像渲染，以及数据并行计算工作。Metal 提供了先进合理的 API，它不仅为图形的组织、处理和呈现，也为计算命令以及为这些命令相关的数据和资源的管理，提供了细粒度和底层的控制。Metal 的主要目的是最小化 GPU 工作时 CP">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://yoursite.com/images/metal1.tiff">
 <meta property="og:updated_time" content="2018-01-08T06:58:31.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="metal初认识">
-<meta name="twitter:description" content="metal初认识https://www.objccn.io/issue-18-2/ Metal 和 openGL 坐标  Metal 框架支持 GPU 加速高级 3D 图像渲染，以及数据并行计算工作。Metal 提供了先进合理的 API，它不仅为图形的组织、处理和呈现，也为计算命令以及为这些命令相关的数据和资源的管理，提供了细粒度和底层的控制。Metal 的主要目的是最小化 GPU 工作时 CPU">
+<meta name="twitter:description" content="metal初认识 https://www.objccn.io/issue-18-2/ Metal 和 openGL 坐标  Metal 框架支持 GPU 加速高级 3D 图像渲染，以及数据并行计算工作。Metal 提供了先进合理的 API，它不仅为图形的组织、处理和呈现，也为计算命令以及为这些命令相关的数据和资源的管理，提供了细粒度和底层的控制。Metal 的主要目的是最小化 GPU 工作时 CP">
 <meta name="twitter:image" content="http://yoursite.com/images/metal1.tiff">
   
     <link rel="alternative" href="/atom.xml" title="JakieSun_厕所蹲个驴" type="application/atom+xml">
@@ -47,7 +47,7 @@
 	<header id="header" class="inner">
 		<a href="/" class="profilepic">
 			
-			<img lazy-src="/img/avatar.jpg" class="js-avatar">
+			<img lazy-src="./img/avatar.jpg" class="js-avatar">
 			
 		</a>
 
@@ -150,7 +150,7 @@
 	<div class="intrude-less">
 		<header id="header" class="inner">
 			<div class="profilepic">
-				<img lazy-src="/img/avatar.jpg" class="js-avatar">
+				<img lazy-src="./img/avatar.jpg" class="js-avatar">
 			</div>
 			<hgroup>
 			  <h1 class="header-author">JakieSun</h1>
@@ -215,9 +215,10 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="metal初认识"><a href="#metal初认识" class="headerlink" title="metal初认识"></a>metal初认识</h1><p><a href="https://www.objccn.io/issue-18-2/" target="_blank" rel="noopener">https://www.objccn.io/issue-18-2/</a></p>
+        <h1>metal初认识</h1>
+<p>https://www.objccn.io/issue-18-2/</p>
 <p>Metal 和 openGL 坐标</p>
-<p><img src="/images/metal1.tiff" alt="&quot;image&quot;"></p>
+<p><img src="/images/metal1.tiff" alt="&amp;quot;image&amp;quot;"></p>
 <p>Metal 框架支持 GPU 加速高级 3D 图像渲染，以及数据并行计算工作。Metal 提供了先进合理的 API，它不仅为图形的组织、处理和呈现，也为计算命令以及为这些命令相关的数据和资源的管理，提供了细粒度和底层的控制。Metal 的主要目的是最小化 GPU 工作时 CPU 所要的消耗。</p>
 <p>该框架被设计用来实现两个目标: 3D 图形渲染和并行计算。这两者有很多共同点。它们都在数量庞大的数据上并行运行特殊的代码，并可以在 GPU. 上执行。</p>
 <p>Metal 的资源非常有限，并且仅限于搭载了 64 位处理器的 iPhone 和 iPad。但另外一方面，因为 OpenGL 的限制，其性能与 Metal 相比并不占优势，毕竟后者是专门用来解决这些问题的.</p>
@@ -251,7 +252,7 @@
 </article>
 
 
-<div class="ds-share share" data-thread-key="metal初认识" data-title="metal初认识" data-url="http://yoursite.com/2018/01/05/metal初认识/"  data-images="/img/avatar.jpg" data-content="metal初认识">
+<div class="ds-share share" data-thread-key="metal初认识" data-title="metal初认识" data-url="http://yoursite.com/2018/01/05/metal初认识/"  data-images="./img/avatar.jpg" data-content="metal初认识">
     <div class="ds-share-inline">
       <ul  class="ds-share-icons-16">
       	<li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
