@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2022-05-25T03:48:20.512Z</updated>
+  <updated>2023-02-10T01:45:06.611Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>iOS项目组件化相关</title>
+    <link href="http://yoursite.com/2023/02/10/iOS%E7%BB%84%E4%BB%B6%E5%8C%96/"/>
+    <id>http://yoursite.com/2023/02/10/iOS%E7%BB%84%E4%BB%B6%E5%8C%96/</id>
+    <published>2023-02-10T02:55:06.000Z</published>
+    <updated>2023-02-10T01:45:06.611Z</updated>
+    
+    <content type="html"><![CDATA[<h1>组件化相关框架第三方</h1><hr><p><a href="https://zhuanlan.zhihu.com/p/349298875" target="_blank" rel="noopener">浅谈组件化</a></p><h2>1. 天猫 CTMediator</h2><h3>就是利用runtime 消息转发机制</h3><ul><li>1.首先创建CTMediator的分类 调用CTMediator的方法对target类和方法通过字符串的形式进行消息转发</li><li>2.在各个组件创建一个&quot;Target_&quot;前缀的target类用于CTMediator分类的runtime找到这个类名</li><li>3.在target类里面创建&quot;Action_&quot;前缀的方法, 用于CTMediator分类runtime找到方法名</li></ul><hr><h2>2. 蘑菇街</h2><p>没研究 听说不如CTMediator好 就没看 听说哈</p><hr><h2>3. 有赞 Bifrost</h2><h3>跟CTMediator差不多也是runtime消息转发机制, 但是他是将各个组件都做成了静态库工程, 项目层级是项目project文件下面各个组建的project文件</h3><p><a href="https://tech.youzan.com/you-zan-ioszu-jian-hua-jia-gou-she-ji-shi-jian/" target="_blank" rel="noopener">官网说明地址</a></p><ul><li>1.创建一个.xcworkspace文件</li><li>2.通过xcode-&gt;file-&gt;new-&gt;project 在指定文件夹创建项目(.xcodeproj), 一定要在创建的时候选中第一步创建的.xcworkspace文件</li><li>3.通过xcode-&gt;file-&gt;new-&gt;lib...啥的创建各个静态库, 创建的时候也要选中第二步的项目文件</li><li>4.将所有组件需要公用的Common组件, 引入到所有的动态库和项目的&quot;Build Setting&quot; -&gt; &quot;Header Search Paths&quot;路径中 如(&quot;$(SRCROOT)/../Common/Common/&quot;)</li><li>5.需要公用的pod第三方需要在Podfile中修改, 如下</li></ul><p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">inhibit_all_warnings!</span><br><span class="line">platform :ios, &apos;10.0&apos;</span><br><span class="line"></span><br><span class="line">#disable some warnings</span><br><span class="line">post_install do |installer|</span><br><span class="line">    installer.pods_project.targets.each do |target|</span><br><span class="line">        target.build_configurations.each do |config|</span><br><span class="line">            #disable some warnings of Pods</span><br><span class="line">            config.build_settings[&apos;CLANG_WARN_DOCUMENTATION_COMMENTS&apos;] = &apos;NO&apos;</span><br><span class="line">            config.build_settings[&apos;IPHONEOS_DEPLOYMENT_TARGET&apos;] = &apos;8.0&apos;</span><br><span class="line">        end</span><br><span class="line">    end</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">#def commonPods()</span><br><span class="line">#    pod &apos;Common&apos;, :path =&gt; &apos;Modules/Common/&apos;</span><br><span class="line">#end</span><br><span class="line"></span><br><span class="line">def mediatorPods()</span><br><span class="line">    pod &apos;Bifrost&apos;</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">#将common公用文件夹链接设置到各个组件里 (这些方法是错误的, 具体方法没找到)</span><br><span class="line">def addCommonFile()</span><br><span class="line">#      :build_configurations.each do |config|</span><br><span class="line">#      #disable some warnings of Pods</span><br><span class="line">#      config.build_settings[&apos;HEADER_SEARCH_PATHS&apos;] = &apos;$(SRCROOT)/../Common/Common/&apos;</span><br><span class="line">#  end</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">#在各自的对应的文件工程中导入想要的pod</span><br><span class="line">workspace &quot;GroupTest&quot;</span><br><span class="line">target &quot;GroupTestAPP&quot; do</span><br><span class="line">    project &apos;GroupTestAPP/GroupTestAPP.xcodeproj&apos;</span><br><span class="line">    target &quot;Common&quot; do</span><br><span class="line">        project &apos;Modules/Common/Common.xcodeproj&apos;</span><br><span class="line">        mediatorPods()</span><br><span class="line">    end</span><br><span class="line">    target &quot;Live&quot; do</span><br><span class="line">        project &apos;Modules/Live/Live.xcodeproj&apos;</span><br><span class="line">        mediatorPods()</span><br><span class="line">    end</span><br><span class="line">    target &quot;Home&quot;  do</span><br><span class="line">     # addCommonFile()</span><br><span class="line">    end</span><br><span class="line">end</span><br></pre></td></tr></table></figure></p><hr>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1&gt;组件化相关框架第三方&lt;/h1&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;a href=&quot;https://zhuanlan.zhihu.com/p/349298875&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;浅谈组件化&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;1. 天猫 CTMediat
+      
+    
+    </summary>
+    
+    
+    
+      <category term="ios开发" scheme="http://yoursite.com/tags/ios%E5%BC%80%E5%8F%91/"/>
+    
+  </entry>
   
   <entry>
     <title>海外服务器购买搭建</title>
@@ -542,33 +569,6 @@
     
     
       <category term="技术探索" scheme="http://yoursite.com/tags/%E6%8A%80%E6%9C%AF%E6%8E%A2%E7%B4%A2/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>IOS RunTime</title>
-    <link href="http://yoursite.com/2018/01/05/IOS-RunTime/"/>
-    <id>http://yoursite.com/2018/01/05/IOS-RunTime/</id>
-    <published>2018-01-05T07:05:09.000Z</published>
-    <updated>2018-01-08T06:57:43.000Z</updated>
-    
-    <content type="html"><![CDATA[<h1>RunTime小结</h1><h2>搬运大佬的经验, 在这里还是惯例的感谢大佬的技术支持</h2><p>http://tech.glowing.com/cn/objective-c-runtime/</p><p>http://www.jianshu.com/p/73e454178e77</p><p><img src="/images/runtime1.jpg" alt="&amp;quot;image&amp;quot;"></p><p><img src="/images/runtime2.jpg" alt="&amp;quot;image&amp;quot;"></p><p><img src="/images/runtime3.jpg" alt="&amp;quot;image&amp;quot;"></p><p><img src="/images/runtime4.jpg" alt="&amp;quot;image&amp;quot;"></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1&gt;RunTime小结&lt;/h1&gt;
-&lt;h2&gt;搬运大佬的经验, 在这里还是惯例的感谢大佬的技术支持&lt;/h2&gt;
-&lt;p&gt;http://tech.glowing.com/cn/objective-c-runtime/&lt;/p&gt;
-&lt;p&gt;http://www.jianshu.com/p/73
-      
-    
-    </summary>
-    
-    
-    
-      <category term="ios开发" scheme="http://yoursite.com/tags/ios%E5%BC%80%E5%8F%91/"/>
     
   </entry>
   
