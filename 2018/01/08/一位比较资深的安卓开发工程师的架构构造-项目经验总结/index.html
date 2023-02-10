@@ -9,20 +9,20 @@
   
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="一位比较资深的安卓开发工程师的架构构造/项目经验总结  标记一下用于以后详细钻研 https://github.com/zhusonger/android 大体内容简介 :   目录结构简介 :  android Gradle  关于Android开发中Gradle以及maven相关的知识  IDEA  Android使用开发小窍门  Java  补充java的知识  Record  手机录屏与录">
+  <meta name="description" content="一位比较资深的安卓开发工程师的架构构造/项目经验总结 标记一下用于以后详细钻研https://github.com/zhusonger/android 大体内容简介 :  目录结构简介 : androidGradle 关于Android开发中Gradle以及maven相关的知识  IDEA Android使用开发小窍门  Java 补充java的知识  Record 手机录屏与录音相关的知识  T">
 <meta name="keywords" content="Android开发">
 <meta property="og:type" content="article">
 <meta property="og:title" content="一位比较资深的安卓开发工程师的架构构造&#x2F;项目经验总结">
 <meta property="og:url" content="http://yoursite.com/2018/01/08/一位比较资深的安卓开发工程师的架构构造-项目经验总结/index.html">
 <meta property="og:site_name" content="JakieSun_厕所蹲个驴">
-<meta property="og:description" content="一位比较资深的安卓开发工程师的架构构造/项目经验总结  标记一下用于以后详细钻研 https://github.com/zhusonger/android 大体内容简介 :   目录结构简介 :  android Gradle  关于Android开发中Gradle以及maven相关的知识  IDEA  Android使用开发小窍门  Java  补充java的知识  Record  手机录屏与录">
+<meta property="og:description" content="一位比较资深的安卓开发工程师的架构构造/项目经验总结 标记一下用于以后详细钻研https://github.com/zhusonger/android 大体内容简介 :  目录结构简介 : androidGradle 关于Android开发中Gradle以及maven相关的知识  IDEA Android使用开发小窍门  Java 补充java的知识  Record 手机录屏与录音相关的知识  T">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://yoursite.com/images/zhusong1.png">
 <meta property="og:image" content="http://yoursite.com/images/zhusong2.jpeg">
 <meta property="og:updated_time" content="2018-01-08T06:53:04.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="一位比较资深的安卓开发工程师的架构构造&#x2F;项目经验总结">
-<meta name="twitter:description" content="一位比较资深的安卓开发工程师的架构构造/项目经验总结  标记一下用于以后详细钻研 https://github.com/zhusonger/android 大体内容简介 :   目录结构简介 :  android Gradle  关于Android开发中Gradle以及maven相关的知识  IDEA  Android使用开发小窍门  Java  补充java的知识  Record  手机录屏与录">
+<meta name="twitter:description" content="一位比较资深的安卓开发工程师的架构构造/项目经验总结 标记一下用于以后详细钻研https://github.com/zhusonger/android 大体内容简介 :  目录结构简介 : androidGradle 关于Android开发中Gradle以及maven相关的知识  IDEA Android使用开发小窍门  Java 补充java的知识  Record 手机录屏与录音相关的知识  T">
 <meta name="twitter:image" content="http://yoursite.com/images/zhusong1.png">
   
     <link rel="alternative" href="/atom.xml" title="JakieSun_厕所蹲个驴" type="application/atom+xml">
@@ -216,44 +216,32 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1>一位比较资深的安卓开发工程师的架构构造/项目经验总结</h1>
+        <h1 id="一位比较资深的安卓开发工程师的架构构造-项目经验总结"><a href="#一位比较资深的安卓开发工程师的架构构造-项目经验总结" class="headerlink" title="一位比较资深的安卓开发工程师的架构构造/项目经验总结"></a>一位比较资深的安卓开发工程师的架构构造/项目经验总结</h1><hr>
+<h2 id="标记一下用于以后详细钻研"><a href="#标记一下用于以后详细钻研" class="headerlink" title="标记一下用于以后详细钻研"></a>标记一下用于以后详细钻研</h2><p><a href="https://github.com/zhusonger/android" target="_blank" rel="noopener">https://github.com/zhusonger/android</a></p>
+<h2 id="大体内容简介"><a href="#大体内容简介" class="headerlink" title="大体内容简介 :"></a>大体内容简介 :</h2><p><img src="/images/zhusong1.png" alt="&quot;image&quot;"></p>
 <hr>
-<h2>标记一下用于以后详细钻研</h2>
-<p>https://github.com/zhusonger/android</p>
-<h2>大体内容简介 :</h2>
-<p><img src="/images/zhusong1.png" alt="&amp;quot;image&amp;quot;"></p>
-<hr>
-<h1>目录结构简介 :</h1>
-<p><img src="/images/zhusong2.jpeg" alt="&amp;quot;image&amp;quot;"></p>
-<h1>android</h1>
-<h2>Gradle</h2>
-<ul>
+<h1 id="目录结构简介"><a href="#目录结构简介" class="headerlink" title="目录结构简介 :"></a>目录结构简介 :</h1><p><img src="/images/zhusong2.jpeg" alt="&quot;image&quot;"></p>
+<h1 id="android"><a href="#android" class="headerlink" title="android"></a>android</h1><h2 id="Gradle"><a href="#Gradle" class="headerlink" title="Gradle"></a>Gradle</h2><ul>
 <li>关于Android开发中Gradle以及maven相关的知识</li>
 </ul>
-<h2>IDEA</h2>
-<ul>
+<h2 id="IDEA"><a href="#IDEA" class="headerlink" title="IDEA"></a>IDEA</h2><ul>
 <li>Android使用开发小窍门</li>
 </ul>
-<h2>Java</h2>
-<ul>
+<h2 id="Java"><a href="#Java" class="headerlink" title="Java"></a>Java</h2><ul>
 <li>补充java的知识</li>
 </ul>
-<h2>Record</h2>
-<ul>
+<h2 id="Record"><a href="#Record" class="headerlink" title="Record"></a>Record</h2><ul>
 <li>手机录屏与录音相关的知识</li>
 </ul>
-<h2>Tools</h2>
-<ul>
+<h2 id="Tools"><a href="#Tools" class="headerlink" title="Tools"></a>Tools</h2><ul>
 <li>开发中提高效率的工具集合</li>
 </ul>
-<h2>Framework</h2>
-<ul>
+<h2 id="Framework"><a href="#Framework" class="headerlink" title="Framework"></a>Framework</h2><ul>
 <li>android系统层的知识</li>
 <li>触手录重构的项目架构</li>
 <li>隐藏api: <a href="https://github.com/anggrayudi/android-hidden-api" target="_blank" rel="noopener">https://github.com/anggrayudi/android-hidden-api</a></li>
 </ul>
-<h2>Git</h2>
-<ul>
+<h2 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h2><ul>
 <li>Git相关知识</li>
 <li>删除大文件: <a href="http://www.cnblogs.com/shines77/p/3460274.html" target="_blank" rel="noopener">http://www.cnblogs.com/shines77/p/3460274.html</a></li>
 </ul>
