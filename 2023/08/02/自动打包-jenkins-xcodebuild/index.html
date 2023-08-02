@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>自动打包- jenkins + xcodebuild | JakieSun_厕所蹲个驴</title>
+
+  <!-- keywords -->
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="jenkins + xcodebuild参考链接1(主要看1) 参考文档2 遇到的坑 直接贴上jenkins的 Execute shell的脚本根据之前的jenkins打包设置jenkins唯一不一样的地方就是之前是用fastlane管理ios各个项目包, 但是对于只有一个工程的包, 用fastlane实在是没必要, 不如直接用xcodebuild方便一点还不用打环境, 打那个环境不知道咋地老失败">
+<meta name="keywords" content="自动化打包">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自动打包- jenkins + xcodebuild">
+<meta property="og:url" content="http://yoursite.com/2023/08/02/自动打包-jenkins-xcodebuild/index.html">
+<meta property="og:site_name" content="JakieSun_厕所蹲个驴">
+<meta property="og:description" content="jenkins + xcodebuild参考链接1(主要看1) 参考文档2 遇到的坑 直接贴上jenkins的 Execute shell的脚本根据之前的jenkins打包设置jenkins唯一不一样的地方就是之前是用fastlane管理ios各个项目包, 但是对于只有一个工程的包, 用fastlane实在是没必要, 不如直接用xcodebuild方便一点还不用打环境, 打那个环境不知道咋地老失败">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2023-08-02T03:52:33.518Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="自动打包- jenkins + xcodebuild">
+<meta name="twitter:description" content="jenkins + xcodebuild参考链接1(主要看1) 参考文档2 遇到的坑 直接贴上jenkins的 Execute shell的脚本根据之前的jenkins打包设置jenkins唯一不一样的地方就是之前是用fastlane管理ios各个项目包, 但是对于只有一个工程的包, 用fastlane实在是没必要, 不如直接用xcodebuild方便一点还不用打环境, 打那个环境不知道咋地老失败">
+  
+    <link rel="alternative" href="/atom.xml" title="JakieSun_厕所蹲个驴" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509965970128&di=50ef90b75009ba6bfa72bc1551bbe214&imgtype=0&src=http%3A%2F%2Fimg.25pp.com%2Fuploadfile%2Fsoft%2Fimages%2F2015%2F0725%2F20150725103726182.jpg">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+
+  <script src="//cdn.bootcss.com/require.js/2.3.2/require.min.js"></script>
+  <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+
+  
+</head></html>
+<body>
+  <div id="container">
+    <div id="particles-js"></div>
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1606289047897&amp;di=8209eb27af71ac53b08f98b283de8eb2&amp;imgtype=0&amp;src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2F96983db98a01a3ba5dbccbff32d1131e62e3e4551bbde-vtmFkh_fw658" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">JakieSun</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">韶华不为少年留,恨悠悠,几时休</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Android开发/" style="font-size: 12.5px;">Android开发</a> <a href="/tags/hexo探索/" style="font-size: 10px;">hexo探索</a> <a href="/tags/iOS/" style="font-size: 10px;">iOS</a> <a href="/tags/ios开发/" style="font-size: 20px;">ios开发</a> <a href="/tags/python开发/" style="font-size: 10px;">python开发</a> <a href="/tags/主播相关/" style="font-size: 10px;">主播相关</a> <a href="/tags/命令行端探索/" style="font-size: 10px;">命令行端探索</a> <a href="/tags/技术探索/" style="font-size: 17.5px;">技术探索</a> <a href="/tags/自动化打包/" style="font-size: 15px;">自动化打包</a> <a href="/tags/音乐篇/" style="font-size: 10px;">音乐篇</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/smackgg/hexo-theme-smackdown">smackdown</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/JikerSun">github</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://www.jianshu.com/u/1aae85c9610a">简书</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">JakieSun</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1606289047897&amp;di=8209eb27af71ac53b08f98b283de8eb2&amp;imgtype=0&amp;src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2F96983db98a01a3ba5dbccbff32d1131e62e3e4551bbde-vtmFkh_fw658" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">JakieSun</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">韶华不为少年留,恨悠悠,几时休</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-自动打包-jenkins-xcodebuild" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2023/08/02/自动打包-jenkins-xcodebuild/" class="article-date">
+  	<time datetime="2023-08-02T03:15:52.000Z" itemprop="datePublished">2023-08-02</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      自动打包- jenkins + xcodebuild
+      
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/自动化打包/">自动化打包</a></li></ul>
+	</div>
+
+        
+
+        
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="jenkins-xcodebuild"><a href="#jenkins-xcodebuild" class="headerlink" title="jenkins + xcodebuild"></a>jenkins + xcodebuild</h1><p><a href="&quot;https://www.jianshu.com/p/bc57da017291&quot;">参考链接1(主要看1)</a></p>
+<p><a href="&quot;https://blog.csdn.net/songecit/article/details/53381184&quot;">参考文档2</a></p>
+<p><a href="&quot;https://www.jianshu.com/p/4d182d7fbf01&quot;">遇到的坑</a></p>
+<h3 id="直接贴上jenkins的-Execute-shell的脚本"><a href="#直接贴上jenkins的-Execute-shell的脚本" class="headerlink" title="直接贴上jenkins的 Execute shell的脚本"></a>直接贴上jenkins的 Execute shell的脚本</h3><p>根据之前的jenkins打包设置jenkins唯一不一样的地方就是之前是用fastlane管理ios各个项目包, 但是对于只有一个工程的包, 用fastlane实在是没必要, 不如直接用xcodebuild方便一点还不用打环境, 打那个环境不知道咋地老失败, 我也是很苦恼,</p>
+<p>什么也不说了 直接贴上代码, (这个直接复制到jenkins 的<strong>Execute shell</strong>里面)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br></pre></td><td class="code"><pre><span class="line">#git相关操作重置 / 清理</span><br><span class="line">git reset --hard</span><br><span class="line">git clean -f</span><br><span class="line"></span><br><span class="line">####下面这注释掉的事原先用来pod第三方和用fastlane的库 但是不是不能用了嘛</span><br><span class="line"># 删除pod相关文件夹</span><br><span class="line">#rm -rf pods &amp; rm -rf Podfile.lock</span><br><span class="line">#pod 项目</span><br><span class="line">#pod install --verbose --no-repo-update</span><br><span class="line"># bundle用于运行fastlane中的Gemfile文件内容</span><br><span class="line">#fastlane 用于跑fastlane/Fastfile中的代码(同上已写) </span><br><span class="line">#development_build 方法是Fastfile中放出来的shell 方法名</span><br><span class="line">#bundle install &amp;&amp; bundle exec fastlane matemet_aliyun</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">###这些开始才是用xcodebuild来搞的</span><br><span class="line">##这里是打一个debug包来直接发给测试的</span><br><span class="line"># 删除build文件夹 每次重新打包都删除(这个文件夹用来放打包好的包,每次都删掉防止重复)</span><br><span class="line">rm -rf build</span><br><span class="line"> # 打包的环境，正式环境为空，可选 &#123;&apos;Develop&apos;;  &apos;Release&apos;;  &apos;&apos;&#125;</span><br><span class="line">APP_ENV=&quot;Develop&quot;</span><br><span class="line">#工程名字(Target名字)</span><br><span class="line">Project_Name=&quot;Vamar&quot;</span><br><span class="line"># build 路径</span><br><span class="line">project_workspace=&quot;$&#123;Project_Name&#125;.xcworkspace&quot;</span><br><span class="line">#project_scheme=&quot;$&#123;Project_Name&#125;$&#123;APP_ENV&#125;&quot;</span><br><span class="line">project_scheme=&quot;$&#123;Project_Name&#125;&quot;</span><br><span class="line"></span><br><span class="line"># 获取app版本号(这里不知道咋地获取不到 所以我直接来个写死爱咋咋地 反正用来测试的)</span><br><span class="line">#APP_VERSION=`/usr/libexec/PlistBuddy -c &quot;Print :CFBundleShortVersionString&quot; &quot;$&#123;WORKSPACE&#125;/Vamar/Resources/$&#123;project_scheme&#125;-Info.plist&quot;`</span><br><span class="line">APP_VERSION=1.0.3</span><br><span class="line"></span><br><span class="line">export_path=&quot;$&#123;WORKSPACE&#125;/build/ipa_out/$&#123;Project_Name&#125;&quot;</span><br><span class="line">export_name=&quot;$&#123;export_path&#125;/$&#123;project_scheme&#125;_$&#123;APP_VERSION&#125;.ipa&quot;</span><br><span class="line"></span><br><span class="line"># archive 目标路径</span><br><span class="line">build_dir=&quot;$&#123;WORKSPACE&#125;/build&quot;</span><br><span class="line">archive_path=&quot;$&#123;build_dir&#125;/$&#123;project_scheme&#125;.xcarchive&quot;</span><br><span class="line"></span><br><span class="line">#plist文件</span><br><span class="line">exportOptionsPlist=&quot;$&#123;build_dir&#125;/$&#123;project_scheme&#125;.plist&quot;</span><br><span class="line"></span><br><span class="line"># 构建变量写入文件</span><br><span class="line">echo &quot;APP_VERSION=$&#123;APP_VERSION&#125;</span><br><span class="line">project_workspace=$&#123;project_workspace&#125;</span><br><span class="line">project_scheme=$&#123;project_scheme&#125;</span><br><span class="line">export_path=$&#123;export_path&#125;</span><br><span class="line">export_name=$&#123;export_name&#125;</span><br><span class="line">build_dir=$&#123;build_dir&#125;</span><br><span class="line">archive_path=$&#123;archive_path&#125;</span><br><span class="line">exportOptionsPlist=$&#123;exportOptionsPlist&#125;&quot; &gt; BuildVariable</span><br><span class="line"></span><br><span class="line">#配置环境，Release或者Debug</span><br><span class="line">Configuration=Debug</span><br><span class="line"></span><br><span class="line">#AdHoc版本的Bundle ID</span><br><span class="line">BundleID=com.chamet.test</span><br><span class="line"></span><br><span class="line">#证书名#描述文件 (已经写在那个exportOptionsPlist里了用不到了)</span><br><span class="line">#CODE_SIGN_IDENTITY=Apple Development: **************</span><br><span class="line">#CPROVISIONING_PROFILE_NAME=chametbeta_dev</span><br><span class="line">#PROFILE_UUID=b4038ef7-5a35-489a-b875-bd3f10b05a91</span><br><span class="line"></span><br><span class="line">#!/bin/bash</span><br><span class="line">#author Jony</span><br><span class="line">func_export_plist()&#123;</span><br><span class="line">echo &apos;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;!DOCTYPE plist PUBLIC &quot;-//Apple//DTD PLIST 1.0//EN&quot; &quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;&gt;</span><br><span class="line">&lt;plist version=&quot;1.0&quot;&gt;</span><br><span class="line">&lt;dict&gt;</span><br><span class="line">        &lt;key&gt;signingStyle&lt;/key&gt;</span><br><span class="line">        &lt;string&gt;manual&lt;/string&gt;</span><br><span class="line">        &lt;key&gt;method&lt;/key&gt;</span><br><span class="line">        &lt;string&gt;development&lt;/string&gt;</span><br><span class="line">        &lt;key&gt;signingCertificate&lt;/key&gt;</span><br><span class="line">        &lt;string&gt;iOS Developer&lt;/string&gt;</span><br><span class="line">        &lt;key&gt;provisioningProfiles&lt;/key&gt;</span><br><span class="line">        &lt;dict&gt;</span><br><span class="line">                &lt;key&gt;com.chamet.test&lt;/key&gt;</span><br><span class="line">                &lt;string&gt;chametbeta_dev&lt;/string&gt;</span><br><span class="line">        &lt;/dict&gt;</span><br><span class="line">        &lt;key&gt;iCloudContainerEnvironment&lt;/key&gt;</span><br><span class="line">        &lt;string&gt;Development&lt;/string&gt;</span><br><span class="line">        &lt;key&gt;stripSwiftSymbols&lt;/key&gt;</span><br><span class="line">        &lt;true/&gt;</span><br><span class="line">        &lt;key&gt;compileBitcode&lt;/key&gt;</span><br><span class="line">        &lt;true/&gt;</span><br><span class="line">&lt;/dict&gt;</span><br><span class="line">&lt;/plist&gt;&apos; &gt; $&#123;exportOptionsPlist&#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">func_build()&#123;</span><br><span class="line">    # 证书解锁</span><br><span class="line">    security unlock-keychain -p 123456 ~/Library/Keychains/login.keychain-db</span><br><span class="line">    # 清理</span><br><span class="line">    xcodebuild clean -workspace $project_workspace -scheme $project_scheme -configuration $Configuration</span><br><span class="line">    # 构建 archive 包</span><br><span class="line">    xcodebuild archive -workspace $project_workspace \</span><br><span class="line">    -scheme $project_scheme \</span><br><span class="line">    -configuration $Configuration \</span><br><span class="line">    PLATFORM_NAME=iphoneos \</span><br><span class="line">    -archivePath $archive_path \</span><br><span class="line">    BUILD_DIR=&quot;$build_dir&quot;  \</span><br><span class="line">    #PROVISIONING_PROFILE_SPECIFIER=&quot;$CPROVISIONING_PROFILE_NAME&quot; \</span><br><span class="line">    #PROVISIONING_PROFILE=&quot;$&#123;PROFILE_UUID&#125;&quot; \</span><br><span class="line">    PRODUCT_BUNDLE_IDENTIFIER=&quot;$&#123;BundleID&#125;&quot;</span><br><span class="line">    # 输出版本号</span><br><span class="line">    #/usr/libexec/PlistBuddy -c &quot;Print :ApplicationProperties:CFBundleVersion&quot; $&#123;archivePath&#125;/Info.plist</span><br><span class="line">    #/usr/libexec/PlistBuddy -c &quot;Print :ApplicationProperties:CFBundleShortVersionString&quot; $&#123;archivePath&#125;/Info.plist</span><br><span class="line">    #输出ipa包 (将生成的.archive文件打包成ipa文件)</span><br><span class="line">    xcodebuild -exportArchive -archivePath $archive_path -exportOptionsPlist $exportOptionsPlist -exportPath $export_path</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">cd $&#123;WORKSPACE&#125;</span><br><span class="line">mkdir -p build</span><br><span class="line"># 编译</span><br><span class="line">func_export_plist</span><br><span class="line">func_build</span><br></pre></td></tr></table></figure>
+<h3 id="关于exportOptionsPlist-plist文件"><a href="#关于exportOptionsPlist-plist文件" class="headerlink" title="关于exportOptionsPlist.plist文件"></a>关于exportOptionsPlist.plist文件</h3><p>目前来说可以不往项目里面拷贝, 因为已经卸载脚本里了, 要是需要拷贝的话就参考链接1 有说明</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2023/02/10/iOS组件化/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">iOS项目组件化相关</div>
+      <strong class="article-nav-caption">&gt;</strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="ds-share share" data-thread-key="自动打包-jenkins-xcodebuild" data-title="自动打包- jenkins + xcodebuild" data-url="http://yoursite.com/2023/08/02/自动打包-jenkins-xcodebuild/"  data-images="https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1606289047897&amp;di=8209eb27af71ac53b08f98b283de8eb2&amp;imgtype=0&amp;src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2F96983db98a01a3ba5dbccbff32d1131e62e3e4551bbde-vtmFkh_fw658" data-content="自动打包- jenkins + xcodebuild">
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+      	<li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+ 
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+      <div class="footer-left">
+        &copy; 2023 JakieSun
+      </div>
+        <div class="footer-right">
+          <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/smackgg/hexo-theme-smackdown" target="_blank">Smackdown</a>
+        </div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="/js/main.js"></script>
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js"></script>
+
+
+  </div>
+</body>
+</html>
