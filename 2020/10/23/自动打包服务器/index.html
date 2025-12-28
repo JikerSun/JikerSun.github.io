@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Jenkins + Fastlane 自动打包 | JakieSun_厕所蹲个驴</title>
+
+  <!-- keywords -->
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="自动打包Jenkins官网 fastlane fastlane 用于自动打包 jenkins 用于管理git上传代码 (内部跑fastlane的shell 脚本)  参考Jenkins + Fastlane + GitLab + 蒲公英 https:&#x2F;&#x2F;www.jianshu.com&#x2F;p&#x2F;be2d3b919633 https:&#x2F;&#x2F;www.cnblogs.com&#x2F;zhujin&#x2F;p&#x2F;9064820.h">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Jenkins + Fastlane 自动打包">
+<meta property="og:url" content="http://example.com/2020/10/23/%E8%87%AA%E5%8A%A8%E6%89%93%E5%8C%85%E6%9C%8D%E5%8A%A1%E5%99%A8/index.html">
+<meta property="og:site_name" content="JakieSun_厕所蹲个驴">
+<meta property="og:description" content="自动打包Jenkins官网 fastlane fastlane 用于自动打包 jenkins 用于管理git上传代码 (内部跑fastlane的shell 脚本)  参考Jenkins + Fastlane + GitLab + 蒲公英 https:&#x2F;&#x2F;www.jianshu.com&#x2F;p&#x2F;be2d3b919633 https:&#x2F;&#x2F;www.cnblogs.com&#x2F;zhujin&#x2F;p&#x2F;9064820.h">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/autoRelease1.png">
+<meta property="og:image" content="http://example.com/images/autoRelease2.png">
+<meta property="og:image" content="http://example.com/images/autoRelease3.png">
+<meta property="og:image" content="http://example.com/images/autoRelease4.png">
+<meta property="og:image" content="http://example.com/images/autoRelease5.png">
+<meta property="og:image" content="http://example.com/images/autoRelease6.png">
+<meta property="og:image" content="http://example.com/images/autoRelease7.png">
+<meta property="og:image" content="http://example.com/images/autoRelease8.png">
+<meta property="og:image" content="http://example.com/images/autoRelease9.png">
+<meta property="og:image" content="http://example.com/images/autoRelease10.png">
+<meta property="og:image" content="http://example.com/images/autoRelease11.png">
+<meta property="og:image" content="http://example.com/images/autoRelease12.png">
+<meta property="article:published_time" content="2020-10-23T03:42:33.000Z">
+<meta property="article:modified_time" content="2020-11-24T02:47:18.000Z">
+<meta property="article:author" content="JakieSun">
+<meta property="article:tag" content="自动化打包">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/autoRelease1.png">
+  
+    <link rel="alternative" href="/atom.xml" title="JakieSun_厕所蹲个驴" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509965970128&di=50ef90b75009ba6bfa72bc1551bbe214&imgtype=0&src=http%3A%2F%2Fimg.25pp.com%2Fuploadfile%2Fsoft%2Fimages%2F2015%2F0725%2F20150725103726182.jpg">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+
+  
+<script src="//cdn.bootcss.com/require.js/2.3.2/require.min.js"></script>
+
+  
+<script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+<body>
+  <div id="container">
+    <div id="particles-js"></div>
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="https://raw.githubusercontent.com/alohe/avatars/master/png/upstream_21.png" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/"></a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/AI%E6%96%B9%E5%90%91/" style="font-size: 10px;">AI方向</a> <a href="/tags/Android%E5%BC%80%E5%8F%91/" style="font-size: 12.5px;">Android开发</a> <a href="/tags/hexo%E6%8E%A2%E7%B4%A2/" style="font-size: 10px;">hexo探索</a> <a href="/tags/iOS/" style="font-size: 10px;">iOS</a> <a href="/tags/ios%E5%BC%80%E5%8F%91/" style="font-size: 20px;">ios开发</a> <a href="/tags/python%E5%BC%80%E5%8F%91/" style="font-size: 10px;">python开发</a> <a href="/tags/%E4%B8%BB%E6%92%AD%E7%9B%B8%E5%85%B3/" style="font-size: 10px;">主播相关</a> <a href="/tags/%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%AB%AF%E6%8E%A2%E7%B4%A2/" style="font-size: 10px;">命令行端探索</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E6%8E%A2%E7%B4%A2/" style="font-size: 17.5px;">技术探索</a> <a href="/tags/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%89%93%E5%8C%85/" style="font-size: 15px;">自动化打包</a> <a href="/tags/%E9%9F%B3%E4%B9%90%E7%AF%87/" style="font-size: 10px;">音乐篇</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/smackgg/hexo-theme-smackdown">smackdown</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/JikerSun">github</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://www.jianshu.com/u/1aae85c9610a">简书</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide"></h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="https://raw.githubusercontent.com/alohe/avatars/master/png/upstream_21.png" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author"></h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-自动打包服务器" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2020/10/23/%E8%87%AA%E5%8A%A8%E6%89%93%E5%8C%85%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="article-date">
+  	<time datetime="2020-10-23T03:42:33.000Z" itemprop="datePublished">2020-10-23</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Jenkins + Fastlane 自动打包
+      
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%89%93%E5%8C%85/" rel="tag">自动化打包</a></li></ul>
+	</div>
+
+        
+
+        
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="自动打包"><a href="#自动打包" class="headerlink" title="自动打包"></a>自动打包</h1><p><a target="_blank" rel="noopener" href="https://www.jenkins.io/">Jenkins官网</a></p>
+<p><a target="_blank" rel="noopener" href="https://fastlane.tools/">fastlane</a></p>
+<p>fastlane 用于自动打包</p>
+<p>jenkins 用于管理git上传代码 (内部跑fastlane的shell 脚本)</p>
+<hr>
+<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/0a113f754c09">Jenkins + Fastlane + GitLab + 蒲公英</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/be2d3b919633">https://www.jianshu.com/p/be2d3b919633</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/zhujin/p/9064820.html">https://www.cnblogs.com/zhujin/p/9064820.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/c4abfbf1c9d7">Jenkins + Fastlane + GitLab + fir</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/44bbe1a31b52">fastlane 实现自定义Action</a></p>
+<hr>
+<h3 id="Fastlane环境搭建"><a href="#Fastlane环境搭建" class="headerlink" title="Fastlane环境搭建"></a>Fastlane环境搭建</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">现在对Appfile，Fastfile，Gemfile，Deliverfile文件说明如下：</span><br><span class="line"></span><br><span class="line">Appfile: 存储有关开发者账号相关信息</span><br><span class="line">Fastfile: 核心文件，用于命令行调用和处理具体的流程，lane相对于一个action方法或函数 </span><br><span class="line">Gemfile 类似于cocopods 的Podfile文件</span><br><span class="line">.env 配置环境变量（在fastlane init进行初始化后并不会自动生成，如果需要可以自己创建</span><br><span class="line">Deliverfile: deliver工具的配置文件，上传截图苹果和后台一些app信息  (默认不生成，需要sudo gem install deliver安装)然后在fastlane 目录下执行deliver init 即可）</span><br><span class="line">要注意的点：</span><br><span class="line">build_app命令等同于gym(别名)</span><br><span class="line">deliver 命令相当于upload_to_app_store(别名)</span><br></pre></td></tr></table></figure>
+
+
+
+<p>1.检查Ruby版本，需要2.0及以上版本。在终端输入以下命令确认：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ruby -v</span><br></pre></td></tr></table></figure>
+
+<p>需要注意的是需要将gem的source改为<a target="_blank" rel="noopener" href="https://link.jianshu.com/?t=https://gems.ruby-china.org/">https://gems.ruby-china.org/</a>。<br>如何检查?在终端输入以下命令:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gem sources</span><br></pre></td></tr></table></figure>
+
+<p>结果应为：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">*** CURRENT SOURCES ***</span><br><span class="line"></span><br><span class="line">https:<span class="comment">//gems.ruby-china.org/</span></span><br></pre></td></tr></table></figure>
+
+<p>2.检查Xcode命令行工具是否安装。在终端输入以下命令：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xcode-<span class="keyword">select</span> --install</span><br></pre></td></tr></table></figure>
+
+<p>如果没有安装会进行安装。如果已经安装了则会提示：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xcode-select: error: <span class="built_in">command</span> line tools are already installed, use <span class="string">&quot;Software Update&quot;</span> to install updates</span><br></pre></td></tr></table></figure>
+
+<p>3.安装Fastlane</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo gem install fastlane --verbose</span><br></pre></td></tr></table></figure>
+
+<p>如果出现以下错误：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ERROR:  While executing gem ... (<span class="title class_">Errno</span>::<span class="variable constant_">EPERM</span>)</span><br><span class="line">    Operation not permitted - /usr/bin/rougify</span><br></pre></td></tr></table></figure>
+
+<p>则输入以下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> gem install -n /usr/local/bin fastlane</span><br></pre></td></tr></table></figure>
+
+<p>4.检查Fastlane是否正确安装。输入以下命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fastlane --version</span><br></pre></td></tr></table></figure>
+
+<p>可以看到Fastlane版本信息，我的是2.46.1。</p>
+<p>5.进入项目根目录创建faslane</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fastlane init</span><br></pre></td></tr></table></figure>
+
+<p>中间会让你输入苹果开发者账号的账号和密码，之后会在你项目工程的目录下生成一个fastlane文件夹，里面有Fastlane的配置文件，一个是Appfile文件，一个是Fastfile文件(如果要上传AppStore的话还有Deliverfile文件)。Appfile保存苹果开发者的相关信息、项目的相关信息等。Fastfile是运行脚本。</p>
+<p>信息选择如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[15:08:29]: What would you like to use fastlane for?</span><br><span class="line">1. 📸  Automate screenshots</span><br><span class="line">2. 👩‍✈️  Automate beta distribution to TestFlight</span><br><span class="line">3. 🚀  Automate App Store distribution</span><br><span class="line">4. 🛠  Manual setup - manually setup your project to automate your tasks</span><br><span class="line">?  </span><br><span class="line"></span><br><span class="line">翻译：</span><br><span class="line">1. 自动截屏。这个功能能帮我们自动截取APP中的截图，并添加手机边框（如果需要的话），我们这里不选择这个选项，因为我们的项目已经有图片了，不需要这里截屏。</span><br><span class="line">2. 自动发布beta版本用于TestFlight，如果大家有对TestFlight不了解的，可以参考王巍写的这篇文章</span><br><span class="line">3. 自动的App Store发布包。我们的目标是要提交审核到APP Store，按道理应该选这个，但这里我们先不选，因为选择了以后会需要输入用户名密码，以及下载meta信息，需要花费一定时间，这些数据我们可以后期进行配置。</span><br><span class="line">4. 手动设置。</span><br></pre></td></tr></table></figure>
+
+<p>6.如果是蒲公英的话</p>
+<p>打开终端，进入你的项目工程的根目录，输入以下命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fastlane add_plugin pgyer</span><br></pre></td></tr></table></figure>
+
+<p>出现</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Plugin <span class="string">&#x27;fastlane-plugin-pgyer&#x27;</span> was added to <span class="string">&#x27;./fastlane/Pluginfile&#x27;</span></span><br><span class="line">It looks like fastlane plugins are <span class="keyword">not</span> yet <span class="keyword">set</span> up <span class="keyword">for</span> <span class="keyword">this</span> project.</span><br><span class="line">fastlane will create a <span class="keyword">new</span> Gemfile at path <span class="string">&#x27;Gemfile&#x27;</span></span><br><span class="line">This change <span class="keyword">is</span> necessary <span class="keyword">for</span> fastlane plugins to work</span><br><span class="line">Should fastlane modify the Gemfile at path <span class="string">&#x27;Gemfile&#x27;</span> <span class="keyword">for</span> you?</span><br><span class="line">(y/n)</span><br></pre></td></tr></table></figure>
+
+<p>输入y按回车，出现</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Installing plugin dependencies...</span><br><span class="line">Successfully installed plugins</span><br></pre></td></tr></table></figure>
+
+<p>便是安装成功了。</p>
+<p>如果是fir的话</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fastlane add_plugin fir</span><br></pre></td></tr></table></figure>
+
+<p>如果出现报错如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Could not find action, lane or variable &#x27;firim&#x27;. Check out the documentation for more details: https://docs.fastlane.tools/actions</span><br></pre></td></tr></table></figure>
+<p>使用命令行:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fastlane add_plugin firim</span><br></pre></td></tr></table></figure>
+
+
+
+<p>Fastfile文件内容(Fastfile内容不要用textEit去编辑, 用终端或者textsublime)<br>注意: 以下脚本想要运行需要xocde的info”Bundle version” 手动改为1.0, 而不是$(PRODUCT_BUNDLE_IDENTIFIER)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"># This file contains the fastlane.tools configuration</span><br><span class="line"># You can find the documentation at https://docs.fastlane.tools</span><br><span class="line">#</span><br><span class="line"># For a list of all available actions, check out</span><br><span class="line">#</span><br><span class="line">#     https://docs.fastlane.tools/actions</span><br><span class="line">#</span><br><span class="line"># For a list of all available plugins, check out</span><br><span class="line">#</span><br><span class="line">#     https://docs.fastlane.tools/plugins/available-plugins</span><br><span class="line">#</span><br><span class="line"></span><br><span class="line"># Uncomment the line if you want fastlane to automatically update itself</span><br><span class="line"># update_fastlane</span><br><span class="line"></span><br><span class="line">default_platform(:ios)</span><br><span class="line"># 自动更定bulid号 但是因为Jenkins也可以设置所以可用可不用</span><br><span class="line">def updateProjectBuildNumber</span><br><span class="line">    currentTime = Time.new.strftime(&quot;%Y%m%d&quot;)</span><br><span class="line">    build = get_build_number()</span><br><span class="line">    if build.include?&quot;#&#123;currentTime&#125;.&quot;</span><br><span class="line">    # =&gt; 为当天版本 计算迭代版本号</span><br><span class="line">    lastStr = build[build.length-2..build.length-1]</span><br><span class="line">    lastNum = lastStr.to_i</span><br><span class="line">    lastNum = lastNum + 1</span><br><span class="line">    lastStr = lastNum.to_s</span><br><span class="line">    if lastNum &lt; 10</span><br><span class="line">    lastStr = lastStr.insert(0,&quot;0&quot;)</span><br><span class="line">    end</span><br><span class="line">    build = &quot;#&#123;currentTime&#125;.#&#123;lastStr&#125;&quot;</span><br><span class="line">    else</span><br><span class="line">    # =&gt; 非当天版本 build 号重置</span><br><span class="line">    build = &quot;#&#123;currentTime&#125;.01&quot;</span><br><span class="line">    end</span><br><span class="line">    puts(&quot;*************| 更新build #&#123;build&#125; |*************&quot;)</span><br><span class="line">    # =&gt; 更改项目 build 号</span><br><span class="line">    increment_build_number(</span><br><span class="line">    build_number: &quot;#&#123;build&#125;&quot;</span><br><span class="line">    )</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">#指定项目的scheme名称</span><br><span class="line">scheme=“BirdieCameraDemo”</span><br><span class="line"></span><br><span class="line">platform :ios do</span><br><span class="line">  lane :development_build do|options|</span><br><span class="line">  branch = options[:branch]</span><br><span class="line"></span><br><span class="line">  puts “开始打development ipa”</span><br><span class="line"></span><br><span class="line">  updateProjectBuildNumber #更改项目build号</span><br><span class="line"></span><br><span class="line">  # 开始打包</span><br><span class="line">  #gym 括号里面的就是Fastlane的动作</span><br><span class="line">  gym(</span><br><span class="line">  #输出的ipa名称</span><br><span class="line">  output_name:”#&#123;scheme&#125;_#&#123;get_build_number()&#125;”,</span><br><span class="line">  # 是否清空以前的编译信息 true：是</span><br><span class="line">  clean:true,</span><br><span class="line">  # 指定打包方式，Release 或者 Debug</span><br><span class="line">  configuration:&quot;Release&quot;,</span><br><span class="line">  # 指定打包所使用的输出方式，目前支持app-store, package, ad-hoc, enterprise, development</span><br><span class="line">  export_method:&quot;development&quot;,</span><br><span class="line">  # 指定输出文件夹</span><br><span class="line">  output_directory:&quot;./fastlane/build&quot;,</span><br><span class="line">  )</span><br><span class="line"></span><br><span class="line">  puts &quot;开始上传fir&quot;</span><br><span class="line">  # 开始上传fir</span><br><span class="line">  firim(firim_api_token: &quot;b86d85e22b89841941eda59b0385fc89&quot;) # token 在fir 上查看。</span><br><span class="line">  end</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="Jenkins环境搭建"><a href="#Jenkins环境搭建" class="headerlink" title="Jenkins环境搭建"></a>Jenkins环境搭建</h3><h6 id="本地jenkins环境搭建"><a href="#本地jenkins环境搭建" class="headerlink" title="本地jenkins环境搭建"></a>本地jenkins环境搭建</h6><p>Jenkins 是一个开源项目，提供了一种易于使用的持续集成系统，使开发者从繁杂的集成中解脱出来，专注于更为重要的业务逻辑实现上。同时 Jenkins 能实施监控集成中存在的错误，提供详细的日志文件和提醒功能，还能用图表的形式形象地展示项目构建的趋势和稳定性。</p>
+<p>1.点击 <a target="_blank" rel="noopener" href="https://link.jianshu.com/?t=http://mirrors.jenkins.io/war-stable/latest/jenkins.war">http://mirrors.jenkins.io/war-stable/latest/jenkins.war</a> 下载最新的Jenkins.war</p>
+<p>2.打开终端，进入war包所在目录，执行以下命令：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar jenkins<span class="selector-class">.war</span></span><br></pre></td></tr></table></figure>
+
+<p>注意：Jenkins依赖于Java运行环境，因此需要首先安装JDK,下载地址：<a target="_blank" rel="noopener" href="https://link.jianshu.com/?t=http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html">http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html</a></p>
+<p>3.执行完成之后打开浏览器输入<a target="_blank" rel="noopener" href="https://link.jianshu.com/?t=http://localhost:8080/">http://localhost:8080/</a></p>
+<p>4.弹出Jenkins安装界面，会让你输入安全密码,输入完成之后选择默认安装。</p>
+<p>5.新建管理员账号密码</p>
+<p>对以上过程有疑问的话可以参考<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/41ecb06ae95f">手把手教你利用Jenkins持续集成iOS项目</a></p>
+<h4 id="安装插件"><a href="#安装插件" class="headerlink" title="安装插件"></a>安装插件</h4><p>还是登录<a target="_blank" rel="noopener" href="https://link.jianshu.com/?t=http://localhost:8080/">http://localhost:8080/</a> ，选择系统管理 - 管理插件。</p>
+<p>安装GitLab插件<br>在可选插件中选择GitLab Plugin和Gitlab Hook Plugin进行安装。</p>
+<p>安装Xcode插件<br>在可选插件中选择Xcode integration进行安装。</p>
+<p>安装完成之后，我们就可以配置构建项目了。</p>
+<h4 id="构建任务"><a href="#构建任务" class="headerlink" title="构建任务"></a>构建任务</h4><p>1.点击新建，输入名称，构建一个自由风格的软件项目</p>
+<p><img src="/images/autoRelease1.png" alt="&quot;image&quot;"></p>
+<p>2.配置Git</p>
+<p><img src="/images/autoRelease2.png" alt="&quot;image&quot;"></p>
+<p>添加Git仓库地址，可以是HTTP也可以是SSH。点击Add</p>
+<p>如果是HTTP</p>
+<p><img src="/images/autoRelease3.png" alt="&quot;image&quot;"></p>
+<p>如果是SSH</p>
+<p><img src="/images/autoRelease4.png" alt="&quot;image&quot;"></p>
+<p>3.配置脚本</p>
+<p><img src="/images/autoRelease5.png" alt="&quot;image&quot;"></p>
+<p>所以在执行fastlane development_build之前需要进入TestCI(项目&#x2F;iOS)目录，即fastlane文件夹所在目录。</p>
+<p>4.添加完成之后点击立即构建</p>
+<p><img src="/images/autoRelease6.png" alt="&quot;image&quot;"></p>
+<p>5.执行成功显示如下</p>
+<p><img src="/images/autoRelease7.png" alt="&quot;image&quot;"></p>
+<hr>
+<p>自己项目里面的jenkins截图</p>
+<p><img src="/images/autoRelease8.png" alt="&quot;image&quot;"></p>
+<p><img src="/images/autoRelease9.png" alt="&quot;image&quot;"></p>
+<p><img src="/images/autoRelease10.png" alt="&quot;image&quot;"></p>
+<p><img src="/images/autoRelease11.png" alt="&quot;image&quot;"></p>
+<p><img src="/images/autoRelease12.png" alt="&quot;image&quot;"></p>
+<h5 id="jenkins-内部shell-自动打包脚本"><a href="#jenkins-内部shell-自动打包脚本" class="headerlink" title="jenkins 内部shell 自动打包脚本"></a>jenkins 内部shell 自动打包脚本</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"># git相关操作重置 / 清理</span><br><span class="line">git reset --hard</span><br><span class="line">git clean -f</span><br><span class="line"></span><br><span class="line"># 因为是rn项目 删除reactnative 相关文件夹 </span><br><span class="line">rm -rf node_modules &amp; rm -rf yarn.lock</span><br><span class="line">#重新更新reactnavite 内容</span><br><span class="line">yarn install  #cd--verbose</span><br><span class="line">cd ios #进入ios项目文件夹</span><br><span class="line"># 删除pod相关文件夹</span><br><span class="line">rm -rf pods &amp; rm -rf Podfile.lock</span><br><span class="line">#pod 项目</span><br><span class="line">pod install --verbose --no-repo-update</span><br><span class="line"># bundle用于运行fastlane中的Gemfile文件内容</span><br><span class="line">#fastlane 用于跑fastlane/Fastfile中的代码(同上已写) </span><br><span class="line">#development_build 方法是Fastfile中放出来的shell 方法名</span><br><span class="line">bundle install &amp;&amp; bundle exec fastlane development_build</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h4 id="podfile有一句代码需要备注"><a href="#podfile有一句代码需要备注" class="headerlink" title="podfile有一句代码需要备注"></a>podfile有一句代码需要备注</h4><p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/b8b889610b7e">Podfile文件用法详解</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#便利修改pods文件中各个库的setting设置</span><br><span class="line">#post_install 安装前的设置操作</span><br><span class="line"> post_install do |installer|</span><br><span class="line">    installer.pods_project.targets.each do |target|</span><br><span class="line">      target.build_configurations.each do |config|</span><br><span class="line">          config.build_settings[&#x27;CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER&#x27;] = &#x27;NO&#x27;</span><br><span class="line">        end</span><br><span class="line">      end</span><br><span class="line">  end</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<hr>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/11/25/%E4%B8%BB%E6%92%AD%E7%9B%B8%E5%85%B3/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">&lt;</strong>
+      <div class="article-nav-title">
+        
+          关于主播相关的记录与备忘
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/02/26/%E6%80%8E%E4%B9%88%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0:%E5%9B%BE%E7%89%87%E8%A7%86%E9%A2%91%E6%B7%BB%E5%8A%A0/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">怎么发布博客文章/图片视频添加</div>
+      <strong class="article-nav-caption">&gt;</strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="ds-share share" data-thread-key="自动打包服务器" data-title="Jenkins + Fastlane 自动打包" data-url="http://example.com/2020/10/23/%E8%87%AA%E5%8A%A8%E6%89%93%E5%8C%85%E6%9C%8D%E5%8A%A1%E5%99%A8/"  data-images="https://raw.githubusercontent.com/alohe/avatars/master/png/upstream_21.png" data-content="Jenkins + Fastlane 自动打包">
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+      	<li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+ 
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+      <div class="footer-left">
+        &copy; 2025 JakieSun
+      </div>
+        <div class="footer-right">
+          <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/smackgg/hexo-theme-smackdown" target="_blank">Smackdown</a>
+        </div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+
+<script src="/js/main.js"></script>
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js"></script>
+
+
+  </div>
+</body>
+</html>

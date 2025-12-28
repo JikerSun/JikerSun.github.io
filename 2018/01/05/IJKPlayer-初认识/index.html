@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>IJKPlayer 初认识 | JakieSun_厕所蹲个驴</title>
+
+  <!-- keywords -->
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="IJKPlayer 初认识IJKPlayer  github技术支持 https:&#x2F;&#x2F;github.com&#x2F;Bilibili&#x2F;ijkplayer&#x2F;issues&#x2F;1480 &#x2F;&#x2F;github https:&#x2F;&#x2F;github.com&#x2F;Bilibili&#x2F;ijkplayer 导入介绍http:&#x2F;&#x2F;www.jianshu.com&#x2F;p&#x2F;1f06b27b3ac0 chushoutv专用格式 rt">
+<meta property="og:type" content="article">
+<meta property="og:title" content="IJKPlayer 初认识">
+<meta property="og:url" content="http://example.com/2018/01/05/IJKPlayer-%E5%88%9D%E8%AE%A4%E8%AF%86/index.html">
+<meta property="og:site_name" content="JakieSun_厕所蹲个驴">
+<meta property="og:description" content="IJKPlayer 初认识IJKPlayer  github技术支持 https:&#x2F;&#x2F;github.com&#x2F;Bilibili&#x2F;ijkplayer&#x2F;issues&#x2F;1480 &#x2F;&#x2F;github https:&#x2F;&#x2F;github.com&#x2F;Bilibili&#x2F;ijkplayer 导入介绍http:&#x2F;&#x2F;www.jianshu.com&#x2F;p&#x2F;1f06b27b3ac0 chushoutv专用格式 rt">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/IJKPlayer1.tiff">
+<meta property="og:image" content="http://example.com/images/IJKPlayer2.tiff">
+<meta property="og:image" content="http://example.com/images/IJKPlayer3.tiff">
+<meta property="article:published_time" content="2018-01-05T08:04:25.000Z">
+<meta property="article:modified_time" content="2018-01-08T06:55:38.000Z">
+<meta property="article:author" content="JakieSun">
+<meta property="article:tag" content="ios开发">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/IJKPlayer1.tiff">
+  
+    <link rel="alternative" href="/atom.xml" title="JakieSun_厕所蹲个驴" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509965970128&di=50ef90b75009ba6bfa72bc1551bbe214&imgtype=0&src=http%3A%2F%2Fimg.25pp.com%2Fuploadfile%2Fsoft%2Fimages%2F2015%2F0725%2F20150725103726182.jpg">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+
+  
+<script src="//cdn.bootcss.com/require.js/2.3.2/require.min.js"></script>
+
+  
+<script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+<body>
+  <div id="container">
+    <div id="particles-js"></div>
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="https://raw.githubusercontent.com/alohe/avatars/master/png/upstream_21.png" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/"></a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/AI%E6%96%B9%E5%90%91/" style="font-size: 10px;">AI方向</a> <a href="/tags/Android%E5%BC%80%E5%8F%91/" style="font-size: 12.5px;">Android开发</a> <a href="/tags/hexo%E6%8E%A2%E7%B4%A2/" style="font-size: 10px;">hexo探索</a> <a href="/tags/iOS/" style="font-size: 10px;">iOS</a> <a href="/tags/ios%E5%BC%80%E5%8F%91/" style="font-size: 20px;">ios开发</a> <a href="/tags/python%E5%BC%80%E5%8F%91/" style="font-size: 10px;">python开发</a> <a href="/tags/%E4%B8%BB%E6%92%AD%E7%9B%B8%E5%85%B3/" style="font-size: 10px;">主播相关</a> <a href="/tags/%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%AB%AF%E6%8E%A2%E7%B4%A2/" style="font-size: 10px;">命令行端探索</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E6%8E%A2%E7%B4%A2/" style="font-size: 17.5px;">技术探索</a> <a href="/tags/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%89%93%E5%8C%85/" style="font-size: 15px;">自动化打包</a> <a href="/tags/%E9%9F%B3%E4%B9%90%E7%AF%87/" style="font-size: 10px;">音乐篇</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/smackgg/hexo-theme-smackdown">smackdown</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/JikerSun">github</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://www.jianshu.com/u/1aae85c9610a">简书</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide"></h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="https://raw.githubusercontent.com/alohe/avatars/master/png/upstream_21.png" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author"></h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-IJKPlayer-初认识" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/01/05/IJKPlayer-%E5%88%9D%E8%AE%A4%E8%AF%86/" class="article-date">
+  	<time datetime="2018-01-05T08:04:25.000Z" itemprop="datePublished">2018-01-05</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      IJKPlayer 初认识
+      
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ios%E5%BC%80%E5%8F%91/" rel="tag">ios开发</a></li></ul>
+	</div>
+
+        
+
+        
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="IJKPlayer-初认识"><a href="#IJKPlayer-初认识" class="headerlink" title="IJKPlayer 初认识"></a>IJKPlayer 初认识</h1><h2 id="IJKPlayer-github"><a href="#IJKPlayer-github" class="headerlink" title="IJKPlayer  github"></a>IJKPlayer  github</h2><p>技术支持</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/Bilibili/ijkplayer/issues/1480">https://github.com/Bilibili/ijkplayer/issues/1480</a></p>
+<p>&#x2F;&#x2F;github</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/Bilibili/ijkplayer">https://github.com/Bilibili/ijkplayer</a></p>
+<p>导入介绍<br><a target="_blank" rel="noopener" href="http://www.jianshu.com/p/1f06b27b3ac0">http://www.jianshu.com/p/1f06b27b3ac0</a></p>
+<p>chushoutv专用格式</p>
+<p>rtmp &#x2F; stream h264  aac</p>
+<p><img src="/images/IJKPlayer1.tiff" alt="&quot;image&quot;"></p>
+<p><img src="/images/IJKPlayer2.tiff" alt="&quot;image&quot;"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br></pre></td><td class="code"><pre><span class="line">//脚本自定义编辑</span><br><span class="line"></span><br><span class="line">#! /usr/bin/env bash</span><br><span class="line">#</span><br><span class="line"># Copyright (C) 2013-2014 Zhang Rui &lt;bbcallen@gmail.com&gt;</span><br><span class="line">#</span><br><span class="line"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span><br><span class="line"># you may not use this file except in compliance with the License.</span><br><span class="line"># You may obtain a copy of the License at</span><br><span class="line">#</span><br><span class="line">#      http://www.apache.org/licenses/LICENSE-2.0</span><br><span class="line">#</span><br><span class="line"># Unless required by applicable law or agreed to in writing, software</span><br><span class="line"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span><br><span class="line"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span><br><span class="line"># See the License for the specific language governing permissions and</span><br><span class="line"># limitations under the License.</span><br><span class="line">#</span><br><span class="line"></span><br><span class="line">#----------</span><br><span class="line"># modify for your build tool</span><br><span class="line"></span><br><span class="line">FF_ALL_ARCHS_IOS6_SDK=&quot;armv7 armv7s i386&quot;</span><br><span class="line">FF_ALL_ARCHS_IOS7_SDK=&quot;armv7 armv7s arm64 i386 x86_64&quot;</span><br><span class="line">FF_ALL_ARCHS_IOS8_SDK=&quot;armv7 arm64 i386 x86_64&quot;</span><br><span class="line"></span><br><span class="line">FF_ALL_ARCHS=$FF_ALL_ARCHS_IOS8_SDK</span><br><span class="line"></span><br><span class="line">#----------</span><br><span class="line">UNI_BUILD_ROOT=`pwd`</span><br><span class="line">UNI_TMP=&quot;$UNI_BUILD_ROOT/tmp&quot;</span><br><span class="line">UNI_TMP_LLVM_VER_FILE=&quot;$UNI_TMP/llvm.ver.txt&quot;</span><br><span class="line">FF_TARGET=$1</span><br><span class="line">FF_TARGET_EXTRA=$2</span><br><span class="line">set -e</span><br><span class="line"></span><br><span class="line">#----------</span><br><span class="line">echo_archs() &#123;</span><br><span class="line">echo &quot;====================&quot;</span><br><span class="line">echo &quot;[*] check xcode version&quot;</span><br><span class="line">echo &quot;====================&quot;</span><br><span class="line">echo &quot;FF_ALL_ARCHS = $FF_ALL_ARCHS&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">FF_LIBS=&quot;libavcodec libavfilter libavformat libavutil libswscale libswresample&quot;</span><br><span class="line">do_lipo_ffmpeg () &#123;</span><br><span class="line">LIB_FILE=$1</span><br><span class="line">LIPO_FLAGS=</span><br><span class="line">for ARCH in $FF_ALL_ARCHS</span><br><span class="line">do</span><br><span class="line">ARCH_LIB_FILE=&quot;$UNI_BUILD_ROOT/build/ffmpeg-$ARCH/output/lib/$LIB_FILE&quot;</span><br><span class="line">if [ -f &quot;$ARCH_LIB_FILE&quot; ]; then</span><br><span class="line">LIPO_FLAGS=&quot;$LIPO_FLAGS $ARCH_LIB_FILE&quot;</span><br><span class="line">else</span><br><span class="line">echo &quot;skip $LIB_FILE of $ARCH&quot;;</span><br><span class="line">fi</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">xcrun lipo -create $LIPO_FLAGS -output $UNI_BUILD_ROOT/build/universal/lib/$LIB_FILE</span><br><span class="line">xcrun lipo -info $UNI_BUILD_ROOT/build/universal/lib/$LIB_FILE</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">SSL_LIBS=&quot;libcrypto libssl&quot;</span><br><span class="line">do_lipo_ssl () &#123;</span><br><span class="line">LIB_FILE=$1</span><br><span class="line">LIPO_FLAGS=</span><br><span class="line">for ARCH in $FF_ALL_ARCHS</span><br><span class="line">do</span><br><span class="line">ARCH_LIB_FILE=&quot;$UNI_BUILD_ROOT/build/openssl-$ARCH/output/lib/$LIB_FILE&quot;</span><br><span class="line">if [ -f &quot;$ARCH_LIB_FILE&quot; ]; then</span><br><span class="line">LIPO_FLAGS=&quot;$LIPO_FLAGS $ARCH_LIB_FILE&quot;</span><br><span class="line">else</span><br><span class="line">echo &quot;skip $LIB_FILE of $ARCH&quot;;</span><br><span class="line">fi</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">if [ &quot;$LIPO_FLAGS&quot; != &quot;&quot; ]; then</span><br><span class="line">xcrun lipo -create $LIPO_FLAGS -output $UNI_BUILD_ROOT/build/universal/lib/$LIB_FILE</span><br><span class="line">xcrun lipo -info $UNI_BUILD_ROOT/build/universal/lib/$LIB_FILE</span><br><span class="line">fi</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">do_lipo_all () &#123;</span><br><span class="line">mkdir -p $UNI_BUILD_ROOT/build/universal/lib</span><br><span class="line">echo &quot;lipo archs: $FF_ALL_ARCHS&quot;</span><br><span class="line">for FF_LIB in $FF_LIBS</span><br><span class="line">do</span><br><span class="line">do_lipo_ffmpeg &quot;$FF_LIB.a&quot;;</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">ANY_ARCH=</span><br><span class="line">for ARCH in $FF_ALL_ARCHS</span><br><span class="line">do</span><br><span class="line">ARCH_INC_DIR=&quot;$UNI_BUILD_ROOT/build/ffmpeg-$ARCH/output/include&quot;</span><br><span class="line">if [ -d &quot;$ARCH_INC_DIR&quot; ]; then</span><br><span class="line">if [ -z &quot;$ANY_ARCH&quot; ]; then</span><br><span class="line">ANY_ARCH=$ARCH</span><br><span class="line">cp -R &quot;$ARCH_INC_DIR&quot; &quot;$UNI_BUILD_ROOT/build/universal/&quot;</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">UNI_INC_DIR=&quot;$UNI_BUILD_ROOT/build/universal/include&quot;</span><br><span class="line"></span><br><span class="line">mkdir -p &quot;$UNI_INC_DIR/libavutil/$ARCH&quot;</span><br><span class="line">cp -f &quot;$ARCH_INC_DIR/libavutil/avconfig.h&quot;  &quot;$UNI_INC_DIR/libavutil/$ARCH/avconfig.h&quot;</span><br><span class="line">cp -f tools/avconfig.h                      &quot;$UNI_INC_DIR/libavutil/avconfig.h&quot;</span><br><span class="line">cp -f &quot;$ARCH_INC_DIR/libavutil/ffversion.h&quot; &quot;$UNI_INC_DIR/libavutil/$ARCH/ffversion.h&quot;</span><br><span class="line">cp -f tools/ffversion.h                     &quot;$UNI_INC_DIR/libavutil/ffversion.h&quot;</span><br><span class="line">mkdir -p &quot;$UNI_INC_DIR/libffmpeg/$ARCH&quot;</span><br><span class="line">cp -f &quot;$ARCH_INC_DIR/libffmpeg/config.h&quot;    &quot;$UNI_INC_DIR/libffmpeg/$ARCH/config.h&quot;</span><br><span class="line">cp -f tools/config.h                        &quot;$UNI_INC_DIR/libffmpeg/config.h&quot;</span><br><span class="line">fi</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">for SSL_LIB in $SSL_LIBS</span><br><span class="line">do</span><br><span class="line">do_lipo_ssl &quot;$SSL_LIB.a&quot;;</span><br><span class="line">done</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#----------</span><br><span class="line">if [ &quot;$FF_TARGET&quot; = &quot;armv7&quot; -o &quot;$FF_TARGET&quot; = &quot;armv7s&quot; -o &quot;$FF_TARGET&quot; = &quot;arm64&quot; ]; then</span><br><span class="line">echo_archs</span><br><span class="line">sh tools/do-compile-ffmpeg.sh $FF_TARGET $FF_TARGET_EXTRA</span><br><span class="line">do_lipo_all</span><br><span class="line">elif [ &quot;$FF_TARGET&quot; = &quot;i386&quot; -o &quot;$FF_TARGET&quot; = &quot;x86_64&quot; ]; then</span><br><span class="line">echo_archs</span><br><span class="line">sh tools/do-compile-ffmpeg.sh $FF_TARGET $FF_TARGET_EXTRA</span><br><span class="line">do_lipo_all</span><br><span class="line">elif [ &quot;$FF_TARGET&quot; = &quot;lipo&quot; ]; then</span><br><span class="line">echo_archs</span><br><span class="line">do_lipo_all</span><br><span class="line">elif [ &quot;$FF_TARGET&quot; = &quot;all&quot; ]; then</span><br><span class="line">echo_archs</span><br><span class="line">for ARCH in $FF_ALL_ARCHS</span><br><span class="line">do</span><br><span class="line">sh tools/do-compile-ffmpeg.sh $ARCH $FF_TARGET_EXTRA</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">do_lipo_all</span><br><span class="line">elif [ &quot;$FF_TARGET&quot; = &quot;check&quot; ]; then</span><br><span class="line">echo_archs</span><br><span class="line">elif [ &quot;$FF_TARGET&quot; = &quot;clean&quot; ]; then</span><br><span class="line">echo_archs</span><br><span class="line">for ARCH in $FF_ALL_ARCHS</span><br><span class="line">do</span><br><span class="line">cd ffmpeg-$ARCH &amp;&amp; git clean -xdf &amp;&amp; cd -</span><br><span class="line">done</span><br><span class="line">rm -rf build/ffmpeg-*</span><br><span class="line">rm -rf build/openssl-*</span><br><span class="line">rm -rf build/universal/include</span><br><span class="line">rm -rf build/universal/lib</span><br><span class="line">else</span><br><span class="line">echo &quot;Usage:&quot;</span><br><span class="line">echo &quot;  compile-ffmpeg.sh armv7|arm64|i386|x86_64&quot;</span><br><span class="line">echo &quot;  compile-ffmpeg.sh armv7s (obselete)&quot;</span><br><span class="line">echo &quot;  compile-ffmpeg.sh lipo&quot;</span><br><span class="line">echo &quot;  compile-ffmpeg.sh all&quot;</span><br><span class="line">echo &quot;  compile-ffmpeg.sh clean&quot;</span><br><span class="line">echo &quot;  compile-ffmpeg.sh check&quot;</span><br><span class="line">exit 1</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+<p><img src="/images/IJKPlayer3.tiff" alt="&quot;image&quot;"></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/01/08/%E4%B8%80%E4%BD%8D%E6%AF%94%E8%BE%83%E8%B5%84%E6%B7%B1%E7%9A%84%E5%AE%89%E5%8D%93%E5%BC%80%E5%8F%91%E5%B7%A5%E7%A8%8B%E5%B8%88%E7%9A%84%E6%9E%B6%E6%9E%84%E6%9E%84%E9%80%A0-%E9%A1%B9%E7%9B%AE%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%93/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">&lt;</strong>
+      <div class="article-nav-title">
+        
+          一位比较资深的安卓开发工程师的架构构造/项目经验总结
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/01/05/metal%E5%88%9D%E8%AE%A4%E8%AF%86/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">metal初认识</div>
+      <strong class="article-nav-caption">&gt;</strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="ds-share share" data-thread-key="IJKPlayer-初认识" data-title="IJKPlayer 初认识" data-url="http://example.com/2018/01/05/IJKPlayer-%E5%88%9D%E8%AE%A4%E8%AF%86/"  data-images="https://raw.githubusercontent.com/alohe/avatars/master/png/upstream_21.png" data-content="IJKPlayer 初认识">
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+      	<li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+ 
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+      <div class="footer-left">
+        &copy; 2025 JakieSun
+      </div>
+        <div class="footer-right">
+          <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/smackgg/hexo-theme-smackdown" target="_blank">Smackdown</a>
+        </div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+
+<script src="/js/main.js"></script>
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js"></script>
+
+
+  </div>
+</body>
+</html>

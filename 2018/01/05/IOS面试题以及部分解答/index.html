@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>iOS面试题以及部分解答 | JakieSun_厕所蹲个驴</title>
+
+  <!-- keywords -->
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="runtime篇章  class_copyIvarList &amp; class_copyPropertyList区别1231.class_copyIvarList:能够获取.h和.m中的所有属性以及大括号中声明的变量,获取的属性名称有下划线(大括号中的除外)。2.class_copyPropertyList:只能获取由property声明的属性,包括.m中的,获取的属性名称不带下划线。3.OC">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS面试题以及部分解答">
+<meta property="og:url" content="http://example.com/2018/01/05/IOS%E9%9D%A2%E8%AF%95%E9%A2%98%E4%BB%A5%E5%8F%8A%E9%83%A8%E5%88%86%E8%A7%A3%E7%AD%94/index.html">
+<meta property="og:site_name" content="JakieSun_厕所蹲个驴">
+<meta property="og:description" content="runtime篇章  class_copyIvarList &amp; class_copyPropertyList区别1231.class_copyIvarList:能够获取.h和.m中的所有属性以及大括号中声明的变量,获取的属性名称有下划线(大括号中的除外)。2.class_copyPropertyList:只能获取由property声明的属性,包括.m中的,获取的属性名称不带下划线。3.OC">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-01-05T07:13:41.000Z">
+<meta property="article:modified_time" content="2020-03-09T16:42:04.000Z">
+<meta property="article:author" content="JakieSun">
+<meta property="article:tag" content="iOS">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternative" href="/atom.xml" title="JakieSun_厕所蹲个驴" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509965970128&di=50ef90b75009ba6bfa72bc1551bbe214&imgtype=0&src=http%3A%2F%2Fimg.25pp.com%2Fuploadfile%2Fsoft%2Fimages%2F2015%2F0725%2F20150725103726182.jpg">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+
+  
+<script src="//cdn.bootcss.com/require.js/2.3.2/require.min.js"></script>
+
+  
+<script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+<body>
+  <div id="container">
+    <div id="particles-js"></div>
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="https://raw.githubusercontent.com/alohe/avatars/master/png/upstream_21.png" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/"></a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/AI%E6%96%B9%E5%90%91/" style="font-size: 10px;">AI方向</a> <a href="/tags/Android%E5%BC%80%E5%8F%91/" style="font-size: 12.5px;">Android开发</a> <a href="/tags/hexo%E6%8E%A2%E7%B4%A2/" style="font-size: 10px;">hexo探索</a> <a href="/tags/iOS/" style="font-size: 10px;">iOS</a> <a href="/tags/ios%E5%BC%80%E5%8F%91/" style="font-size: 20px;">ios开发</a> <a href="/tags/python%E5%BC%80%E5%8F%91/" style="font-size: 10px;">python开发</a> <a href="/tags/%E4%B8%BB%E6%92%AD%E7%9B%B8%E5%85%B3/" style="font-size: 10px;">主播相关</a> <a href="/tags/%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%AB%AF%E6%8E%A2%E7%B4%A2/" style="font-size: 10px;">命令行端探索</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E6%8E%A2%E7%B4%A2/" style="font-size: 17.5px;">技术探索</a> <a href="/tags/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%89%93%E5%8C%85/" style="font-size: 15px;">自动化打包</a> <a href="/tags/%E9%9F%B3%E4%B9%90%E7%AF%87/" style="font-size: 10px;">音乐篇</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/smackgg/hexo-theme-smackdown">smackdown</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/JikerSun">github</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://www.jianshu.com/u/1aae85c9610a">简书</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide"></h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="https://raw.githubusercontent.com/alohe/avatars/master/png/upstream_21.png" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author"></h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-IOS面试题以及部分解答" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/01/05/IOS%E9%9D%A2%E8%AF%95%E9%A2%98%E4%BB%A5%E5%8F%8A%E9%83%A8%E5%88%86%E8%A7%A3%E7%AD%94/" class="article-date">
+  	<time datetime="2018-01-05T07:13:41.000Z" itemprop="datePublished">2018-01-05</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      iOS面试题以及部分解答
+      
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/" rel="tag">iOS</a></li></ul>
+	</div>
+
+        
+
+        
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="runtime篇章"><a href="#runtime篇章" class="headerlink" title="runtime篇章"></a>runtime篇章</h1><hr>
+<hr>
+<h3 id="class-copyIvarList-class-copyPropertyList区别"><a href="#class-copyIvarList-class-copyPropertyList区别" class="headerlink" title="class_copyIvarList &amp; class_copyPropertyList区别"></a>class_copyIvarList &amp; class_copyPropertyList区别</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1.class_copyIvarList:能够获取.h和.m中的所有属性以及大括号中声明的变量,获取的属性名称有下划线(大括号中的除外)。</span><br><span class="line">2.class_copyPropertyList:只能获取由property声明的属性,包括.m中的,获取的属性名称不带下划线。</span><br><span class="line">3.OC中没有真正的私有属性。</span><br></pre></td></tr></table></figure>
+<h3 id="class-rw-t-和-class-ro-t-的区别"><a href="#class-rw-t-和-class-ro-t-的区别" class="headerlink" title="class_rw_t 和 class_ro_t 的区别"></a>class_rw_t 和 class_ro_t 的区别</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">细看两个结构体的成员变量会发现很多相同的地方,他们都存放着当前类的属性、实例变量、方法、协议等等。区别在于:</span><br><span class="line">class_ro_t: class_ro_t存放的是编译期间就确定的;</span><br><span class="line">class_rw_t: 而class_rw_t是在runtime时才确定,它会先将class_ro_t的内容拷贝过去,然后再将当前类的分类的这些属性、方法等...”</span><br></pre></td></tr></table></figure>
+<h3 id="category如何被加载的-两个category的load方法的加载顺序，两个category的同名方法的加载顺序"><a href="#category如何被加载的-两个category的load方法的加载顺序，两个category的同名方法的加载顺序" class="headerlink" title="category如何被加载的,两个category的load方法的加载顺序，两个category的同名方法的加载顺序"></a>category如何被加载的,两个category的load方法的加载顺序，两个category的同名方法的加载顺序</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1.category是在运行期间加载的(添加到类的),他的方法会放到mateclass列表里面;</span><br><span class="line">2.mateclass在方法列表搜索方法名时候只要找到想找的就会ruturn,不会往下走了,</span><br><span class="line">3.所以先加载类的load方法 在加载category的 所以后一个category的load会覆盖前一个.</span><br></pre></td></tr></table></figure>
+<h3 id="category-extension区别，能给NSObject添加Extension吗，结果如何"><a href="#category-extension区别，能给NSObject添加Extension吗，结果如何" class="headerlink" title="category &amp; extension区别，能给NSObject添加Extension吗，结果如何"></a>category &amp; extension区别，能给NSObject添加Extension吗，结果如何</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1.category是添加原先类的所没有的方法,原则上只能添加方法不能添加属性因为添加了也不会有get set方法(分类的结构体中没有属性列表,可手动实现get/set方法),在运行期开始加载  </span><br><span class="line">2.extension是对原来类的私有方法和属性的重新实现(必须要实现),不能添加声明,在编译器开始加载</span><br></pre></td></tr></table></figure>
+<h3 id="消息转发机制，消息转发机制和其他语言的消息机制优劣对比"><a href="#消息转发机制，消息转发机制和其他语言的消息机制优劣对比" class="headerlink" title="消息转发机制，消息转发机制和其他语言的消息机制优劣对比"></a>消息转发机制，消息转发机制和其他语言的消息机制优劣对比</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">objc_msgSend 方法先在本类方法列表找-&gt;父类-&gt;实现代码</span><br><span class="line">都找不到的话就采用消息转发</span><br><span class="line">1.动态方法解析: resolveInstanceMethod 在本类实现动态实现类方法或者对象方法的添加</span><br><span class="line">2.备援接受者: forwardingTargetForSelector 在其他类里找能响应的动态添加方法实现</span><br><span class="line">3.消息转发: methodSignatureForSelector 获取方法签名 methodSignatureForSelector签名包装成Invocation传入看是否能响应</span><br><span class="line">4.崩溃</span><br></pre></td></tr></table></figure>
+<h3 id="在方法调用的时候，方法查询-动态解析-消息转发-之前做了什么"><a href="#在方法调用的时候，方法查询-动态解析-消息转发-之前做了什么" class="headerlink" title="在方法调用的时候，方法查询-&gt; 动态解析-&gt; 消息转发 之前做了什么"></a>在方法调用的时候，方法查询-&gt; 动态解析-&gt; 消息转发 之前做了什么</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">暂时未找到答案,但是估计应该是首先需要通过msgsend方法遍历当前类父类的方法列表</span><br></pre></td></tr></table></figure>
+<h3 id="IMP、SEL、Method的区别和使用场景"><a href="#IMP、SEL、Method的区别和使用场景" class="headerlink" title="IMP、SEL、Method的区别和使用场景"></a>IMP、SEL、Method的区别和使用场景</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1.SEL:是selector”的一个类型，表示一个方法的名字,类成员方法的指针，但和C的函数指针还不一样，函数指针直接保存了方法的地址，但是SEL只是方法编号。</span><br><span class="line">2.IMP:函数指针，保存了方法地址。</span><br><span class="line">3.method是一种类型,这种类型与selector和实现(implementation)相关</span><br><span class="line">4.isa：isa是一个Class 类型的指针. 每个实例对象有个isa的指针,他指向对象的类，而Class里也有个isa的指针, 指向meteClass(元类)。所以我们可以把类方法看做是其isa指向的元类的实例方法</span><br><span class="line"></span><br><span class="line"> 一个类（Class）持有一个分发表，在运行期分发消息，表中的每一个实体代表一个方法（Method），它的名字叫做选择子（SEL），对应着一种方法实现（IMP）。</span><br></pre></td></tr></table></figure>
+
+<h3 id="说说消息转发机制的优劣"><a href="#说说消息转发机制的优劣" class="headerlink" title="说说消息转发机制的优劣"></a>说说消息转发机制的优劣</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">优点: 就是安全性高,逐一进行查找,并且可以动态进行添加</span><br><span class="line">缺点: 就是耗时,如果需要在最后一级转发层的话需要每一次操作都递归方法列表</span><br></pre></td></tr></table></figure>
+<h3 id="load、initialize方法的区别什么？在继承关系中他们有什么区别"><a href="#load、initialize方法的区别什么？在继承关系中他们有什么区别" class="headerlink" title="load、initialize方法的区别什么？在继承关系中他们有什么区别"></a>load、initialize方法的区别什么？在继承关系中他们有什么区别</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">调用时序: superload-&gt;subload-&gt;main-&gt;superinit-&gt;subinit</span><br><span class="line">load的调用顺序为：父类load ---&gt; 子类load ---&gt; Category的load；而Category的initialize直接就覆盖了父类的initialize</span><br><span class="line">load方法会在加载类的时候就被调用，也就是 ios 应用启动的时候，就会加载所有的类，就会调用每个类的 + load 方法。</span><br><span class="line">initialize在这个类第一次被调用的时候比如[[class alloc]init]会调用一次initialize方法,一般用于初始化全局变量或静态变量</span><br><span class="line">init而方法是只要这个类被调用,就会调用这个init方法</span><br><span class="line">继承的区别</span><br><span class="line">load和initialize方法都不用显示的调用父类的方法而是自动调用，</span><br><span class="line">initialize :即使子类没有initialize方法也会调用父类的方法，走两遍superinit</span><br><span class="line">load:而load方法则不会调用父类;只走一遍superload</span><br></pre></td></tr></table></figure>
+<h3 id="weak的实现原理？"><a href="#weak的实现原理？" class="headerlink" title="weak的实现原理？"></a>weak的实现原理？</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">runtime的时候系统会建立一个储存这个对象所有的weak指针的一个表(hash表) ,key就是对象的地址 value是weak指针的地址数组</span><br><span class="line">1.初始化时: 会调用objc_initweak函数 初始化一个新的weak指针指向对象地址</span><br><span class="line">2.添加引用时: 还是objc_initweak函数调用objc_storeweak函数, 更新新指针指向,创建新的弱引用表</span><br><span class="line">3释放是,调用clearDeallocating函数根据对象地址获取所有的weak指针地址数组, 遍历数组把数据设为nil,然后清理对象记录</span><br></pre></td></tr></table></figure>
+<h3 id="SideTable的结构是什么样的"><a href="#SideTable的结构是什么样的" class="headerlink" title="SideTable的结构是什么样的"></a>SideTable的结构是什么样的</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sidertables全局哈希表里面是每一个sidertable key是每一个对象的地址</span><br><span class="line">散列表是内存管理的方案之一 里面包含了引用计数表和弱引用表,和一个自旋锁</span><br><span class="line">1.引用计数表(map): 通过对象地址key获取该对象的引用计数</span><br><span class="line">2.弱引用表(哈希):通过对象地址key获取weak对象列表</span><br><span class="line">3.自旋锁 防止适用于锁时间短的情况,避免数据错误</span><br></pre></td></tr></table></figure>
+<h3 id="alloc-retain-release-dealloc内部实现原理解析"><a href="#alloc-retain-release-dealloc内部实现原理解析" class="headerlink" title="alloc retain release dealloc内部实现原理解析"></a>alloc retain release dealloc内部实现原理解析</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">nszone这个类根据对象的目的 对象的大小提供内存管理的效率;</span><br><span class="line">alloc类方法用struct obj_layout中的retained来保存引用计数，并将其写入对象的内存头部，该内存块全部置0后返回。</span><br><span class="line">1.在OC的对象中存有引用计数这一整数值</span><br><span class="line">2.调用alloc或是retain方法后，引用计数值+1</span><br><span class="line">3.调用release后，引用计数值-1。</span><br><span class="line">4.引用计数值为0后，调用dealloc方法废弃对象</span><br></pre></td></tr></table></figure>
+<h3 id="关联对象的应用？系统如何实现关联对象的"><a href="#关联对象的应用？系统如何实现关联对象的" class="headerlink" title="关联对象的应用？系统如何实现关联对象的"></a>关联对象的应用？系统如何实现关联对象的</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">category原则上只能扩展方法无法扩展属性因为就算声明了也不会生成set/get方法 这个时候关联对象就用上了</span><br><span class="line">原理: @property正常情况属性就会自动关联到对象上</span><br><span class="line">但是在分类中实现就需要手动的写入set/get方法 与该类进行关联</span><br><span class="line">1.objc_setAssociatedObject: 以键值对的方式添加关联对象new_value!=nil</span><br><span class="line">2.objc_getAssociatedObject: 根据key(方法)获取关联对象</span><br><span class="line">3.objc_removeAssociatedObjects: 删除所有的关联对象new_value == nil</span><br><span class="line">具体实现</span><br><span class="line">ObjcAssociation 关联对象的类:</span><br><span class="line">1.创建一个关联类的对象</span><br><span class="line">2.给new_value 进行retain或者是copy</span><br><span class="line">3.创建一个关联manger并获取关联对象的哈希表</span><br><span class="line">4.根据对象查找和这个哈希表</span><br><span class="line">5.如果没有找到就新建一个哈希表在建一个关联对象放到哈希中</span><br><span class="line">6.查找这个哈希表看kay是不是存在没有就新增</span><br><span class="line">7.删除的时候就释放关联对象new_value的值</span><br></pre></td></tr></table></figure>
+<h3 id="关联对象如何实现weak属性"><a href="#关联对象如何实现weak属性" class="headerlink" title="关联对象如何实现weak属性"></a>关联对象如何实现weak属性</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">-(void)setWeakvalue:(NSObject *)weakvalue &#123;</span><br><span class="line">    __weak typeof(weakvalue) weakObj = weakvalue;</span><br><span class="line">    typeof(weakvalue) (^block)() = ^()&#123;</span><br><span class="line">        return weakObj;</span><br><span class="line">    &#125;;</span><br><span class="line">    objc_setAssociatedObject(self, weakValueKey, block, OBJC_ASSOCIATION_COPY_NONATOMIC);</span><br><span class="line">&#125;</span><br><span class="line">-(NSObject *)weakvalue &#123;</span><br><span class="line">    id (^block)() = objc_getAssociatedObject(self, weakValueKey);</span><br><span class="line">    return block();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Autoreleasepool的原理？所使用的的数据结构是什么"><a href="#Autoreleasepool的原理？所使用的的数据结构是什么" class="headerlink" title="Autoreleasepool的原理？所使用的的数据结构是什么"></a>Autoreleasepool的原理？所使用的的数据结构是什么</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">autorelease对象就是没有经过retain copy alloc (临时对象)</span><br><span class="line">在gcd 主线程中是自动开启autoreleasepool的 在子线程中因为默认是runloop是关闭的 所以需要手动autoreleasepool 防止临时对象太多 造成内存暴涨</span><br><span class="line">原理: AutoreleasePoolPage</span><br><span class="line">1.简单说是双向链表，每张链表头尾相接，有 parent、child指针</span><br><span class="line">2.每创建一个池子，会在首部创建一个 哨兵 对象,作为标记</span><br><span class="line">3.最外层池子的顶端会有一个next指针。当链表容量满了，就会在链表的顶端，并指向下一张表 (妈的 我是没看明白)</span><br></pre></td></tr></table></figure>
+<h3 id="ARC的实现原理？"><a href="#ARC的实现原理？" class="headerlink" title="ARC的实现原理？"></a>ARC的实现原理？</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">retaincount机制, 在每次runloop的时候都会检查对象的retaincount 如果是0就不要了,</span><br><span class="line">原理: </span><br><span class="line">1.arc会自动处理retain release autorelease操作 但是我们没办法主动调用</span><br><span class="line">2.arc是通过c语言层更高效的处理内存事件的比如objc_retain</span><br><span class="line">3.命名时候必须遵循命名规则 alloc new copy 等 arc通过命名约定进行内存管理标准化</span><br><span class="line">4.arc管理对象的生命周期是在合适的地方保留 释放, 方法创建的对象在方法中自动释放 类对象在dealloc中释放</span><br><span class="line">5.arc内存管理语义可以通过修饰符致命</span><br><span class="line">6.只对oc有作用 对其他的没用</span><br></pre></td></tr></table></figure>
+<h3 id="ARC下对retain-release做了哪些优化"><a href="#ARC下对retain-release做了哪些优化" class="headerlink" title="ARC下对retain &amp; release做了哪些优化"></a>ARC下对retain &amp; release做了哪些优化</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ARC优化器负责移除多余的retain和release语句，确保生成的代码运行速度高于手动引用计数的代码。</span><br></pre></td></tr></table></figure>
+<h3 id="RunLoop-是什么"><a href="#RunLoop-是什么" class="headerlink" title="RunLoop 是什么"></a>RunLoop 是什么</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">runloop是通过内部维护的事件循环(不是死循环)对事件/消息进行管理的对象;</span><br><span class="line">有工作的时候就工作,没工作的时候就休眠减少资源占用</span><br></pre></td></tr></table></figure>
+<h3 id="ARC下哪些情况会造成内存泄漏"><a href="#ARC下哪些情况会造成内存泄漏" class="headerlink" title="ARC下哪些情况会造成内存泄漏"></a>ARC下哪些情况会造成内存泄漏</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1.循环引用(delegate,block,timer)</span><br><span class="line">2.死循环</span><br></pre></td></tr></table></figure>
+<h3 id="Method-Swizzle注意事项"><a href="#Method-Swizzle注意事项" class="headerlink" title="Method Swizzle注意事项"></a>Method Swizzle注意事项</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">swizzle  : runtime  提供让我们在运行屎替换一有的方法来实现我们自己的需求</span><br><span class="line">method_exchangeImplementations 主要用到这个交换函数指针这个方法, 注意点如下:</span><br><span class="line"> 需要注意被替换方的安全性因为objc_msgsend原理会搞不清你传入的对象是谁 运用method_setImplementation方法提供新的函数代替我们要替换的方法</span><br></pre></td></tr></table></figure>
+<h3 id="atomic与nonatomic的区别以及各自功能"><a href="#atomic与nonatomic的区别以及各自功能" class="headerlink" title="atomic与nonatomic的区别以及各自功能"></a>atomic与nonatomic的区别以及各自功能</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">atomic 是在属性的set/get方法上加上自旋锁 保证set/get方法安全 但是其他方法不保证</span><br><span class="line">nonatomic 是不加自旋锁 也不安全</span><br></pre></td></tr></table></figure>
+<h3 id="iOS-中内省的几个方法有哪些？内部实现原理是什么"><a href="#iOS-中内省的几个方法有哪些？内部实现原理是什么" class="headerlink" title="iOS 中内省的几个方法有哪些？内部实现原理是什么"></a>iOS 中内省的几个方法有哪些？内部实现原理是什么</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">1.判断对象类型:</span><br><span class="line">-(BOOL) isKindOfClass: 判断是否是这个类或者这个类的子类的实例</span><br><span class="line">-(BOOL) isMemberOfClass: 判断是否是这个类的实例</span><br><span class="line"></span><br><span class="line">2. 判断对象or类是否有这个方法</span><br><span class="line">-(BOOL) respondsToSelector: 判读实例是否有这样方法</span><br><span class="line">+(BOOL) instancesRespondToSelector: 判断类是否有这个方法</span><br><span class="line"></span><br><span class="line">3. object_getClass:获得的是isa的指向</span><br><span class="line">self.class:当self是实例对象的时候，返回的是类对象，否则则返回自身</span><br><span class="line">类方法class，返回的是self，所以当查找meta class时，需要对类对象调用object_getClass方法</span><br><span class="line"></span><br><span class="line">实现原理pass 我日</span><br></pre></td></tr></table></figure>
+<h3 id="class、objc-getClass、object-getclass-方法有什么区别"><a href="#class、objc-getClass、object-getclass-方法有什么区别" class="headerlink" title="class、objc_getClass、object_getclass 方法有什么区别"></a>class、objc_getClass、object_getclass 方法有什么区别</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1. objc_getClass: 参数是类名的字符串，返回的就是这个类的类对象；</span><br><span class="line">2. object_getClass: 参数是id类型，它返回的是这个id的isa指针所指向的Class，如果传参是Class，则返回该Class的metaClass</span><br><span class="line">3. self.class :self是实例对象的时候返回的是类的对象 ;类方法.class,返回的是self 所以当要查找metaclass是需要对类对象调用object_getclass</span><br></pre></td></tr></table></figure>
+<hr>
+<hr>
+<h1 id="NSNotification相关"><a href="#NSNotification相关" class="headerlink" title="NSNotification相关"></a>NSNotification相关</h1><p> <a target="_blank" rel="noopener" href="https://juejin.im/entry/57fb07c30bd1d00058c6465c">https://juejin.im/entry/57fb07c30bd1d00058c6465c</a> 这个文章比较简单明了 ojbk</p>
+<h3 id="NSNotification实现原理"><a href="#NSNotification实现原理" class="headerlink" title="NSNotification实现原理"></a>NSNotification实现原理</h3> <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1. nsnotifications 内部含有多个maptable(发送者和监听者都要在同一个线程):</span><br><span class="line">2. 添加观察这的时候: 将 各个参数分别添加到对应的map中 其中包括name, 座位key, value就是是一个方法name+objet的tab 根据各个参数依次进行储存, 没有name和喝objet的通知 会添加到一个单独的map中</span><br><span class="line">3. 发送广播的时候: 会根据传入的name一次遍历生成的广播中心的各个列表, 首先将没有name和object的表中的都加入到待发送的数组里, 然后添加符合name需求的 再就是符合name和object参数需求的都依次加入数组中, 然后在吧数组中的对象依次进行发送;</span><br><span class="line">4. 移除广播就是记录下来的name通知从表单中删除掉</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="通知的发送时同步的，还是异步的"><a href="#通知的发送时同步的，还是异步的" class="headerlink" title="通知的发送时同步的，还是异步的"></a>通知的发送时同步的，还是异步的</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1. 发送者和接受者是必须在同一个线程中的</span><br><span class="line">2. 但是通知发送后查找注册者的过程是一个异步过程</span><br></pre></td></tr></table></figure>
+
+<h3 id="NSNotificationCenter接受消息和发送消息是在一个线程里吗？如何异步发送消息"><a href="#NSNotificationCenter接受消息和发送消息是在一个线程里吗？如何异步发送消息" class="headerlink" title="NSNotificationCenter接受消息和发送消息是在一个线程里吗？如何异步发送消息"></a>NSNotificationCenter接受消息和发送消息是在一个线程里吗？如何异步发送消息</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">将发送消息的放到建一个异步线程放进去或者利用notificationsqueue机制</span><br></pre></td></tr></table></figure>
+
+<h3 id="NSNotificationQueue和runloop的关系"><a href="#NSNotificationQueue和runloop的关系" class="headerlink" title="NSNotificationQueue和runloop的关系"></a>NSNotificationQueue和runloop的关系</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1. nsnotificationqueue是notificationscanter的一个缓冲池 他会将发送过来的通知放到缓冲池中等到runloop结束或者空闲的时候在发送(当然发送状态是可以自己根据参数选定是空闲时间发还是马上发送等), 也可以避免没必要的通知重复发送</span><br><span class="line">2. nsnotificationqueue 会将在第一位通知首先发出</span><br><span class="line">3. 每一个线程都有一个nsnotificationqueue 但是可以根据自己需求多见几个</span><br><span class="line">runloop 上文有提到</span><br></pre></td></tr></table></figure>
+
+<h3 id="页面销毁时不移除通知会崩溃吗"><a href="#页面销毁时不移除通知会崩溃吗" class="headerlink" title="页面销毁时不移除通知会崩溃吗"></a>页面销毁时不移除通知会崩溃吗</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">当通知方法实现涉及到ui改动等情况的时候会出现crash</span><br><span class="line"></span><br><span class="line">多次添加/移除同一个通知会是什么结果？</span><br><span class="line">多次添加会多次响应 </span><br><span class="line">多次移除会你妈的crash</span><br></pre></td></tr></table></figure>
+
+<h3 id="下面的方式能接收到通知吗？为什么"><a href="#下面的方式能接收到通知吗？为什么" class="headerlink" title="下面的方式能接收到通知吗？为什么"></a>下面的方式能接收到通知吗？为什么</h3><p>&#x2F;&#x2F; 发送通知</p>
+<figure class="highlight plaintext"><figcaption><span>defaultCenter] addObserver:self selector:@selector(handleNotification:) name:@"TestNotification" object:@1];</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 接收通知</span><br><span class="line">[NSNotificationCenter.defaultCenter postNotificationName:@&quot;TestNotification&quot; object:nil];</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">妈的没时间试了 我猜是可以的 他是根据名字逐个表单进行查找的;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<hr>
+<h1 id="Runloop-KVO相关"><a href="#Runloop-KVO相关" class="headerlink" title="Runloop &amp; KVO相关"></a>Runloop &amp; KVO相关</h1><h3 id="app如何接收到触摸事件的"><a href="#app如何接收到触摸事件的" class="headerlink" title="app如何接收到触摸事件的"></a>app如何接收到触摸事件的</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">1. 手机屏幕收到点击, 触发iokit框架方法</span><br><span class="line">2. iokit 生成iohidevent对象传递给桌面系统springboad</span><br><span class="line">3. springboad触发app进程主线程runloop的source1的时间回调</span><br><span class="line">4. source1回调出发source0回到将iohidevent对象封装成uievent对象,此时app对点击事件正式开始响应</span><br><span class="line">5. source0回调将事件添加到appdelegate对象的响应对象中, 开始寻找合适的时间 和 响应对象</span><br><span class="line">6. 找到想响应对象就做出响应 然后点击事件释放</span><br><span class="line">7. 未找到响应对象就不响应 点击时间释放</span><br><span class="line">8. runloop看还有没有逼得是要做 没有的话就休息 等待新的时间被唤醒</span><br></pre></td></tr></table></figure>
+
+<h3 id="为什么只有主线程的runloop是开启的"><a href="#为什么只有主线程的runloop是开启的" class="headerlink" title="为什么只有主线程的runloop是开启的"></a>为什么只有主线程的runloop是开启的</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1. runloop是寄生于线程下面的消息循环机制, 他能保证线程的存货 而不是执行完成任务就消亡</span><br><span class="line">2. 从源码来看 任意一个子线程runloop都会保证主线程runloop的存在</span><br></pre></td></tr></table></figure>
+
+<h3 id="为什么只在主线程刷新UI"><a href="#为什么只在主线程刷新UI" class="headerlink" title="为什么只在主线程刷新UI"></a>为什么只在主线程刷新UI</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1. uikit是个线程不是很安全的类, uiview对象的属性如果放到异步线程操作会出现读写冲突 如果加锁的话会消耗大量资源</span><br><span class="line">2. appdelegate类是在主线程初始化的 也就是说事件的传递也是在主线程, 所以uiview需要在主线程上响应</span><br><span class="line">3. 图片的渲染需要在屏幕每秒刷新60次, 异步线程无法保证及时响应更新渲染画面</span><br></pre></td></tr></table></figure>
+
+<h3 id="PerformSelector和runloop的关系"><a href="#PerformSelector和runloop的关系" class="headerlink" title="PerformSelector和runloop的关系"></a>PerformSelector和runloop的关系</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1. performselector 是runloop的时间处理员</span><br><span class="line">2. runloop有三个必要参数, slector, timer, mode</span><br><span class="line">3. 当一个线程结束了 runloop就会销毁, 那么perforselector也会随之释放</span><br></pre></td></tr></table></figure>
+
+<h3 id="如何使线程保活"><a href="#如何使线程保活" class="headerlink" title="如何使线程保活"></a>如何使线程保活</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1. 子线程需要获取当前的runloop</span><br><span class="line">2. 让这个runloop一直有事干(while ,for, 或者runlooprun)</span><br></pre></td></tr></table></figure>
+<hr>
+<hr>
+<h1 id="KVO"><a href="#KVO" class="headerlink" title="KVO"></a>KVO</h1><p>kvo实现原理 <a target="_blank" rel="noopener" href="https://juejin.im/post/5c2189dee51d454517589c8b">https://juejin.im/post/5c2189dee51d454517589c8b</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">1. KVO 提供一种(观察者设计模式)机制，指定一个被观察对象(例如 A 类)，当对象某个属性(例如 A 中的字符串 name)发生更改时，对象会获得通知，并作出相应处理</span><br><span class="line">2. 到要监听观察一个对象A时, kvo就会动态的(runtime, isa 混写（isa-swizzling)创建一个对象a的类的子类, </span><br><span class="line">3. 在子类中重新需要被观察的属性的keypath的setter方法, 然后setter方法负责通知观察这属性的变化情况</span><br><span class="line">&#123;人家说的好:</span><br><span class="line"> 1.利用RuntimeAPI动态生成一个子类，并且让instance对象的isa指向这个全新的子类</span><br><span class="line"> 2. 当修改instance对象的属性时，会调用Foundation的_NSSetXXXValueAndNotify函数 willChangeValueForKey:</span><br><span class="line">3. 父类原来的setter didChangeValueForKey: 内部会触发监听器（Oberser）的监听方法(observeValueForKeyPath:ofObject:change:context:）</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="如何手动关闭kvo"><a href="#如何手动关闭kvo" class="headerlink" title="如何手动关闭kvo"></a>如何手动关闭kvo</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1. automaticallyNotifiesObserversForKey 取消系统的自动监听</span><br><span class="line">2. 调用removeObserver:方法 取消某个类的监听</span><br></pre></td></tr></table></figure>
+<h3 id="通过KVC修改属性会触发KVO么"><a href="#通过KVC修改属性会触发KVO么" class="headerlink" title="通过KVC修改属性会触发KVO么"></a>通过KVC修改属性会触发KVO么</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">kvc原理</span><br><span class="line">   •    如果可以访问会按照 _key、_isKey、key、iskey的顺序查找成员变量</span><br><span class="line">   •    找到直接赋值</span><br><span class="line">   •    未找到报错NSUnkonwKeyException错误</span><br><span class="line">因为调用了set方法 所以会触发kvo</span><br></pre></td></tr></table></figure>
+
+<h3 id="哪些情况下使用kvo会崩溃，怎么防护崩溃"><a href="#哪些情况下使用kvo会崩溃，怎么防护崩溃" class="headerlink" title="哪些情况下使用kvo会崩溃，怎么防护崩溃"></a>哪些情况下使用kvo会崩溃，怎么防护崩溃</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1. 注册和移除次数不匹配 (移除未注册的, 多次移除同一个观察者)</span><br><span class="line">2. 观察对象提前释放 但是kvo未移除</span><br><span class="line">3. 没有实现observeValueForKeyPath:ofObject:change:context方法</span><br><span class="line">4. keypath为nil</span><br></pre></td></tr></table></figure>
+
+<h3 id="kvo的优缺点"><a href="#kvo的优缺点" class="headerlink" title="kvo的优缺点"></a>kvo的优缺点</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">优点 :</span><br><span class="line">1.能够提供一种简单的方法实现两个对象间的同步。例如：model和view之间同步；</span><br><span class="line">2.能够对非我们创建的对象，即内部对象的状态改变作出响应，而且不需要改变内部对象（SDK对象）的实现；</span><br><span class="line">3.能够提供观察的属性的最新值以及先前值；</span><br><span class="line">4.用key paths来观察属性，因此也可以观察嵌套对象；</span><br><span class="line">5.完成了对观察对象的抽象，因为</span><br><span class="line">缺点 : </span><br><span class="line">1.我们观察的属性必须使用strings来定义。因此在编译器不会出现警告以及检查；</span><br><span class="line">2.对属性重构将导致我们的观察代码不再可用；</span><br><span class="line">3.复杂的“IF”语句要求对象正在观察多个值。这是因为所有的观察代码通过一个方法来指向；</span><br><span class="line">4.当释放观察者时不需要移除观察者。</span><br></pre></td></tr></table></figure>
+
+<hr>
+<hr>
+<h1 id="Block"><a href="#Block" class="headerlink" title="Block"></a>Block</h1><p><a target="_blank" rel="noopener" href="https://juejin.im/post/5b0181e15188254270643e88">https://juejin.im/post/5b0181e15188254270643e88</a>    掘金网址真是个好地方 全是面试所需</p>
+<h3 id="block的内部实现，结构体是什么样的"><a href="#block的内部实现，结构体是什么样的" class="headerlink" title="block的内部实现，结构体是什么样的"></a>block的内部实现，结构体是什么样的</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1. block是oc的一个对象</span><br><span class="line">2. 局部变量进入block中时 block是将值传递到内部, 静态变量是讲指针传递到内部, 全局变量传递 因为哪里都可以访问的到, 类的属性其实是将类的对象 和 方法选择器 _cmd传递到内部</span><br><span class="line">3. 将oc转成c++语言时(xcrun -sdk iphoneos clang -arch arm64 -rewrite-objc main.m) block其实主要是一个__main_block_impl_0结构体 这个结构体内部还含有两个结构体 一个是承接block函数代码款的结构体 一个是承接block大小和地址等描述的结构体</span><br></pre></td></tr></table></figure>
+
+<h3 id="block是类吗，有哪些类型"><a href="#block是类吗，有哪些类型" class="headerlink" title="block是类吗，有哪些类型"></a>block是类吗，有哪些类型</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1. block指向NSBlock类的子类, nsblock类又是nsobject类的子类</span><br><span class="line">有三种类型:</span><br><span class="line">1. __NSGlobalBlock__ （ _NSConcreteGlobalBlock ） 存放在数据段中 (全局变量, 静态变量知道程序结束才回收)</span><br><span class="line">2. __NSStackBlock__ （ _NSConcreteStackBlock ） 存放在栈中 (局部变量 系统自动分配内存, 当局部变量作用域执行完后自动回收)</span><br><span class="line">3.  __NSMallocBlock__ （ _NSConcreteMallocBlock 存放在堆中(动态分配内存, alloc出来的内存 需要开发自行管理内存)</span><br></pre></td></tr></table></figure>
+
+<h3 id="一个int变量被-block-修饰与否的区别？block的变量截获"><a href="#一个int变量被-block-修饰与否的区别？block的变量截获" class="headerlink" title="一个int变量被 __block 修饰与否的区别？block的变量截获"></a>一个int变量被 __block 修饰与否的区别？block的变量截获</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1. 局部变量: 原本是直接将值复制到block中使用 __block修饰之后就是引用了地址起到了修改值之后外部数据也跟着改变</span><br><span class="line">2. 全局变量: 本来就是地址 所以没区别</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="block在修改NSMutableArray，需不需要添加-block"><a href="#block在修改NSMutableArray，需不需要添加-block" class="headerlink" title="block在修改NSMutableArray，需不需要添加__block"></a>block在修改NSMutableArray，需不需要添加__block</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">•    __block 修饰的非集合、集合对象都可以赋值</span><br><span class="line">•    没有__block修饰的集合可以修改其中的对象</span><br><span class="line">•    当前类属性没有__block修饰的时候也可以赋值</span><br></pre></td></tr></table></figure>
+
+<h3 id="block怎么进行内存管理的"><a href="#block怎么进行内存管理的" class="headerlink" title="block怎么进行内存管理的"></a>block怎么进行内存管理的</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1. NSGlobalBlock全局块 : 不会释放</span><br><span class="line">2. NSStackBlock栈块: retian release无效 会在作用域结束自动回收, copy却可以将block复制到堆区,让block长期保留</span><br><span class="line">3. NSMallocBlock 堆块:  retain / release可以让引用计数+-1, copy不会生成新的block 只会引用计数+1</span><br></pre></td></tr></table></figure>
+
+<h3 id="block可以用strong修饰吗"><a href="#block可以用strong修饰吗" class="headerlink" title="block可以用strong修饰吗"></a>block可以用strong修饰吗</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">可以</span><br><span class="line">block默认是在栈区保存的 但是这个就像局部变量一样用完就没, 但是用strong就相当于运行了[block copy];方法 将block从栈复制到了堆上</span><br></pre></td></tr></table></figure>
+
+<h3 id="解决循环引用时为什么要用-strong、-weak修饰"><a href="#解决循环引用时为什么要用-strong、-weak修饰" class="headerlink" title="解决循环引用时为什么要用__strong、__weak修饰"></a>解决循环引用时为什么要用__strong、__weak修饰</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1. __weak修饰的变量引用计数不会+1, 这就不会造成强引用儿不会导致无法释放, </span><br><span class="line">2. __strong修饰的变量会导致引用计数+1, 这就会造成强引用 但是同时这个变量也减少了提前释放的标准</span><br><span class="line">所以当__weak避免强引用的时候 可能会存在对象提前释放的情况 这样block就无法进行操作了, 所以在block内在__strong修饰一下之前__weak的变量就不会造成变量的提前释放了</span><br></pre></td></tr></table></figure>
+
+<h3 id="block发生copy时机"><a href="#block发生copy时机" class="headerlink" title="block发生copy时机"></a>block发生copy时机</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1. 调用block的copy函数时;</span><br><span class="line">2. Block作为函数返回值返回时;</span><br><span class="line">3. 将Block赋值给附有__strong修饰符id类型的类或者Block类型成员变量时;</span><br><span class="line">4. 方法中含有usingBlock的Cocoa框架方法或者GCD的API中传递Block时;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Block访问对象类型的auto变量时，在ARC和MRC下有什么区别"><a href="#Block访问对象类型的auto变量时，在ARC和MRC下有什么区别" class="headerlink" title="Block访问对象类型的auto变量时，在ARC和MRC下有什么区别"></a>Block访问对象类型的auto变量时，在ARC和MRC下有什么区别</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1. 对于非ARC下，为了防止循环引用，我们使用__block来修饰在Block中使用的对象。</span><br><span class="line">2.对于ARC下，为了防止循环引用，我们使用__weak来修饰在Block中使用的对象。</span><br><span class="line">3.原理就是：ARC中，Block中如果引用了__strong修饰符的自动变量，则相当于Block对该对象的引用计数+1。</span><br></pre></td></tr></table></figure>
+
+<hr>
+<hr>
+<h1 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h1><h3 id="iOS开发中有多少类型的线程？分别对比"><a href="#iOS开发中有多少类型的线程？分别对比" class="headerlink" title="iOS开发中有多少类型的线程？分别对比"></a>iOS开发中有多少类型的线程？分别对比</h3><pre><code>•    NSThread : 苹果封装的面向对象的要方案, 直接控制线程对象, 直观,方便, 对线程的各个属性获取比较全面, 但是需要手动的控制线程的生命周期
+•    GCD: 苹果对多核并发提出的解决方案,会自动合理的运用cpu内核, 运用C语言和block, 代码直观, 也不需要管理生命周期, 但是block会造成强引用, 线程异步, 同步, 队列串行, 并行各自结合容易乱
+•    NSOperation &amp; NSOperationQueue: 苹果对gcd的封装, 面向对象, 可以通过消息互发 和 block实现线程代码, 在拥有gcd的有点的同时也不需要管复杂的同步, 异步, 串行,并行(用最大并发线程数参数代替了),可以合理安排队列
+</code></pre>
+<h3 id="GCD有哪些队列，默认提供哪些队列"><a href="#GCD有哪些队列，默认提供哪些队列" class="headerlink" title="GCD有哪些队列，默认提供哪些队列"></a>GCD有哪些队列，默认提供哪些队列</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">串行队列, 并行队列(只有在异步才有效),全局队列</span><br></pre></td></tr></table></figure>
+<h3 id="GCD有哪些方法api"><a href="#GCD有哪些方法api" class="headerlink" title="GCD有哪些方法api"></a>GCD有哪些方法api</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1. //创建自定义并行队列</span><br><span class="line">    dispatch_queue_t queue = dispatch_queue_create(&quot;test&quot;, DISPATCH_QUEUE_CONCURRENT);</span><br><span class="line">    </span><br><span class="line">    //创建全局队列</span><br><span class="line">    dispatch_queue_t globQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">2.// 串行队列的创建方法</span><br><span class="line">dispatch_queue_t queue= dispatch_queue_create(&quot;test.queue&quot;, DISPATCH_QUEUE_SERIAL);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">3.// 使用主队列（跟主线程相关联的队列）</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line">4.// 主队列是GCD自带的一种特殊的串行队列,放在主队列中的任务，都会放到主线程中执行</span><br><span class="line">dispatch_queue_t queue = dispatch_get_main_queue();</span><br><span class="line">/* NSLog(@&quot;执行系统提供的并行队列，这个队列有优先级，可以手动设置&quot;);</span><br><span class="line">     #define DISPATCH_QUEUE_PRIORITY_HIGH 2</span><br><span class="line">     #define DISPATCH_QUEUE_PRIORITY_DEFAULT 0</span><br><span class="line">     #define DISPATCH_QUEUE_PRIORITY_LOW (-2)</span><br><span class="line">     #define DISPATCH_QUEUE_PRIORITY_BACKGROUND INT16_MIN</span><br><span class="line">     */</span><br><span class="line">    </span><br><span class="line">    dispatch_queue_t global_queue_background = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0);</span><br><span class="line">    dispatch_async(global_queue_background, ^&#123;</span><br><span class="line">        NSLog(@&quot;我是第四：DISPATCH_QUEUE_PRIORITY_BACKGROUND&quot;);</span><br><span class="line">    &#125;);</span><br><span class="line">    </span><br><span class="line">    dispatch_queue_t global_queue_low = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0);</span><br><span class="line">    dispatch_async(global_queue_low, ^&#123;</span><br><span class="line">        NSLog(@&quot;我是第三：DISPATCH_QUEUE_PRIORITY_LOW&quot;);</span><br><span class="line">    &#125;);</span><br><span class="line">    </span><br><span class="line">    dispatch_queue_t global_queue_default = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);</span><br><span class="line">    dispatch_async(global_queue_default, ^&#123;</span><br><span class="line">        NSLog(@&quot;我是第二：DISPATCH_QUEUE_PRIORITY_DEFAULT&quot;);</span><br><span class="line">    &#125;);</span><br><span class="line">    </span><br><span class="line">    dispatch_queue_t global_queue_High = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);</span><br><span class="line">    dispatch_async(global_queue_High, ^&#123;</span><br><span class="line">        NSLog(@&quot;我是第一：DISPATCH_QUEUE_PRIORITY_HIGH&quot;);</span><br><span class="line">    &#125;);</span><br><span class="line">/*</span><br><span class="line">     关灯，哥哥学习10分钟、姐姐学习20分钟、我学习15分钟，最后关灯睡觉(下面的例子1s = 1m)</span><br><span class="line">     */</span><br><span class="line">    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);</span><br><span class="line">    dispatch_group_t group_t = dispatch_group_create();</span><br><span class="line">    dispatch_group_async(group_t, queue, ^&#123;</span><br><span class="line">        //任务执行</span><br><span class="line">        sleep(10);</span><br><span class="line">        NSLog(@&quot;哥哥学习10分钟&quot;);</span><br><span class="line">    &#125;);</span><br><span class="line">    </span><br><span class="line">    dispatch_group_async(group_t, queue, ^&#123;</span><br><span class="line">        sleep(20);</span><br><span class="line">        NSLog(@&quot;姐姐学习20分钟&quot;);</span><br><span class="line">    &#125;);</span><br><span class="line">    </span><br><span class="line">    dispatch_group_async(group_t, queue, ^&#123;</span><br><span class="line">        sleep(15);</span><br><span class="line">        NSLog(@&quot;我学习15分钟&quot;);</span><br><span class="line">    &#125;);</span><br><span class="line">    </span><br><span class="line">    dispatch_group_notify(group_t, queue, ^&#123;</span><br><span class="line">       //上面的线程全部完成</span><br><span class="line">        NSLog(@&quot;关灯睡觉&quot;);</span><br><span class="line">    &#125;);</span><br><span class="line">dispatch_queue_t concurrentQueueT = dispatch_queue_create(&quot;com.tiankong.GCDDemo&quot;, DISPATCH_QUEUE_CONCURRENT);</span><br><span class="line">   dispatch_async(concurrentQueueT, ^&#123;</span><br><span class="line">       NSLog(@&quot;读取第一次&quot;);</span><br><span class="line">   &#125;);</span><br><span class="line">   </span><br><span class="line">   dispatch_suspend(concurrentQueueT);</span><br><span class="line">   sleep(10);</span><br><span class="line">   dispatch_resume(concurrentQueueT);</span><br><span class="line">   dispatch_async(concurrentQueueT, ^&#123;</span><br><span class="line">       NSLog(@&quot;读取第二次&quot;);</span><br><span class="line">       </span><br><span class="line">   &#125;);</span><br></pre></td></tr></table></figure>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">NSTimeInterval  duration = 2.0;</span><br><span class="line">dispatch_time_t delayTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)((duration)/*延迟执行时间*/ * NSEC_PER_SEC));   </span><br><span class="line"> dispatch_after(delayTime, dispatch_get_main_queue(), ^&#123;</span><br><span class="line">        //执行2秒后的操作</span><br><span class="line">  &#125;);</span><br><span class="line">static dispatch_once_t predicate;</span><br><span class="line">dispatch_once(&amp;predicate, ^&#123;</span><br><span class="line">    // some one-time task</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="GCD主线程-主队列的关系"><a href="#GCD主线程-主队列的关系" class="headerlink" title="GCD主线程 &amp; 主队列的关系"></a>GCD主线程 &amp; 主队列的关系</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1. 主线程可以创建其他队列</span><br><span class="line">2. 主队列只能在主线程上执行(系统自己做的别无选择) 队列只是用来存放组织任务的</span><br></pre></td></tr></table></figure>
+
+<h3 id="dispatch-once实现原理"><a href="#dispatch-once实现原理" class="headerlink" title="dispatch_once实现原理"></a>dispatch_once实现原理</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dispatch_once 内部封装了dispatch_once_f函数 这个函数操作block并完成标记为, 同时运用信号量保证只有一个线程执行,执行完成之后在缓刑其他的线程</span><br></pre></td></tr></table></figure>
+
+<h3 id="什么情况下会死锁"><a href="#什么情况下会死锁" class="headerlink" title="什么情况下会死锁"></a>什么情况下会死锁</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">在主线程中执行一个串行,并行同步的队列</span><br></pre></td></tr></table></figure>
+
+<h3 id="有哪些类型的线程锁，分别介绍下作用和使用场景"><a href="#有哪些类型的线程锁，分别介绍下作用和使用场景" class="headerlink" title="有哪些类型的线程锁，分别介绍下作用和使用场景"></a>有哪些类型的线程锁，分别介绍下作用和使用场景</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">锁是一种保证多线程并发执行安全的方式，避免 同一时间，多个线程同时读取并修改一个值而产 生混乱。</span><br><span class="line">1.自旋锁(OSSpinLock): 可以避免多线程访问同一个值发生混乱，如果共享数据已经有其他线程加锁了，线程会以死循环的方式等待锁，一旦被访问的资源被解锁， 则等待资源的线程会立即执行</span><br><span class="line">    1.1.自旋锁的性能高于互斥锁，因为响应速度快</span><br><span class="line">    1.2.自旋锁虽然会一直自旋等待获取锁，但不会一直占用CPU，超过了操作系统分配的时间片会被强制挂起</span><br><span class="line">    1.3.自旋锁如果不能保证所有线程都是同一优先级，则可能造成死锁</span><br><span class="line">2.信号量(dispatch_semaphore): 信号量如果是1的话 可以当作锁来用, 没有等待的时候而且性能很高,但是一旦出现等待性能会下降很多 但是不会消耗cpu资源</span><br><span class="line">3.互斥锁(pthread_mutex): 都可以避免多线程访问同一个值发生混乱，如果共享数据已经有其他线程加锁了，线程会进入休眠状态等待锁。一旦被访问的资源被解锁， 则等待资源的线程会被唤醒</span><br><span class="line">4.NSLock(NSLock、NSCondition、NSConditionLock、NSRecursiveLock): 都是对pthread_mutex的面向对象的封装, 遵循协议, 而且基本都是加锁解锁的直观操作</span><br><span class="line">5.@synchronized: 使用方便性能不高, 通过传入的object当做key ,通过hash表对应一个系统的递归锁,但是当用作key的对象修改了 那就没用了, 所以尽量用属性做key</span><br><span class="line">6.其他: 没涉及过 不知道 反正就这水平爱要不要</span><br></pre></td></tr></table></figure>
+
+<h3 id="NSOperationQueue中的maxConcurrentOperationCount默认值"><a href="#NSOperationQueue中的maxConcurrentOperationCount默认值" class="headerlink" title="NSOperationQueue中的maxConcurrentOperationCount默认值"></a>NSOperationQueue中的maxConcurrentOperationCount默认值</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">maxConcurrentOperationCount:默认情况下为-1，表示不进行限制，可进行并发执行</span><br><span class="line">NSOperation 单独使用时系统同步执行操作，配合 NSOperationQueue 我们能更好的实现异步执行</span><br></pre></td></tr></table></figure>
+
+<h3 id="NSTimer、CADisplayLink、dispatch-source-t-的优劣"><a href="#NSTimer、CADisplayLink、dispatch-source-t-的优劣" class="headerlink" title="NSTimer、CADisplayLink、dispatch_source_t 的优劣"></a>NSTimer、CADisplayLink、dispatch_source_t 的优劣</h3><pre><code>1. NSTimer:
+    缺点:因为取决于runloop的mode 所以计时不精确
+2.CADisplayLink
+    优点:根据设备屏幕刷新频率进行计算的,比较准确
+    缺点:1. 依托于屏幕刷新,如果cpu负担重屏幕刷新不及时事件响应就会受影响
+        2. 事件触发只能是屏幕刷新频率的倍数
+        3. 如果事件触发大于屏幕刷新频率就会出现掉帧现象(我是没看明白这句可以不说)
+3. GCD-dispatch_source_t
+    优点: 不受runloop影响
+    缺点: 1.dispatch_source_t 一定要被设置为成员变量，否则将会立即被释放
+        2. 计时依然不是特别准确
+</code></pre>
+<hr>
+<hr>
+<h1 id="视图-图像相关"><a href="#视图-图像相关" class="headerlink" title="视图&amp;图像相关"></a>视图&amp;图像相关</h1><h3 id="AutoLayout的原理，性能如何"><a href="#AutoLayout的原理，性能如何" class="headerlink" title="AutoLayout的原理，性能如何"></a>AutoLayout的原理，性能如何</h3><p>Auto Layout ，是苹果公司提供的一个基于约束布局，动态计算视图大小和位置的库<br>原理:</p>
+<ol>
+<li>autolayout是在一个一秒刷新120次的layoutloop下完成的</li>
+<li>新布局产生会从下而上的一层一层的上报给上一个视图一直到window</li>
+<li>每一个接受的到视图开始运行layoutsubviews和更新约束从相反的方向开始</li>
+<li>每一个渲染的view 从父view向下开始渲染<br>从ios12之后autolayout的性能得到的大幅度的提升基本与手动添加约束性能差不多</li>
+</ol>
+<h3 id="UIView-CALayer的区别"><a href="#UIView-CALayer的区别" class="headerlink" title="UIView &amp;; CALayer的区别"></a>UIView &amp;; CALayer的区别</h3><ol>
+<li>uiview是所有界面展示的基础 所有的界面都是继承于他, uiview真正的绘图部分是calalyer来实现的, uiview更想是一个calayer的管理类,</li>
+<li>calayer是为了内容展示和动画操作实现的类 但是calayer并不能响应事件, 所以所有的响应事件的操作是uiview来实现的</li>
+<li>uiview的layer和view一样也有树状层次结构 分为三种被系统维护着<br> 逻辑树: 用于代码操作来更改layer属性的<br> 动画树: 系统用来渲染到屏幕上的内容<br> 显示树: 正在屏幕上显示的内容</li>
+<li>uiview的主layer外 还可以对sublayer进行属性更改, 系统将自动进行动画处理</li>
+<li>calayer比uiview在frame上多了一个anchorpoint的属性(CGPoint结构)但是是在0到1之间按照比例设置,这个点是各种图形变换的坐标原点，同时会更改layer的position的位置 是在中间的远点</li>
+</ol>
+<h3 id="drawrect-layoutsubviews调用时机"><a href="#drawrect-layoutsubviews调用时机" class="headerlink" title="drawrect  layoutsubviews调用时机"></a>drawrect  layoutsubviews调用时机</h3><p>layoutsubviews触发时机:<br>1.init不会出发<br>2.addsubview时触发<br>3.当一个uiview的frame发生改变时候触发<br>4. 滚动scrollerview导致uiview重新布局之后触发<br>5.旋转屏幕导致父view上的layer触发<br>6.主动调用setneedlayout 或者 layoutifneeded触发</p>
+<p>drawrect触发时机:<br>1.view init时如果不主动设置rect大小的时候不触发<br>2.controller 调用完loadview 和 viewdidload之后触发<br>3.在调用sizetofit之后触发<br>4.通过设置contentmode属性的UIViewContentModeRedraw 将会在每次设置或者更改frame时候触发<br>5.主动调用setneedsdisplay 和 setneedsdisplayinrect rect又不为0的前提下触发</p>
+<h3 id="UI的刷新原理"><a href="#UI的刷新原理" class="headerlink" title="UI的刷新原理"></a>UI的刷新原理</h3><ol>
+<li>当一个ui需要更新时系统会自动的去请求drawrect方法</li>
+<li>系统通过原生api 绘制你需要展示的部分</li>
+<li>在第一次绘图时候系统会通过正方形区域来表示你需要绘制的区域</li>
+<li>刷新的时候重绘受影响的部分区域</li>
+</ol>
+<h3 id="隐式动画-显示动画区别"><a href="#隐式动画-显示动画区别" class="headerlink" title="隐式动画 &amp; 显示动画区别"></a>隐式动画 &amp; 显示动画区别</h3><p>1.隐式动画是一直存在的 如需关闭需设置；显式动画是不存在的，如需显式 要自行创建<br>2. 隐式动画调用UIView的animateWithDuration:animations:实现动画<br>显示动画调用beginAnimations:context:和commitAnimations创建的动画<br>3. 隐式动画是系统自动创建的core animation 会在每一个runloop周期中开始一次新的事务, 任何一次runloop中的属性修改都会被集中起来做一个0.25秒的动画<br>4. 显式动画既可以对退增属性做动画也可以覆盖默认的图层行为,并且显示动画的caanimation类型都可以直接加到calayer上</p>
+<h3 id="什么是离屏渲染"><a href="#什么是离屏渲染" class="headerlink" title="什么是离屏渲染"></a>什么是离屏渲染</h3><p>On-Screen Rendering意为当前屏幕渲染，指的是GPU的渲染操作是在当前用于显示的屏幕缓冲区中进行。<br>Off-Screen Rendering意为离屏渲染，指的是GPU在当前屏幕缓冲区以外新开辟一个缓冲区进行渲染操作。<br>特殊的离屏渲染: cpu渲染 如果我们重写drawrect方法并且使用任何core  Graphics的技术进行了绘制操作，就涉及到了CPU渲染。整个渲染过程由CPU在App内 同步地完成，渲染得到的bitmap最后再交由GPU用于显示。</p>
+<h3 id="图片渲染怎么优化"><a href="#图片渲染怎么优化" class="headerlink" title="图片渲染怎么优化"></a>图片渲染怎么优化</h3><p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/748f9abafff8">https://www.jianshu.com/p/748f9abafff8</a></p>
+<ol>
+<li>更好的利用cpu和gpu资源<br>2.尽量的少重写drarec土方法 会造成离屏渲染<br>3.尽量的减少圆角,阴影等离屏渲染的方法<br>4.尽量少的使用奇怪的图片格式和大小</li>
+</ol>
+<hr>
+<hr>
+<h1 id="性能优化"><a href="#性能优化" class="headerlink" title="性能优化"></a>性能优化</h1><h3 id="如何做启动优化，如何监控"><a href="#如何做启动优化，如何监控" class="headerlink" title="如何做启动优化，如何监控"></a>如何做启动优化，如何监控</h3><p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/2a930b3a14d3">https://www.jianshu.com/p/2a930b3a14d3</a></p>
+<p>1.main() 函数执行前:<br>    1.减少动态库加载；<br>    2.减少加载启动后不会去使用的类或方法；<br>    3.+load() 方法里的内容可以放到首屏渲染完成后再执行，或使用+initialize() 方法替换掉。<br>    4.控制 C++ 全局变量的数量。<br>2.main() 函数执行后；<br>3.首屏渲染完成后。<br>    1. didFinishLaunchingWithOptions在这个方法之后开始加载与首屏渲染无关是事物<br>    2. 第三方初始化放入到首页vc<br>    3. 尽量在功能需要的时候再初始化该功能实例</p>
+<hr>
+<hr>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/01/05/%E9%9F%B3%E4%B9%90%E7%AF%87-%E5%8D%A1%E5%86%9C/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">&lt;</strong>
+      <div class="article-nav-title">
+        
+          音乐篇--卡农
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/01/05/rsa%E5%8A%A0%E5%AF%86%E8%A7%A3%E5%AF%86/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">rsa加密解密/ios生成证书/同时保留两个xcode/获取app的IDFA问题/ipa打包/ios11 短信界面自定义表情</div>
+      <strong class="article-nav-caption">&gt;</strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="ds-share share" data-thread-key="IOS面试题以及部分解答" data-title="iOS面试题以及部分解答" data-url="http://example.com/2018/01/05/IOS%E9%9D%A2%E8%AF%95%E9%A2%98%E4%BB%A5%E5%8F%8A%E9%83%A8%E5%88%86%E8%A7%A3%E7%AD%94/"  data-images="https://raw.githubusercontent.com/alohe/avatars/master/png/upstream_21.png" data-content="iOS面试题以及部分解答">
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+      	<li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+ 
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+      <div class="footer-left">
+        &copy; 2025 JakieSun
+      </div>
+        <div class="footer-right">
+          <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/smackgg/hexo-theme-smackdown" target="_blank">Smackdown</a>
+        </div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+
+<script src="/js/main.js"></script>
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js"></script>
+
+
+  </div>
+</body>
+</html>

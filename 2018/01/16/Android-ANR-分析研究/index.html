@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Android ANR 分析研究 | JakieSun_厕所蹲个驴</title>
+
+  <!-- keywords -->
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Android ANR 分析研究参考文档 : https:&#x2F;&#x2F;www.jianshu.com&#x2F;p&#x2F;6d855e984b99    http:&#x2F;&#x2F;blog.csdn.net&#x2F;dadoneo&#x2F;article&#x2F;details&#x2F;8270107&#x2F;    http:&#x2F;&#x2F;blog.csdn.net&#x2F;itachi85&#x2F;article&#x2F;details&#x2F;6918761    https:&#x2F;&#x2F;www.jianshu.c">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android ANR 分析研究">
+<meta property="og:url" content="http://example.com/2018/01/16/Android-ANR-%E5%88%86%E6%9E%90%E7%A0%94%E7%A9%B6/index.html">
+<meta property="og:site_name" content="JakieSun_厕所蹲个驴">
+<meta property="og:description" content="Android ANR 分析研究参考文档 : https:&#x2F;&#x2F;www.jianshu.com&#x2F;p&#x2F;6d855e984b99    http:&#x2F;&#x2F;blog.csdn.net&#x2F;dadoneo&#x2F;article&#x2F;details&#x2F;8270107&#x2F;    http:&#x2F;&#x2F;blog.csdn.net&#x2F;itachi85&#x2F;article&#x2F;details&#x2F;6918761    https:&#x2F;&#x2F;www.jianshu.c">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/androidanrimage.png">
+<meta property="article:published_time" content="2018-01-16T06:56:00.000Z">
+<meta property="article:modified_time" content="2018-01-16T12:18:09.000Z">
+<meta property="article:author" content="JakieSun">
+<meta property="article:tag" content="Android开发">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/androidanrimage.png">
+  
+    <link rel="alternative" href="/atom.xml" title="JakieSun_厕所蹲个驴" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509965970128&di=50ef90b75009ba6bfa72bc1551bbe214&imgtype=0&src=http%3A%2F%2Fimg.25pp.com%2Fuploadfile%2Fsoft%2Fimages%2F2015%2F0725%2F20150725103726182.jpg">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+
+  
+<script src="//cdn.bootcss.com/require.js/2.3.2/require.min.js"></script>
+
+  
+<script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+<body>
+  <div id="container">
+    <div id="particles-js"></div>
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="https://raw.githubusercontent.com/alohe/avatars/master/png/upstream_21.png" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/"></a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/AI%E6%96%B9%E5%90%91/" style="font-size: 10px;">AI方向</a> <a href="/tags/Android%E5%BC%80%E5%8F%91/" style="font-size: 12.5px;">Android开发</a> <a href="/tags/hexo%E6%8E%A2%E7%B4%A2/" style="font-size: 10px;">hexo探索</a> <a href="/tags/iOS/" style="font-size: 10px;">iOS</a> <a href="/tags/ios%E5%BC%80%E5%8F%91/" style="font-size: 20px;">ios开发</a> <a href="/tags/python%E5%BC%80%E5%8F%91/" style="font-size: 10px;">python开发</a> <a href="/tags/%E4%B8%BB%E6%92%AD%E7%9B%B8%E5%85%B3/" style="font-size: 10px;">主播相关</a> <a href="/tags/%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%AB%AF%E6%8E%A2%E7%B4%A2/" style="font-size: 10px;">命令行端探索</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E6%8E%A2%E7%B4%A2/" style="font-size: 17.5px;">技术探索</a> <a href="/tags/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%89%93%E5%8C%85/" style="font-size: 15px;">自动化打包</a> <a href="/tags/%E9%9F%B3%E4%B9%90%E7%AF%87/" style="font-size: 10px;">音乐篇</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/smackgg/hexo-theme-smackdown">smackdown</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/JikerSun">github</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://www.jianshu.com/u/1aae85c9610a">简书</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide"></h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="https://raw.githubusercontent.com/alohe/avatars/master/png/upstream_21.png" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author"></h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-Android-ANR-分析研究" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/01/16/Android-ANR-%E5%88%86%E6%9E%90%E7%A0%94%E7%A9%B6/" class="article-date">
+  	<time datetime="2018-01-16T06:56:00.000Z" itemprop="datePublished">2018-01-16</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android ANR 分析研究
+      
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android%E5%BC%80%E5%8F%91/" rel="tag">Android开发</a></li></ul>
+	</div>
+
+        
+
+        
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Android-ANR-分析研究"><a href="#Android-ANR-分析研究" class="headerlink" title="Android ANR 分析研究"></a>Android ANR 分析研究</h1><p>参考文档 : <a target="_blank" rel="noopener" href="https://www.jianshu.com/p/6d855e984b99">https://www.jianshu.com/p/6d855e984b99</a></p>
+<p>   <a target="_blank" rel="noopener" href="http://blog.csdn.net/dadoneo/article/details/8270107/">http://blog.csdn.net/dadoneo/article/details/8270107/</a></p>
+<p>   <a target="_blank" rel="noopener" href="http://blog.csdn.net/itachi85/article/details/6918761">http://blog.csdn.net/itachi85/article/details/6918761</a></p>
+<p>   <a target="_blank" rel="noopener" href="https://www.jianshu.com/p/8964812972be">https://www.jianshu.com/p/8964812972be</a></p>
+<h2 id="什么是anr"><a href="#什么是anr" class="headerlink" title="什么是anr"></a>什么是anr</h2><p>ANR全名Application Not Responding, 也就是”应用无响应”. 当操作在一段时间内系统无法处理时, 系统层面会弹出上图那样的ANR对话框.</p>
+<p>ANR一般有三种类型：</p>
+<p>1：KeyDispatchTimeout(5 seconds) –主要类型<br>按键或触摸事件在特定时间内无响应</p>
+<p>2：BroadcastTimeout(10 seconds)<br>BroadcastReceiver在特定时间内无法处理完成</p>
+<p>3：ServiceTimeout(20 seconds) –小概率类型<br>Service在特定的时间内无法处理完成</p>
+<h2 id="anr是怎么产生的"><a href="#anr是怎么产生的" class="headerlink" title="anr是怎么产生的"></a>anr是怎么产生的</h2><p>在Android里, App的响应能力是由Activity Manager和Window Manager系统服务来监控的. 通常在如下两种情况下会弹出ANR对话框:</p>
+<p>5s内无法响应用户输入事件(例如键盘输入, 触摸屏幕等).</p>
+<p>BroadcastReceiver在10s内无法结束.</p>
+<p> 造成以上两种情况的首要原因就是在主线程(UI线程)里面做了太多的阻塞耗时操作, 例如文件读写, 数据库读写, 网络查询等等.</p>
+<h2 id="怎么避免anr的产生"><a href="#怎么避免anr的产生" class="headerlink" title="怎么避免anr的产生"></a>怎么避免anr的产生</h2><p>根据上一条的造成anr的主要原因给出相应的对策,那就是 尽量减少在主线程里面做太多的阻塞耗时的操作.</p>
+<h2 id="anr-log-日志分析"><a href="#anr-log-日志分析" class="headerlink" title="anr log 日志分析"></a>anr log 日志分析</h2><p>在BottomBarManager里， 当点击find_in_page button时， sleep 10秒，模拟一个ANR。</p>
+<p>用”ActivityManager”作为filter tag， 可以得到下面的信息。(btw, ultraedit有个filter 字符串的功能非常好， 看看linux下有没有类似的功能?)</p>
+<p>可以得到ANR发生在哪个进程， reason， 在ANR发生前一段时间和发生后的一段时间， CPU占用率的统计信息.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line">06-02 11:39:42.260      743-943/? E/ActivityManager﹕ ANR in com.qihoo.browser (com.qihoo.browser/org.chromium.</span><br><span class="line">chrome.browser.ChromeTabbedActivity)</span><br><span class="line">Reason: keyDispatchingTimedOut</span><br><span class="line">//CPU前一分钟、五分钟、十五分钟的CPU平均负载,</span><br><span class="line">//CPU平均负载可以理解为一段时间内正在使用和等待使用CPU的活动进程的平均数量。</span><br><span class="line">Load: 5.16 / 9.69 / 30.66</span><br><span class="line">//请注意ago，表示ANR发生之前的一段时间内的CPU使用率，并不是某一时刻的值</span><br><span class="line">CPU usage from 34388ms to -1ms ago:</span><br><span class="line">4.1% 32614/com.qihoo.browser: 2.5% user + 1.6% kernel / faults: 465 minor 1 major</span><br><span class="line">3% 379/adbd: 0.2% user + 2.8% kernel / faults: 1653 minor</span><br><span class="line">2.6% 743/system_server: 1.8% user + 0.7% kernel / faults: 689 minor</span><br><span class="line">2.5% 2326/com.qihoo.daemon: 2.2% user + 0.2% kernel / faults: 601 minor</span><br><span class="line">2.4% 1009/RX_Thread: 0% user + 2.4% kernel</span><br><span class="line">2% 280/surfaceflinger: 1.2% user + 0.8% kernel / faults: 1361 minor</span><br><span class="line">1.8% 2675/com.lbe.security:service: 1.7% user + 0.1% kernel / faults: 749 minor</span><br><span class="line">1.1% 1768/mpdecision: 0.1% user + 1% kernel</span><br><span class="line">0.9% 29165/kworker/0:2: 0% user + 0.9% kernel</span><br><span class="line">0.7% 23576/com.qihoo.appstore: 0.5% user + 0.1% kernel / faults: 1401 minor</span><br><span class="line">0.5% 28500/kworker/0:0: 0% user + 0.5% kernel</span><br><span class="line">0.4% 1055/com.android.systemui: 0.3% user + 0% kernel / faults: 48 minor</span><br><span class="line">0.4% 6850/kworker/u:1: 0% user + 0.4% kernel</span><br><span class="line">0.3% 23077/com.qihoo.appstore:PluginP01: 0.2% user + 0.1% kernel / faults: 200 minor</span><br><span class="line">0.2% 271/mediaserver: 0.2% user + 0% kernel / faults: 46 minor</span><br><span class="line">0.3% 6883/kworker/u:37: 0% user + 0.3% kernel</span><br><span class="line">0.2% 302/illumination_service: 0% user + 0.2% kernel</span><br><span class="line">0.2% 134/mmcqd/0: 0% user + 0.2% kernel</span><br><span class="line">0.1% 32727/com.qihoo.browser:privileged_process0: 0% user + 0% kernel / faults: 288 minor</span><br><span class="line">0.1% 2885/com.qihoo.browser:sandboxed_process1: 0% user + 0% kernel</span><br><span class="line">0.1% 3378/com.sonyericsson.playnowchina.android: 0.1% user + 0% kernel</span><br><span class="line">0.1% 2027/com.cleanmaster.mguard_cn:service: 0% user + 0.1% kernel / faults: 3 minor</span><br><span class="line">0.1% 1008/TX_Thread: 0% user + 0.1% kernel</span><br><span class="line">0.1% 28341/com.sonyericsson.dlna: 0.1% user + 0% kernel</span><br><span class="line">0% 130/cfinteractive: 0% user + 0% kernel</span><br><span class="line">0% 293/ric: 0% user + 0% kernel / faults: 93 minor</span><br><span class="line">0% 2468/com.qihoo360.mobilesafe.clean: 0% user + 0% kernel / faults: 45 minor</span><br><span class="line">0% 4861/com.tencent.mm: 0% user + 0% kernel / faults: 9 minor</span><br><span class="line">0% 127/irq/294-clearpa: 0% user + 0% kernel</span><br><span class="line">0% 281/zygote: 0% user + 0% kernel / faults: 129 minor</span><br><span class="line">0% 1007/MC_Thread: 0% user + 0% kernel</span><br><span class="line">0% 2648/com.qihoo.appstore_CoreDaemon: 0% user + 0% kernel</span><br><span class="line">0% 29640/com.lbe.security: 0% user + 0% kernel / faults: 1 minor</span><br><span class="line">0% 155/jbd2/mmcblk0p26: 0% user + 0% kernel</span><br><span class="line">0% 170/flush-179:0: 0% user + 0% kernel</span><br><span class="line">0% 269/servicemanager: 0% user + 0% kernel</span><br><span class="line">0% 276/system_monitor: 0% user + 0% kernel</span><br><span class="line">0% 291/qrngd: 0% user + 0% kernel</span><br><span class="line">0% 365/sdcard: 0% user + 0% kernel</span><br><span class="line">0% 1041/wpa_supplicant: 0% user + 0% kernel</span><br><span class="line">0% 1360/com.android.nfc: 0% user + 0% kernel</span><br><span class="line">0% 2958/lbesec.loader: 0% user + 0% kernel / faults: 14 minor</span><br><span class="line">0% 5128/com.tencent.mm:push: 0% user + 0% kernel / faults: 2 minor</span><br><span class="line">0% 6028/com.UCMobile:SearchBackgroundProcess: 0% user + 0% kernel</span><br><span class="line">+0% 3318/com.sonyericsson.textinput.chinese: 0% user + 0% kernel</span><br><span class="line">+0% 3544/sh: 0% user + 0% kernel</span><br><span class="line">+0% 3546/logcat: 0% user + 0% kernel</span><br><span class="line">+0% 3682/migration/1: 0% user + 0% kernel</span><br><span class="line">+0% 3683/kworker/1:0: 0% user + 0% kernel</span><br><span class="line">+0% 3684/ksoftirqd/1: 0% user + 0% kernel</span><br><span class="line">9.7% TOTAL: 4.8% user + 4.2% kernel + 0.3% iowait + 0.3% softirq</span><br><span class="line">//这里是later，表示ANR发生之后</span><br><span class="line">CPU usage from 1656ms to 2187ms later:</span><br><span class="line">8.7% 743/system_server: 0% user + 8.7% kernel / faults: 4 minor</span><br><span class="line">7% 943/InputDispatcher: 0% user + 7% kernel</span><br><span class="line">1.7% 1199/Binder_6: 0% user + 1.7% kernel</span><br><span class="line">5.2% 379/adbd: 0% user + 5.2% kernel / faults: 27 minor</span><br><span class="line">3.5% 379/adbd: 0% user + 3.5% kernel</span><br><span class="line">1.7% 1009/RX_Thread: 0% user + 1.7% kernel</span><br><span class="line">1.7% 1768/mpdecision: 0% user + 1.7% kernel</span><br><span class="line">1.7% 1784/mpdecision: 0% user + 1.7% kernel</span><br><span class="line">1.2% 6883/kworker/u:37: 0% user + 1.2% kernel</span><br><span class="line">1.3% 29165/kworker/0:2: 0% user + 1.3% kernel</span><br><span class="line">2.3% TOTAL: 0.1% user + 0.3% kernel + 1.8% iowait</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">06-02 12:00:15.753      743-825/? I/ActivityManager﹕ Killing ProcessRecord&#123;4190b0d8 11880:com.qihoo.browser/u0a10192&#125;: user&#x27;s request</span><br><span class="line">06-02 12:00:15.813     743-1332/? I/ActivityManager﹕ Process com.qihoo.browser (pid 11880) has died.</span><br></pre></td></tr></table></figure>
+<p>用”Proces”作为filter tag，可以看到</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//向浏览器进程(11880)发送signal3， 也就是SIGNAL_QUIT.</span><br><span class="line">06-02 12:00:10.889      743-943/? I/Process﹕ Sending signal. PID: 11880 SIG: 3</span><br></pre></td></tr></table></figure>
+
+<p>用”dalvikvm”作为filter tag，可以看到<br>com.qihoo.browser进程处理SIGNAL_QUIT signal, 并把anr信息写入traces.txt文件.<br>进程的虚拟机实例接收到SIGNAL_QUIT信号后会由”Signal Catcher”线程将进程中各个线程的函数堆栈信息输出到traces.txt文件中.<br>值得注意的是， 当前运行的其他进程也会把当前的函数堆栈信息输出到traces.txt文件中, 但发生ANR的进程正常情况下会第一个输出，所以一般情况下我们只看traces.txt的开头就行了。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">06-02 11:51:31.252    8857-8862/com.qihoo.browser I/dalvikvm﹕ threadid=3: reacting to signal 3</span><br><span class="line">06-02 11:51:31.422    8857-8862/com.qihoo.browser I/dalvikvm﹕ Wrote stack traces to &#x27;/data/anr/traces.txt&#x27;</span><br><span class="line">06-02 11:51:31.422      743-748/? I/dalvikvm﹕ threadid=3: reacting to signal 3</span><br><span class="line">06-02 11:51:32.243    1275-1280/? I/dalvikvm﹕ Wrote stack traces to &#x27;/data/anr/traces.txt&#x27;</span><br><span class="line">06-02 11:51:32.253    1282-1287/? I/dalvikvm﹕ threadid=3: reacting to signal 3</span><br><span class="line">06-02 11:51:32.283    1282-1287/? I/dalvikvm﹕ Wrote stack traces to &#x27;/data/anr/traces.txt&#x27;</span><br><span class="line">06-02 11:51:32.283    1348-1353/? I/dalvikvm﹕ threadid=3: reacting to signal 3</span><br><span class="line">06-02 11:51:32.283    1360-1365/? I/dalvikvm﹕ Wrote stack traces to &#x27;/data/anr/traces.txt&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>从以上的分析能够知道， 发生ANR时Android为我们提供了两种“利器”：traces文件和CPU使用率。</p>
+<h3 id="分析CPU负载和CPU使用率"><a href="#分析CPU负载和CPU使用率" class="headerlink" title="分析CPU负载和CPU使用率"></a>分析CPU负载和CPU使用率</h3><p>这部分讲的还不是很清楚， 就先不做总结了， 以后有需要再系统的学习这小节.</p>
+<p>从traces.txt分析</p>
+<p>只需要看开头，每次发生ANR， 这个文件都会被清空，写入新的内容. 如果想查看以前发生ANR的信息， 可以去查看DB文件.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line">----- pid 11880 at 2016-06-02 12:00:10 -----</span><br><span class="line">Cmd line: com.qihoo.browser</span><br><span class="line"></span><br><span class="line">DALVIK THREADS:</span><br><span class="line">(mutexes: tll=0 tsl=0 tscl=0 ghl=0)</span><br><span class="line"></span><br><span class="line">&quot;main&quot; prio=5 tid=1 TIMED_WAIT</span><br><span class="line">| group=&quot;main&quot; sCount=1 dsCount=0 obj=0x41458b50 self=0x414481f0</span><br><span class="line">| sysTid=11880 nice=-6 sched=0/0 cgrp=apps handle=1075152348</span><br><span class="line">| state=S schedstat=( 8455108583 3379699755 13157 ) utm=664 stm=181 core=0</span><br><span class="line">at java.lang.VMThread.sleep(Native Method)</span><br><span class="line">at java.lang.Thread.sleep(Thread.java:1031)</span><br><span class="line">at java.lang.Thread.sleep(Thread.java:1013)</span><br><span class="line">at com.qihoo.browser.BottomBarManager.handlePopupMenuAction(BottomBarManager.java:1220)</span><br><span class="line">at com.qihoo.browser.BottomBarManager.actionPerformed(BottomBarManager.java:629)</span><br><span class="line">at com.qihoo.browser.view.PopupMenu.onClick(PopupMenu.java:514)</span><br><span class="line">at android.view.View.performClick(View.java:4278)</span><br><span class="line">at android.view.View$PerformClick.run(View.java:17430)</span><br><span class="line">at android.os.Handler.handleCallback(Handler.java:725)</span><br><span class="line">at android.os.Handler.dispatchMessage(Handler.java:92)</span><br><span class="line">at android.os.Looper.loop(Looper.java:213)</span><br><span class="line">at android.app.ActivityThread.main(ActivityThread.java:5092)</span><br><span class="line">at java.lang.reflect.Method.invokeNative(Native Method)</span><br><span class="line">at java.lang.reflect.Method.invoke(Method.java:511)</span><br><span class="line">at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:797)</span><br><span class="line">at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:564)</span><br><span class="line">at dalvik.system.NativeStart.main(Native Method)</span><br><span class="line"></span><br><span class="line">&quot;pool-9-thread-1&quot; prio=5 tid=52 WAIT</span><br><span class="line">| group=&quot;main&quot; sCount=1 dsCount=0 obj=0x41e3a6b8 self=0x7ce144e0</span><br><span class="line">| sysTid=12261 nice=0 sched=0/0 cgrp=apps handle=2008331720</span><br><span class="line">| state=S schedstat=( 37597659 95306395 149 ) utm=2 stm=1 core=1</span><br><span class="line">at java.lang.Object.wait(Native Method)</span><br><span class="line">- waiting on &lt;0x41e3a7e0&gt; (a java.lang.VMThread) held by tid=52 (pool-9-thread-1)</span><br><span class="line">at java.lang.Thread.parkFor(Thread.java:1231)</span><br><span class="line">at sun.misc.Unsafe.park(Unsafe.java:323)</span><br><span class="line">at java.util.concurrent.locks.LockSupport.park(LockSupport.java:159)</span><br><span class="line">at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(AbstractQueuedSynchronizer.java:2019)</span><br><span class="line">at java.util.concurrent.LinkedBlockingQueue.take(LinkedBlockingQueue.java:413)</span><br><span class="line">at java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1013)</span><br><span class="line">at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1073)</span><br><span class="line">at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:573)</span><br><span class="line">at java.lang.Thread.run(Thread.java:856)</span><br><span class="line"></span><br><span class="line">//“Signal Catcher”负责接收和处理kernel发送的各种信号，例如SIGNAL_QUIT、SIGNAL_USR1等就是被该线程</span><br><span class="line">//接收到并处理的，traces.txt 文件中的内容就是由该线程负责输出的，可以看到它的状态是RUNNABLE.</span><br><span class="line">&quot;Signal Catcher&quot; daemon prio=5 tid=3 RUNNABLE</span><br><span class="line">| group=&quot;system&quot; sCount=0 dsCount=0 obj=0x41735a58 self=0x6256b008</span><br><span class="line">| sysTid=11885 nice=0 sched=0/0 cgrp=apps handle=1074396464</span><br><span class="line">| state=R schedstat=( 41015624 121002197 61 ) utm=1 stm=3 core=0</span><br><span class="line">at dalvik.system.NativeStart.run(Native Method)</span><br><span class="line"></span><br><span class="line">//JDWP线程是支持虚拟机调试的线程，不需要关心</span><br><span class="line">&quot;JDWP&quot; daemon prio=5 tid=4 VMWAIT</span><br><span class="line">| group=&quot;system&quot; sCount=1 dsCount=0 obj=0x41735b50 self=0x72d47008</span><br><span class="line">| sysTid=11886 nice=0 sched=0/0 cgrp=apps handle=1074396224</span><br><span class="line">| state=S schedstat=( 3051760 9521482 15 ) utm=0 stm=0 core=1</span><br><span class="line">#00  pc 000171ec  /system/lib/libc.so (select+20)</span><br><span class="line">#01  pc 00062faf  /system/lib/libdvm.so</span><br><span class="line">#02  pc 00065b41  /system/lib/libdvm.so</span><br><span class="line">#03  pc 0005637b  /system/lib/libdvm.so</span><br><span class="line">#04  pc 0000e4b8  /system/lib/libc.so (__thread_entry+72)</span><br><span class="line">#05  pc 0000dba4  /system/lib/libc.so (pthread_create+160)</span><br><span class="line">at dalvik.system.NativeStart.run(Native Method)</span><br></pre></td></tr></table></figure>
+<h3 id="线程有很多状态，了解这些状态的意义对分析ANR的原因是有帮助的"><a href="#线程有很多状态，了解这些状态的意义对分析ANR的原因是有帮助的" class="headerlink" title="线程有很多状态，了解这些状态的意义对分析ANR的原因是有帮助的."></a>线程有很多状态，了解这些状态的意义对分析ANR的原因是有帮助的.</h3><p><img src="/images/androidanrimage.png" alt="&quot;image&quot;"></p>
+<h2 id="DropBox中的log"><a href="#DropBox中的log" class="headerlink" title="DropBox中的log"></a>DropBox中的log</h2><p>traces.txt只保留最后一次发生ANR时的信息, android 2.2开始增加了DropBox功能, 保留历史上发生的所有ANR的log.<br>“&#x2F;data&#x2F;system&#x2F;dropbox”是DB指定的文件存放位置.<br>日志保存的最长时间， 默认是3天.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">root@android:/data/system/dropbox # ls</span><br><span class="line">SYSTEM_BOOT@1464834107910.txt</span><br><span class="line">SYSTEM_TOMBSTONE@1464595870188.txt.gz</span><br><span class="line">SYSTEM_TOMBSTONE@1464835783944.txt.gz</span><br><span class="line">data_app_anr@1464666793921.txt.gz</span><br><span class="line">data_app_anr@1464838359233.txt.gz</span><br><span class="line">data_app_anr@1464838782715.txt.gz</span><br><span class="line">data_app_anr@1464839493673.txt.gz</span><br><span class="line">data_app_anr@1464840013776.txt.gz</span><br><span class="line">system_app_anr@1464838619773.txt.gz</span><br><span class="line">system_app_anr@1464838693689.txt.gz</span><br><span class="line">system_app_anr@1464838742647.txt.gz</span><br><span class="line">root@android:/data/system/dropbox #</span><br></pre></td></tr></table></figure>
+
+<p>SystemServer在启动时， 会创建并添加DROPBOX_SERVICE.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">//SystemServer.java</span><br><span class="line">private void startOtherServices() &#123;</span><br><span class="line">... ...</span><br><span class="line">try &#123;</span><br><span class="line">Slog.i(TAG, &quot;DropBox Service&quot;);</span><br><span class="line">ServiceManager.addService(Context.DROPBOX_SERVICE,</span><br><span class="line">new DropBoxManagerService(context, new File(&quot;/data/system/dropbox&quot;)));</span><br><span class="line">&#125; catch (Throwable e) &#123;</span><br><span class="line">reportWtf(&quot;starting DropBoxManagerService&quot;, e);</span><br><span class="line">&#125;</span><br><span class="line">... ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="framework是如何输出ANR信息到traces-txt文件中去的"><a href="#framework是如何输出ANR信息到traces-txt文件中去的" class="headerlink" title="framework是如何输出ANR信息到traces.txt文件中去的"></a>framework是如何输出ANR信息到traces.txt文件中去的</h2><p>ActivityManagerService.java中的appNotResponding()方法.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br></pre></td><td class="code"><pre><span class="line">final void appNotResponding(ProcessRecord app, ActivityRecord activity,</span><br><span class="line">ActivityRecord parent, boolean aboveSystem, final String annotation) &#123;</span><br><span class="line"></span><br><span class="line">//firstPids和lastPids两个集合存放那些将会在traces中输出信息的进程的进程号</span><br><span class="line">ArrayList&lt;Integer&gt; firstPids = new ArrayList&lt;Integer&gt;(5);</span><br><span class="line">SparseArray&lt;Boolean&gt; lastPids = new SparseArray&lt;Boolean&gt;(20);</span><br><span class="line"></span><br><span class="line">//mController是IActivityController接口的实例，是为Monkey测试程序预留的，默认为null</span><br><span class="line">if (mController != null) &#123;</span><br><span class="line">try &#123;</span><br><span class="line">// 0 == continue, -1 = kill process immediately</span><br><span class="line">int res = mController.appEarlyNotResponding(app.processName, app.pid, annotation);</span><br><span class="line">if (res &lt; 0 &amp;&amp; app.pid != MY_PID) &#123;</span><br><span class="line">app.kill(&quot;anr&quot;, true);</span><br><span class="line">&#125;</span><br><span class="line">&#125; catch (RemoteException e) &#123;</span><br><span class="line">mController = null;</span><br><span class="line">Watchdog.getInstance().setActivityController(null);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">long anrTime = SystemClock.uptimeMillis();</span><br><span class="line">if (MONITOR_CPU_USAGE) &#123;</span><br><span class="line">updateCpuStatsNow(); //更新CPU使用率</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">synchronized (this) &#123;</span><br><span class="line">//一些特定条件下会忽略ANR</span><br><span class="line">// PowerManager.reboot() can block for a long time, so ignore ANRs while shutting down.</span><br><span class="line">if (mShuttingDown) &#123;</span><br><span class="line">Slog.i(TAG, &quot;During shutdown skipping ANR: &quot; + app + &quot; &quot; + annotation);</span><br><span class="line">return;</span><br><span class="line">&#125; else if (app.notResponding) &#123;</span><br><span class="line">Slog.i(TAG, &quot;Skipping duplicate ANR: &quot; + app + &quot; &quot; + annotation);</span><br><span class="line">return;</span><br><span class="line">&#125; else if (app.crashing) &#123;</span><br><span class="line">Slog.i(TAG, &quot;Crashing app skipping ANR: &quot; + app + &quot; &quot; + annotation);</span><br><span class="line">return;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// In case we come through here for the same app before completing</span><br><span class="line">// this one, mark as anring now so we will bail out.</span><br><span class="line">app.notResponding = true;</span><br><span class="line"></span><br><span class="line">// Log the ANR to the event log.</span><br><span class="line">EventLog.writeEvent(EventLogTags.AM_ANR, app.userId, app.pid,</span><br><span class="line">app.processName, app.info.flags, annotation);</span><br><span class="line"></span><br><span class="line">//当前发生ANR的应用进程被第一个添加进firstPids集合中.</span><br><span class="line">//所以会第一个向traces文件中写入信息。反过来说，traces文件中出现的第一个进程正常情况下就是发生ANR的那个进程。</span><br><span class="line"></span><br><span class="line">// Dump thread traces as quickly as we can, starting with &quot;interesting&quot; processes.</span><br><span class="line">firstPids.add(app.pid);</span><br><span class="line"></span><br><span class="line">int parentPid = app.pid;</span><br><span class="line">if (parent != null &amp;&amp; parent.app != null &amp;&amp; parent.app.pid &gt; 0) parentPid = parent.app.pid;</span><br><span class="line">if (parentPid != app.pid) firstPids.add(parentPid);</span><br><span class="line"></span><br><span class="line">if (MY_PID != app.pid &amp;&amp; MY_PID != parentPid) firstPids.add(MY_PID);</span><br><span class="line"></span><br><span class="line">for (int i = mLruProcesses.size() - 1; i &gt;= 0; i--) &#123;</span><br><span class="line">ProcessRecord r = mLruProcesses.get(i);</span><br><span class="line">if (r != null &amp;&amp; r.thread != null) &#123;</span><br><span class="line">int pid = r.pid;</span><br><span class="line">if (pid &gt; 0 &amp;&amp; pid != app.pid &amp;&amp; pid != parentPid &amp;&amp; pid != MY_PID) &#123;</span><br><span class="line">if (r.persistent) &#123;</span><br><span class="line">firstPids.add(pid);</span><br><span class="line">&#125; else &#123;</span><br><span class="line">lastPids.put(pid, Boolean.TRUE);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// Log the ANR to the main log.</span><br><span class="line">StringBuilder info = new StringBuilder();</span><br><span class="line">info.setLength(0);</span><br><span class="line">info.append(&quot;ANR in &quot;).append(app.processName);</span><br><span class="line">if (activity != null &amp;&amp; activity.shortComponentName != null) &#123;</span><br><span class="line">info.append(&quot; (&quot;).append(activity.shortComponentName).append(&quot;)&quot;);</span><br><span class="line">&#125;</span><br><span class="line">info.append(&quot;\n&quot;);</span><br><span class="line">info.append(&quot;PID: &quot;).append(app.pid).append(&quot;\n&quot;);</span><br><span class="line">if (annotation != null) &#123;</span><br><span class="line">info.append(&quot;Reason: &quot;).append(annotation).append(&quot;\n&quot;);</span><br><span class="line">&#125;</span><br><span class="line">if (parent != null &amp;&amp; parent != activity) &#123;</span><br><span class="line">info.append(&quot;Parent: &quot;).append(parent.shortComponentName).append(&quot;\n&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">final ProcessCpuTracker processCpuTracker = new ProcessCpuTracker(true);</span><br><span class="line"></span><br><span class="line">//dumpStackTraces()是输出ANR信息到traces文件的函数</span><br><span class="line">File tracesFile = dumpStackTraces(true, firstPids, processCpuTracker, lastPids,</span><br><span class="line">NATIVE_STACKS_OF_INTEREST);</span><br><span class="line"></span><br><span class="line">String cpuInfo = null;</span><br><span class="line">if (MONITOR_CPU_USAGE) &#123;</span><br><span class="line">updateCpuStatsNow();</span><br><span class="line">synchronized (mProcessCpuTracker) &#123;</span><br><span class="line">cpuInfo = mProcessCpuTracker.printCurrentState(anrTime);</span><br><span class="line">&#125;</span><br><span class="line">//输出ANR发生前一段时间内的CPU使用率</span><br><span class="line">info.append(processCpuTracker.printCurrentLoad());</span><br><span class="line">info.append(cpuInfo);</span><br><span class="line">&#125;</span><br><span class="line">//输出ANR发生后一段时间内的CPU使用率</span><br><span class="line">info.append(processCpuTracker.printCurrentState(anrTime));</span><br><span class="line"></span><br><span class="line">//此处， 把ANR的信息输出到main log中.</span><br><span class="line">Slog.e(TAG, info.toString());</span><br><span class="line">if (tracesFile == null) &#123;</span><br><span class="line">// There is no trace file, so dump (only) the alleged culprit&#x27;s threads to the log</span><br><span class="line">Process.sendSignal(app.pid, Process.SIGNAL_QUIT);</span><br><span class="line">&#125;</span><br><span class="line">//将ANR信息同时输出到DropBox中</span><br><span class="line">addErrorToDropBox(&quot;anr&quot;, app, app.processName, activity, parent, annotation,</span><br><span class="line">cpuInfo, tracesFile, null);</span><br><span class="line"></span><br><span class="line">//在Android4.0中可以设置是否不显示ANR提示对话框，如果设置的话就不会显示对话框，并且会杀掉ANR进程</span><br><span class="line">// Unless configured otherwise, swallow ANRs in background processes &amp; kill the process.</span><br><span class="line">boolean showBackground = Settings.Secure.getInt(mContext.getContentResolver(),</span><br><span class="line">Settings.Secure.ANR_SHOW_BACKGROUND, 0) != 0;</span><br><span class="line"></span><br><span class="line">synchronized (this) &#123;</span><br><span class="line">mBatteryStatsService.noteProcessAnr(app.processName, app.uid);</span><br><span class="line"></span><br><span class="line">if (!showBackground &amp;&amp; !app.isInterestingToUserLocked() &amp;&amp; app.pid != MY_PID) &#123;</span><br><span class="line">app.kill(&quot;bg anr&quot;, true);</span><br><span class="line">return;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// Set the app&#x27;s notResponding state, and look up the errorReportReceiver</span><br><span class="line">makeAppNotRespondingLocked(app,</span><br><span class="line">activity != null ? activity.shortComponentName : null,</span><br><span class="line">annotation != null ? &quot;ANR &quot; + annotation : &quot;ANR&quot;,</span><br><span class="line">info.toString());</span><br><span class="line"></span><br><span class="line">// 显示ANR提示对话框</span><br><span class="line">// Bring up the infamous App Not Responding dialog</span><br><span class="line">Message msg = Message.obtain();</span><br><span class="line">HashMap&lt;String, Object&gt; map = new HashMap&lt;String, Object&gt;();</span><br><span class="line">msg.what = SHOW_NOT_RESPONDING_MSG;</span><br><span class="line">msg.obj = map;</span><br><span class="line">msg.arg1 = aboveSystem ? 1 : 0;</span><br><span class="line">map.put(&quot;app&quot;, app);</span><br><span class="line">if (activity != null) &#123;</span><br><span class="line">map.put(&quot;activity&quot;, activity);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">mUiHandler.sendMessage(msg);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">public static File dumpStackTraces(boolean clearTraces, ArrayList&lt;Integer&gt; firstPids,</span><br><span class="line">ProcessCpuTracker processCpuTracker, SparseArray&lt;Boolean&gt; lastPids, String[] nativeProcs) &#123;</span><br><span class="line">//系统属性“dalvik.vm.stack-trace-file”用来配置trace信息输出文件</span><br><span class="line">//之所以trace信息会输出到“/data/anr/traces.txt”文件中，就是系统属性“dalvik.vm.stack-trace-file”设置的</span><br><span class="line">//adb shell下， 可以使用setprop和getprop对系统属性进行设置和读取</span><br><span class="line">//getprop dalvik.vm.stack-trace-file</span><br><span class="line">//setprop dalvik.vm.stack-trace-file /tmp/stack-traces.txt</span><br><span class="line"></span><br><span class="line">String tracesPath = SystemProperties.get(&quot;dalvik.vm.stack-trace-file&quot;, null);</span><br><span class="line">if (tracesPath == null || tracesPath.length() == 0) &#123;</span><br><span class="line">return null;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">File tracesFile = new File(tracesPath);</span><br><span class="line">try &#123;</span><br><span class="line">File tracesDir = tracesFile.getParentFile();</span><br><span class="line">if (!tracesDir.exists()) &#123;</span><br><span class="line">tracesDir.mkdirs();</span><br><span class="line">if (!SELinux.restorecon(tracesDir)) &#123;</span><br><span class="line">return null;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">//FileUtils.setPermissions是个很有用的函数，设置文件属性时经常会用到</span><br><span class="line">FileUtils.setPermissions(tracesDir.getPath(), 0775, -1, -1);  // drwxrwxr-x</span><br><span class="line">//clearTraces为true，会删除旧文件，创建新文件</span><br><span class="line">if (clearTraces &amp;&amp; tracesFile.exists()) tracesFile.delete();</span><br><span class="line">tracesFile.createNewFile();</span><br><span class="line">FileUtils.setPermissions(tracesFile.getPath(), 0666, -1, -1); // -rw-rw-rw-</span><br><span class="line">&#125; catch (IOException e) &#123;</span><br><span class="line">Slog.w(TAG, &quot;Unable to prepare ANR traces file: &quot; + tracesPath, e);</span><br><span class="line">return null;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">dumpStackTraces(tracesPath, firstPids, processCpuTracker, lastPids, nativeProcs);</span><br><span class="line">return tracesFile;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">private static void dumpStackTraces(String tracesPath, ArrayList&lt;Integer&gt; firstPids,</span><br><span class="line">ProcessCpuTracker processCpuTracker, SparseArray&lt;Boolean&gt; lastPids, String[] nativeProcs) &#123;</span><br><span class="line">// Use a FileObserver to detect when traces finish writing.</span><br><span class="line">// The order of traces is considered important to maintain for legibility.</span><br><span class="line">//使用FileObserver监听SignalCatcher线程是否已经完成写入traces文件的操作</span><br><span class="line">FileObserver observer = new FileObserver(tracesPath, FileObserver.CLOSE_WRITE) &#123;</span><br><span class="line">@Override</span><br><span class="line">public synchronized void onEvent(int event, String path) &#123;</span><br><span class="line">notify(); //让其他阻塞在observer.wait()这行代码的线程继续往下执行.</span><br><span class="line">&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">try &#123;</span><br><span class="line">observer.startWatching();</span><br><span class="line">//首先输出firstPids集合中指定的进程，这些也是对ANR问题来说最重要的进程</span><br><span class="line">// First collect all of the stacks of the most important pids.</span><br><span class="line">if (firstPids != null) &#123;</span><br><span class="line">try &#123;</span><br><span class="line">int num = firstPids.size();</span><br><span class="line">for (int i = 0; i &lt; num; i++) &#123;</span><br><span class="line">synchronized (observer) &#123;</span><br><span class="line">//前面提到的SIGNAL_QUIT, 由SignalCatcher线程处理Process.SIGNAL_QUIT信号， 并把进程中的各个线程输出到traces.txt文件中.</span><br><span class="line">//具体代码可以查看/dalvik/vm/目录下的SignalCatcher.cpp::logThreadStacks函数和Thread.cpp:: dvmDumpAllThreadsEx函数。</span><br><span class="line">Process.sendSignal(firstPids.get(i), Process.SIGNAL_QUIT);</span><br><span class="line">observer.wait(200);  // Wait for write-close, give up after 200msec</span><br><span class="line">//block here, 直到另一个线程调用了observer.notify() or observer.notifyAll()方法， 再或是等待了200毫秒超时后， 才会继续往下执行代码.</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125; catch (InterruptedException e) &#123;</span><br><span class="line">Slog.wtf(TAG, e);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125; finally &#123;</span><br><span class="line">observer.stopWatching();</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Object.java</span><br><span class="line">final void  notify()</span><br><span class="line">//Causes a thread which is waiting on this object&#x27;s monitor (by means of calling one of the wait() methods) to be woken up.</span><br><span class="line">final void  notifyAll()</span><br><span class="line">//Causes all threads which are waiting on this object&#x27;s monitor (by means of calling one of the wait() methods) to be woken up.</span><br><span class="line">final void  wait()</span><br><span class="line">//Causes the calling thread to wait until another thread calls the notify() or notifyAll() method of this object.</span><br><span class="line">final void  wait(long millis)</span><br><span class="line">//Causes the calling thread to wait until another thread calls the notify() or notifyAll() method</span><br><span class="line">//of this object or until the specified timeout expires.</span><br></pre></td></tr></table></figure>
+
+<p>refer to :</p>
+<p><a target="_blank" rel="noopener" href="http://rayleeya.iteye.com/blog/1955657">http://rayleeya.iteye.com/blog/1955657</a></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/01/17/ipa%E5%8C%85%E9%87%8D%E7%AD%BE%E5%90%8D-%E6%9B%BF%E6%8D%A2ipa%E5%86%85%E6%96%87%E4%BB%B6/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">&lt;</strong>
+      <div class="article-nav-title">
+        
+          ipa包重签名/替换ipa内文件
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/01/08/iPhoeni%E6%A1%8C%E9%9D%A2%E5%9B%BE%E6%A0%87%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8E%92%E5%B8%83/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">IPhone桌面图标自定义排布</div>
+      <strong class="article-nav-caption">&gt;</strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="ds-share share" data-thread-key="Android-ANR-分析研究" data-title="Android ANR 分析研究" data-url="http://example.com/2018/01/16/Android-ANR-%E5%88%86%E6%9E%90%E7%A0%94%E7%A9%B6/"  data-images="https://raw.githubusercontent.com/alohe/avatars/master/png/upstream_21.png" data-content="Android ANR 分析研究">
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+      	<li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+ 
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+      <div class="footer-left">
+        &copy; 2025 JakieSun
+      </div>
+        <div class="footer-right">
+          <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/smackgg/hexo-theme-smackdown" target="_blank">Smackdown</a>
+        </div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+
+<script src="/js/main.js"></script>
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js"></script>
+
+
+  </div>
+</body>
+</html>
